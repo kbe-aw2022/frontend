@@ -1,0 +1,35 @@
+.sidebar-item:hover{
+    background-color: gray;
+}
+
+.sidebar-item{
+    z-index: 102;
+    height: 94px;
+    width: 72px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    border-radius: 2px;
+   
+    /* border: 1px grey solid; */
+    font-weight: 700;
+    font-size: large;
+}
+
+.sidebar-item img{
+    /* flex: 1; */
+    height: 50px;
+    width: 50px;
+    object-fit: contain;
+    object-position: center;
+    border-radius: inherit;
+    z-index: 50;
+    /* margin: 4px 4px; */
+    margin-top: 0px;
+    
+
+}
