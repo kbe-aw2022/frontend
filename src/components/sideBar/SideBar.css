@@ -12,28 +12,6 @@
     /* align-items: center; */
     /* justify-content: center; */
     z-index: 100;
-    padding-top: 140px;
+    padding-top: 40px;
 
-}
-
-.sidebar-item:hover{
-    background-color: rgb(228, 227, 227);
-}
-
-.sidebar-item{
-    z-index: 102;
-    height: 94px;
-    width: 72px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 10px;
-    border-radius: 2px;
-    background-color: grey;
-    border: 1px grey solid;
-    font-weight: 700;
-    font-size: large;
 }
