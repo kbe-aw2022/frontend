@@ -45,3 +45,5 @@ typings/
 
 .vscode
 
+#cypress videos
+/cypress/videos

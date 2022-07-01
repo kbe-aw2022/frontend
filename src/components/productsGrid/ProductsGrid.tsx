@@ -11,6 +11,7 @@ const ProductsGrid:React.FC = () =>{
     const [loading, setLoading] = useState(false);
 
     const fetchComponents = async () => {
+        setLoading(true);
         try {
             const response = await fetch("http://127.0.0.1:8000/components");
             if(!response.ok){
@@ -22,6 +23,7 @@ const ProductsGrid:React.FC = () =>{
         } catch (error:any) {
             setError(error.message);
         }
+        setLoading(false)
     }
 
     useEffect(()=>{
