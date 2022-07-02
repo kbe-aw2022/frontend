@@ -1,0 +1,15 @@
+.toggle-favorites-button{
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0);
+    padding: 0px;
+    border: none;
+    position: absolute;
+    left: 160px;
+    cursor: pointer;
+}
+
+.toggle-favorites-button-icon{
+    width: fit-content;
+    height: fit-content;
+}
