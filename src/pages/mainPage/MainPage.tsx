@@ -1,14 +1,14 @@
 import "./MainPage.css";
 import Header from "../../components/header/Header";
-import ProductsGrid from "../../components/productsGrid/ProductsGrid";
 import SideBar from "../../components/sideBar/SideBar";
+import GridView from "../../components/gridView/GridView";
 
 const MainPage:React.FC = () => {
     return(
         <div className="main">
             <Header></Header>
             <SideBar></SideBar>
-            <ProductsGrid></ProductsGrid>
+            <GridView></GridView>
         </div>
     );
 }

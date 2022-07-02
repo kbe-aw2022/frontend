@@ -1,6 +1,6 @@
 
 import GridItem from "../gridItem/GridItem";
-import "./ProductsGrid.css";
+import "./ComponentsGrid.css";
 import { useState, useEffect } from "react";
 import ramStockImage from "../../resources/images/ram.jpg"
 import mainboardStockImage from "../../resources/images/mainboard.jpg"
@@ -15,10 +15,16 @@ import mouseStockImage from "../../resources/images/mouse.jpg"
 import keyboardStockImage from "../../resources/images/keyboard.jpg"
 
 
-const ProductsGrid:React.FC<{favorites:number[], toggleFavorite:(id:number)=>void}> = (props) =>{
+
+
+
+
+
+
+const ComponentsGrid:React.FC<{favorites:number[], toggleFavorite:(id:number)=>void}> = (props) =>{
 
     const dummyComponents = [{id:1, img:"maus2.jpg", name:"component", vendor:"", price:5, description:"Lorem Ipsum", location:"", manufacturer:"", product_group:"Mouse", weight:"",status:"",ean_number:""}]
-    const productTypeImages :any = {
+    const componentTypeImages :any = {
         "mainboard" : mainboardStockImage,
         "RAM": ramStockImage,
         "Cooling fan" : coolerStockImage,
@@ -61,7 +67,7 @@ const ProductsGrid:React.FC<{favorites:number[], toggleFavorite:(id:number)=>voi
     // productTypeImages[component.product_type]
 
     if(!loading && error==null){
-        content = components.map((component, index:number) => <GridItem key={index} imgLink={productTypeImages[component.product_group]} name={component.name} price={component.price} description={component.description} itemId={index} isFavorite={props.favorites.includes(index)} toggleFavorite={props.toggleFavorite}/>)
+        content = components.map((component, index:number) => <GridItem key={index} imgLink={componentTypeImages[component.product_group]} name={component.name} price={component.price} description={component.description} itemId={index} isFavorite={props.favorites.includes(index)} toggleFavorite={props.toggleFavorite}/>)
     }
 
     if(error){
@@ -82,4 +88,4 @@ const ProductsGrid:React.FC<{favorites:number[], toggleFavorite:(id:number)=>voi
 
 }
 
-export default ProductsGrid;
+export default ComponentsGrid;
