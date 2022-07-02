@@ -5,7 +5,7 @@ const GridItem: React.FC<{imgLink:string, name:string, price:number, description
   return (
     <div className="grid-item">
       <div className="img-wrapper">
-        <img src={props.imgLink} alt="img"></img>
+        <img src={props.imgLink} alt=""></img>
       </div>
 
       <div className="description">

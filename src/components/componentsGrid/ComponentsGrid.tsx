@@ -23,7 +23,7 @@ import keyboardStockImage from "../../resources/images/keyboard.jpg"
 
 const ComponentsGrid:React.FC<{favorites:number[], toggleFavorite:(id:number)=>void}> = (props) =>{
 
-    const dummyComponents = [{id:1, img:"maus2.jpg", name:"component", vendor:"", price:5, description:"Lorem Ipsum", location:"", manufacturer:"", product_group:"Mouse", weight:"",status:"",ean_number:""}]
+    const dummyComponents = [{id:1, img:"", name:"", vendor:"", price:5, description:"Lorem Ipsum", location:"", manufacturer:"", product_group:"", weight:"",status:"",ean_number:""}]
     const componentTypeImages :any = {
         "mainboard" : mainboardStockImage,
         "RAM": ramStockImage,
@@ -75,7 +75,7 @@ const ComponentsGrid:React.FC<{favorites:number[], toggleFavorite:(id:number)=>v
     }
 
     if(loading){
-        content = <p>Loading...</p>
+        // content = <p>Loading...</p>
     }
     
     return(
