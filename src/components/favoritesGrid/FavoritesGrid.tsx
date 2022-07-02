@@ -67,7 +67,7 @@ const FavoritesGrid:React.FC<{favorites:number[], toggleFavorite:(id:number)=>vo
     // productTypeImages[component.product_type]
 
     if(!loading && error==null){
-        if(props.favorites.length==0){
+        if(props.favorites.length===0){
             content = <p>NO FAVORITES</p>
         }else{
             content = components.filter((component)=>{return props.favorites.includes(component.id)}).map((component) => <GridItem key={component.id} imgLink={productTypeImages[component.product_group]} name={component.name} price={component.price} description={component.description} itemId={component.id} isFavorite={props.favorites.includes(component.id)} toggleFavorite={props.toggleFavorite}/>)
