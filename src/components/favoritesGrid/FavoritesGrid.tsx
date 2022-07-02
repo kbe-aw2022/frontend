@@ -23,7 +23,7 @@ import keyboardStockImage from "../../resources/images/keyboard.jpg"
 
 const FavoritesGrid:React.FC<{favorites:number[], toggleFavorite:(id:number)=>void}> = (props) =>{
 
-    const dummyComponents = [{id:1, img:"maus2.jpg", name:"component", vendor:"", price:5, description:"Lorem Ipsum", location:"", manufacturer:"", product_group:"Mouse", weight:"",status:"",ean_number:""}]
+    const dummyComponents = [{id:1, img:"", name:"", vendor:"", price:5, description:"Lorem Ipsum", location:"", manufacturer:"", product_group:"", weight:"",status:"",ean_number:""}]
     const productTypeImages :any = {
         "mainboard" : mainboardStockImage,
         "RAM": ramStockImage,
@@ -67,7 +67,11 @@ const FavoritesGrid:React.FC<{favorites:number[], toggleFavorite:(id:number)=>vo
     // productTypeImages[component.product_type]
 
     if(!loading && error==null){
-        content = components.filter((component)=>{return props.favorites.includes(component.id)}).map((component) => <GridItem key={component.id} imgLink={productTypeImages[component.product_group]} name={component.name} price={component.price} description={component.description} itemId={component.id} isFavorite={props.favorites.includes(component.id)} toggleFavorite={props.toggleFavorite}/>)
+        if(props.favorites.length==0){
+            content = <p>NO FAVORITES</p>
+        }else{
+            content = components.filter((component)=>{return props.favorites.includes(component.id)}).map((component) => <GridItem key={component.id} imgLink={productTypeImages[component.product_group]} name={component.name} price={component.price} description={component.description} itemId={component.id} isFavorite={props.favorites.includes(component.id)} toggleFavorite={props.toggleFavorite}/>)
+        }
     }
 
     if(error){
@@ -75,7 +79,7 @@ const FavoritesGrid:React.FC<{favorites:number[], toggleFavorite:(id:number)=>vo
     }
 
     if(loading){
-        content = <p>Loading...</p>
+        // content = <p>Loading...</p>
     }
     
     return(

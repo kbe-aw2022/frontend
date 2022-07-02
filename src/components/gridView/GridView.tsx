@@ -1,9 +1,10 @@
 
 import "./GridView.css";
-import { useState} from "react";
+import { useContext, useState} from "react";
 import ComponentsGrid from "../componentsGrid/ComponentsGrid";
 import ProductsGrid from "../productsGrid/ProductsGrid";
 import FavoritesGrid from "../favoritesGrid/FavoritesGrid";
+import { viewContext } from "../../store/view-context";
 // import ramStockImage from "../../resources/images/ram.jpg"
 // import mainboardStockImage from "../../resources/images/mainboard.jpg"
 // import cpuStockImage from "../../resources/images/cpu.jpg"
@@ -21,8 +22,8 @@ import FavoritesGrid from "../favoritesGrid/FavoritesGrid";
 const GridView:React.FC = () =>{
 
     // const [favorites, setFavorites] = useState();
-
-    const [view,] = useState("components");
+    const viewCtx = useContext(viewContext);
+    
     const [favorites, setFavorites] = useState([1,2]);
 
 
@@ -41,11 +42,11 @@ const GridView:React.FC = () =>{
 
     let content = <ComponentsGrid favorites={favorites} toggleFavorite={toggleFavorite}/>;
 
-    if(view === "components"){
+    if(viewCtx.view === "components"){
         content = <ComponentsGrid favorites={favorites} toggleFavorite={toggleFavorite}/>;
-    } else if(view === "products"){
+    } else if(viewCtx.view === "products"){
         content = <ProductsGrid favorites={favorites} toggleFavorite={toggleFavorite}/>;
-    } else if(view === "favorites"){
+    } else if(viewCtx.view === "favorites"){
         content = <FavoritesGrid favorites={favorites} toggleFavorite={toggleFavorite}/>;
     }
 
