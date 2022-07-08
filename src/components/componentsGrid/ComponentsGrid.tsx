@@ -62,7 +62,8 @@ const ComponentsGrid:React.FC<{favorites:number[], toggleFavorite:(id:number)=>v
         setLoading(false)
     }
     fetchComponents();
-    },[componentsCtx]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[]);
 
     let content = null;
     // productTypeImages[component.product_type]
