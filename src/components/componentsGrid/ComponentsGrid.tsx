@@ -62,7 +62,7 @@ const ComponentsGrid:React.FC<{favorites:number[], toggleFavorite:(id:number)=>v
         setLoading(false)
     }
     fetchComponents();
-    },[]);
+    },[componentsCtx]);
 
     let content = null;
     // productTypeImages[component.product_type]
