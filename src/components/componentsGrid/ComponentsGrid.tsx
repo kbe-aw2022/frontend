@@ -1,7 +1,7 @@
 
 import GridItem from "../gridItem/GridItem";
 import "./ComponentsGrid.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import ramStockImage from "../../resources/images/ram.jpg"
 import mainboardStockImage from "../../resources/images/mainboard.jpg"
 import cpuStockImage from "../../resources/images/cpu.jpg"
@@ -13,6 +13,7 @@ import caseStockImage from "../../resources/images/case.jpg"
 import psuStockImage from "../../resources/images/psu.jpg"
 import mouseStockImage from "../../resources/images/mouse.jpg"
 import keyboardStockImage from "../../resources/images/keyboard.jpg"
+import { componentsContext } from "../../store/components-context";
 
 
 
@@ -23,7 +24,8 @@ import keyboardStockImage from "../../resources/images/keyboard.jpg"
 
 const ComponentsGrid:React.FC<{favorites:number[], toggleFavorite:(id:number)=>void}> = (props) =>{
 
-    const dummyComponents = [{id:1, img:"", name:"", vendor:"", price:5, description:"Lorem Ipsum", location:"", manufacturer:"", product_group:"", weight:"",status:"",ean_number:""}]
+    const componentsCtx = useContext(componentsContext);
+   
     const componentTypeImages :any = {
         "mainboard" : mainboardStockImage,
         "RAM": ramStockImage,
@@ -38,7 +40,6 @@ const ComponentsGrid:React.FC<{favorites:number[], toggleFavorite:(id:number)=>v
         "PC Case" : caseStockImage
     }
     
-    const [components, setComponents] = useState(dummyComponents);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
@@ -50,7 +51,7 @@ const ComponentsGrid:React.FC<{favorites:number[], toggleFavorite:(id:number)=>v
                 throw new Error(response.statusText);
             }
             const data = await response.json();
-            setComponents(data);
+            componentsCtx.setComponents(data);
             console.log(data);
             // return data;
         } catch (error:any) {
@@ -67,7 +68,7 @@ const ComponentsGrid:React.FC<{favorites:number[], toggleFavorite:(id:number)=>v
     // productTypeImages[component.product_type]
 
     if(!loading && error==null){
-        content = components.map((component, index:number) => <GridItem key={index} imgLink={componentTypeImages[component.product_group]} name={component.name} price={component.price} description={component.description} itemId={index} isFavorite={props.favorites.includes(index)} toggleFavorite={props.toggleFavorite}/>)
+        content = componentsCtx.components.map((component:any, index:number) => <GridItem key={index} imgLink={componentTypeImages[component.product_group]} name={component.name} price={component.price} description={component.description} itemId={index} isFavorite={props.favorites.includes(index)} toggleFavorite={props.toggleFavorite}/>)
     }
 
     if(error){
