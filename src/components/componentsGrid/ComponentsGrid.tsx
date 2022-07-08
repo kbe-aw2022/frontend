@@ -43,7 +43,9 @@ const ComponentsGrid:React.FC<{favorites:number[], toggleFavorite:(id:number)=>v
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const fetchComponents = async () => {
+    
+    useEffect(()=>{
+        const fetchComponents = async () => {
         setLoading(true);
         try {
             const response = await fetch("https://87scpi.deta.dev/components");
@@ -59,9 +61,7 @@ const ComponentsGrid:React.FC<{favorites:number[], toggleFavorite:(id:number)=>v
         }
         setLoading(false)
     }
-
-    useEffect(()=>{
-        fetchComponents();
+    fetchComponents();
     },[]);
 
     let content = null;
