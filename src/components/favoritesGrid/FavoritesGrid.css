@@ -22,38 +22,3 @@
     /* padding: 4px; */
     box-shadow: 0px 1px 10px  rgba(0, 0, 0, 0.35);
 }
-
-.description{
-  flex: 2;
-  z-index: 60;
-  /* border: solid darkgray 1px; */
-  width: 430px;
-  margin-left: 10px;
-  margin-right: 10px;
-  margin-top: 20px;
-}
-
-img{
-    /* flex: 1; */
-    height: 300px;
-    width: 430px;
-    object-fit: cover;
-    object-position: right;
-    border-radius: inherit;
-    z-index: 50;
-    /* margin: 4px 4px; */
-    margin-top: 0px;
-    
-
-}
-
-.img-wrapper{
-    height: 400px;
-    width: 430px;
-    object-fit: cover;
-    object-position: right;
-    border-radius: inherit;
-    z-index: 50;
-    flex: 1;
-}
-

@@ -13,9 +13,18 @@
 // import psuStockImage from "../../resources/images/psu.jpg"
 // import mouseStockImage from "../../resources/images/mouse.jpg"
 // import keyboardStockImage from "../../resources/images/keyboard.jpg"
+import computerStockImage from "../../resources/images/computer.png"
+
+import { Fragment, useContext } from "react";
+import { productsContext } from "../../store/products-context";
+import AddNewProductCard from "../addNewProductCard/AddNewProductCard";
+import GridItem from "../gridItem/GridItem";
+import ProductsGridItemMidArea from "../productsGridItemMidArea/ProductsGridItemMidArea";
 
 
 const ProductsGrid:React.FC<{favorites:number[], toggleFavorite:(id:number)=>void}> = (props) =>{
+
+    const productsCtx = useContext(productsContext);
 
     // const dummyComponents = [{id:1, img:"maus2.jpg", name:"component", vendor:"", price:5, description:"Lorem Ipsum", location:"", manufacturer:"", product_group:"Mouse", weight:"",status:"",ean_number:""}]
     // const productTypeImages :any = {
@@ -71,11 +80,23 @@ const ProductsGrid:React.FC<{favorites:number[], toggleFavorite:(id:number)=>voi
     // if(loading){
     //     content = <p>Loading...</p>
     // }
+
+
+    let content = 
+    <Fragment>
+            {productsCtx.products.map((product:any, index:number) => <GridItem midArea={<ProductsGridItemMidArea components={product.productComponents}/>} 
+                key={index} imgLink={computerStockImage} name={product.name} price={product.price} 
+                description={product.description} itemId={index} isFavorite={props.favorites.includes(index)} 
+                toggleFavorite={props.toggleFavorite}/>)}
+
+            <AddNewProductCard/>
+    </Fragment>
+   
     
     return(
 
         <div className="grid">
-           <p>NO CUSTOM PRODUCTS</p>
+           {content}
         </div>
 
     );

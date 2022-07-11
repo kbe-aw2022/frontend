@@ -1,0 +1,33 @@
+.addNewProductCard{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 600px;
+    width: 250px;
+    /* flex:1; */
+}
+
+.addNewProductCard-button{
+    height: 200px;
+    width: 200px;
+    /* padding: 10px; */
+    border: solid black thin;
+    box-sizing: content-box;
+    border-radius: 15px;
+    cursor: pointer;
+    
+}
+
+.button-text{
+   
+font-size: 20px;
+margin: 0px;
+padding: 0;
+
+}
+
+.plus-icon{
+  width: 100px;
+  height: 100px;
+  margin-bottom: 5px;
+}
