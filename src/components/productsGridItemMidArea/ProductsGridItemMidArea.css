@@ -1,0 +1,51 @@
+.list-item{
+    background-color: lightgrey;
+    /* border: thin solid darkgray; */
+    margin-bottom: 4px;
+    border-radius: inherit;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-left: 10px;
+    border-left: solid thin gray;
+    border-right: solid thin gray;
+    cursor: pointer;
+}
+
+
+.productsGridItemMidArea{
+    border-radius: 15px;
+    width: 86%;
+    height: 100%;
+    display:flex;
+    /* justify-content: center; */
+    /* align-items: center; */
+    /* box-shadow: 0px -1px -10px  rgba(0, 0, 0, 0.35); */
+    /* border: solid thin darkgray; */
+
+}
+
+.productComponentsList{
+    background-color: gray;
+    height: fit-content;
+    /* max-height: 198px; */
+    max-height: 171.4px;
+    list-style-type:circle; 
+    list-style-position: inside;
+    padding: 0; /* Remove padding */
+    padding-top: 4px;
+    margin: 0; /* Remove margins */
+    width: 100%;
+    border-radius: 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    overflow-y: scroll;
+
+
+}
+
+.productComponentsList li:hover{
+    list-style-type:disc;
+    background-color: rgb(194, 194, 194);
+
+}
