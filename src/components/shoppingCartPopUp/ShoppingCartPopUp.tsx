@@ -1,22 +1,23 @@
 import { Key, useContext } from "react";
-import { componentsContext } from "../../store/components-context";
-import { productsContext } from "../../store/products-context";
+import { component, componentsContext } from "../../store/components-context";
+import { product, productsContext } from "../../store/products-context";
 import { shoppingCartContext } from "../../store/shoppingCard-context";
 import "./ShoppingCartPopUp.css";
 
 
-const calculatePriceSum = (inShoppingCardComponents: any,inShoppingCardProducts: { id: number; name: string; price: number; productComponents: number[]; }[]) =>{
+const calculatePriceSum = (inShoppingCardComponents: component[],inShoppingCardProducts: product[]) =>{
     let priceSum:number = 0;
-    for(let component in inShoppingCardComponents)
+    for(let component of inShoppingCardComponents)
     {
-        priceSum += component.price;
+        priceSum = priceSum + parseFloat(component.price);
     }
 
-    for(let product in inShoppingCardProducts)
+    for(let product of inShoppingCardProducts)
     {
-        priceSum += product.price;
+        priceSum = priceSum + parseFloat(product.price);
     }
 
+    console.log("priceSum:"+priceSum);
     return priceSum;
 
 }
@@ -38,7 +39,7 @@ const ShoppingCartPopUp:React.FC = () => {
             {inShoppingCardComponents.map((component:any, index: Key | null | undefined)=>{return <li key={index}>{component.name}</li>})}
         </ul>
         <div className="shopping-cart-popup-bottom-bar">
-            {calculatePriceSum(inShoppingCardComponents,inShoppingCardProducts)}
+            <p>{calculatePriceSum(inShoppingCardComponents,inShoppingCardProducts)}</p>
         </div>
     </div>
   )
