@@ -5,6 +5,7 @@ import GridView from "../../components/gridView/GridView";
 import ViewContextProvider from "../../store/view-context";
 import ComponentsContextProvider from "../../store/components-context";
 import ProductsContextProvider from "../../store/products-context";
+import ShoppingCartContextProvider from "../../store/shoppingCard-context";
 
 
 const MainPage:React.FC = () => {
@@ -14,8 +15,10 @@ const MainPage:React.FC = () => {
                 <SideBar></SideBar>
                 <ComponentsContextProvider>
                     <ProductsContextProvider>
-                        <Header></Header>
-                        <GridView></GridView>
+                        <ShoppingCartContextProvider>
+                            <Header></Header>
+                            <GridView></GridView>
+                        </ShoppingCartContextProvider>
                     </ProductsContextProvider>
                 </ComponentsContextProvider>
             </ViewContextProvider>

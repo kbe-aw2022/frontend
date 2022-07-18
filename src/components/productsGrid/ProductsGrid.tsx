@@ -22,7 +22,7 @@ import GridItem from "../gridItem/GridItem";
 import ProductsGridItemMidArea from "../productsGridItemMidArea/ProductsGridItemMidArea";
 
 
-const ProductsGrid:React.FC<{favorites:number[], toggleFavorite:(id:number)=>void}> = (props) =>{
+const ProductsGrid:React.FC<{favorites:string[], toggleFavorite:(id:string)=>void}> = (props) =>{
 
     const productsCtx = useContext(productsContext);
 
@@ -86,7 +86,7 @@ const ProductsGrid:React.FC<{favorites:number[], toggleFavorite:(id:number)=>voi
     <Fragment>
             {productsCtx.products.map((product:any, index:number) => <GridItem midArea={<ProductsGridItemMidArea components={product.productComponents}/>} 
                 key={index} imgLink={computerStockImage} name={product.name} price={product.price} 
-                description={product.description} itemId={index} isFavorite={props.favorites.includes(index)} 
+                description={product.description} itemId={'p'+index} isFavorite={props.favorites.includes('p'+index)} 
                 toggleFavorite={props.toggleFavorite}/>)}
 
             <AddNewProductCard/>

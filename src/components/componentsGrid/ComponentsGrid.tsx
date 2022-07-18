@@ -17,7 +17,7 @@ import { componentsContext } from "../../store/components-context";
 import ComponentsGridItemMidArea from "../componentsGridItemMidArea/ComponentsGridItemMidArea";
 
 
-const ComponentsGrid:React.FC<{favorites:number[], toggleFavorite:(id:number)=>void}> = (props) =>{
+const ComponentsGrid:React.FC<{favorites:string[], toggleFavorite:(id:string)=>void}> = (props) =>{
 
     const componentsCtx = useContext(componentsContext);
    
@@ -64,7 +64,7 @@ const ComponentsGrid:React.FC<{favorites:number[], toggleFavorite:(id:number)=>v
     // productTypeImages[component.product_type]
 
     if(!loading && error==null){
-        content = componentsCtx.components.map((component:any, index:number) => <GridItem midArea={<ComponentsGridItemMidArea description={component.product_group}/>} key={index} imgLink={componentTypeImages[component.product_group]} name={component.name} price={component.price} description={component.description} itemId={index} isFavorite={props.favorites.includes(index)} toggleFavorite={props.toggleFavorite}/>)
+        content = componentsCtx.components.map((component:any, index:number) => <GridItem midArea={<ComponentsGridItemMidArea description={component.product_group}/>} key={index} imgLink={componentTypeImages[component.product_group]} name={component.name} price={component.price} description={component.description} itemId={'c'+index} isFavorite={props.favorites.includes('c'+index)} toggleFavorite={props.toggleFavorite}/>)
     }
 
     if(error){

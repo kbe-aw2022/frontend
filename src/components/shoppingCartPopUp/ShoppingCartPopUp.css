@@ -1,0 +1,13 @@
+.shopping-cart-popup{
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top:50px;
+    left: -84px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: solid black 4px;
+    border-radius: 15px;
+    background-color: lightgray;
+}
