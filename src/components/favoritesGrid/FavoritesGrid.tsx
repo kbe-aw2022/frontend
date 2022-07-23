@@ -21,14 +21,9 @@ import { favoritesContext } from "../../store/favorites-context";
 
 
 
-
-
-
-
-
 const FavoritesGrid:React.FC<{}> = (props) =>{
 
-    const dummyComponents = [{id:1, img:"", name:"", vendor:"", price:5, description:"Lorem Ipsum", location:"", manufacturer:"", product_group:"", weight:"",status:"",ean_number:""}]
+    const dummyComponents = [{id:'c'+1, img:"", name:"", vendor:"", price:5, description:"Lorem Ipsum", location:"", manufacturer:"", product_group:"", weight:"",status:"",ean_number:""}]
     const productTypeImages :any = {
         "mainboard" : mainboardStockImage,
         "RAM": ramStockImage,
@@ -79,6 +74,7 @@ const FavoritesGrid:React.FC<{}> = (props) =>{
         if(favoritesCtx.favorites.length===0){
             content = <p>NO FAVORITES</p>
         }else{
+
             content = <Fragment>
                 {productCtx.products.filter((product)=>{return favoritesCtx.favorites.includes('p'+product.id)}).map((product:any, index:number) => <GridItem midArea={<ProductsGridItemMidArea components={product.productComponents}/>} 
                 key={index} imgLink={computerStockImage} name={product.name} price={product.price} 

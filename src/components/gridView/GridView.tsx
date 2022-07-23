@@ -21,7 +21,6 @@ import { viewContext } from "../../store/view-context";
 
 const GridView:React.FC = () =>{
 
-    // const [favorites, setFavorites] = useState();
     const viewCtx = useContext(viewContext);
 
     let content = <ComponentsGrid />;
@@ -36,7 +35,7 @@ const GridView:React.FC = () =>{
 
 
     return(
-        <div className="grid-view">{content}</div>
+            <div className="grid-view">{content}</div>
     )
 
 }

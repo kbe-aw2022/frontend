@@ -13,9 +13,10 @@ import caseStockImage from "../../resources/images/case.jpg"
 import psuStockImage from "../../resources/images/psu.jpg"
 import mouseStockImage from "../../resources/images/mouse.jpg"
 import keyboardStockImage from "../../resources/images/keyboard.jpg"
-import { componentsContext } from "../../store/components-context";
+import { component, componentsContext } from "../../store/components-context";
 import ComponentsGridItemMidArea from "../componentsGridItemMidArea/ComponentsGridItemMidArea";
 import { favoritesContext } from "../../store/favorites-context";
+
 
 
 const ComponentsGrid:React.FC<{}> = (props) =>{
@@ -49,7 +50,7 @@ const ComponentsGrid:React.FC<{}> = (props) =>{
             if(!response.ok){
                 throw new Error(response.statusText);
             }
-            const data = await response.json();
+            const data:component[] = await response.json();
             componentsCtx.setComponents(data);
             console.log(data);
             // return data;

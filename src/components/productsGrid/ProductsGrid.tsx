@@ -35,7 +35,6 @@ const ProductsGrid:React.FC<{}> = (props) =>{
                 key={index} imgLink={computerStockImage} name={product.name} price={product.price} 
                 description={product.description} itemId={'p'+index} isFavorite={favoritesCtx.favorites.includes('p'+index)} 
                 toggleFavorite={favoritesCtx.toggleFavorite}/>)}
-
             <AddNewProductCard/>
     </Fragment>
    

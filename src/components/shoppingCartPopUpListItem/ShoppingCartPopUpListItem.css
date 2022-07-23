@@ -1,0 +1,42 @@
+.shopping-cart-list-item{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    overflow: hidden;
+    max-height:50px;
+
+    width: 100%;
+    border-bottom: solid rgb(175, 174, 174) 1px;
+}
+
+
+
+.shopping-cart-list-item-name{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 65%;
+    
+}
+
+.shopping-cart-list-item-amount{
+    background-color: #e9e9ed;
+    border: 1px solid darkgray;
+    min-width: 14px;
+    max-width: 16px;
+    height: 20px;
+    padding: 0;
+    width: fit-content;
+    text-align: center;
+}
+
+.shopping-cart-list-item-price-amount-detail-bar{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.shopping-cart-list-item-price-tag{
+    margin-right: 5px;
+}
