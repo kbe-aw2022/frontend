@@ -3,7 +3,7 @@ import "./GridItemBottomBar.css"
 
 
 
-const GridItemBottomBar:React.FC<{itemId:number, price:number, currency:string, isFavorite:boolean, toggleFavorite:(id:number) =>void}> = (props) => {
+const GridItemBottomBar:React.FC<{itemId:string, price:number, currency:string, isFavorite:boolean, toggleFavorite:(id:string) =>void}> = (props) => {
 
 
   return (

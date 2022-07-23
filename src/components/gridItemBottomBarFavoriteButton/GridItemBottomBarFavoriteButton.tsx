@@ -6,7 +6,7 @@ import removeFromFavoritesIcon from "../../resources/icons/heart-minus.svg"
 import { useState } from "react";
 
 
-const GridItemBottomBarFavoriteButton:React.FC<{itemId:number, isFavorite:boolean, toggleFavorite:(id:number) =>void}> = (props) => {
+const GridItemBottomBarFavoriteButton:React.FC<{itemId:string, isFavorite:boolean, toggleFavorite:(id:string) =>void}> = (props) => {
 
 const [isFavorite, setFavorite] = useState(props.isFavorite);
 
