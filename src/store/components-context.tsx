@@ -22,7 +22,6 @@ export type component = {
 
 export const componentsContext = React.createContext<componentsContextObj>({components:[], setComponents:()=>{}});
 
-
 const ComponentsContextProvider:React.FC<{children?: React.ReactNode}> = (props) => {
     const [components,setComponents] = useState<component[]>([]);
     

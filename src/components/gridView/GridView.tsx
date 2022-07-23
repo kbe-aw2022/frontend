@@ -1,6 +1,6 @@
 
 import "./GridView.css";
-import { useContext, useState} from "react";
+import { useContext} from "react";
 import ComponentsGrid from "../componentsGrid/ComponentsGrid";
 import ProductsGrid from "../productsGrid/ProductsGrid";
 import FavoritesGrid from "../favoritesGrid/FavoritesGrid";
@@ -22,30 +22,15 @@ import { viewContext } from "../../store/view-context";
 const GridView:React.FC = () =>{
 
     const viewCtx = useContext(viewContext);
-    
-    const [favorites, setFavorites] = useState(["c1","c2"]);
 
-
-    const toggleFavorite = (id:string) => {
-        if(favorites.includes(id)){
-            console.log("includes!");
-            setFavorites(favorites=>{return favorites.filter(item => item !== id)}) ;
-        }else{
-            console.log("not includes!");
-            setFavorites(favorites => [...favorites,id]);
-            console.log(favorites);
-        }
-    }
-
-
-    let content = <ComponentsGrid favorites={favorites} toggleFavorite={toggleFavorite}/>;
+    let content = <ComponentsGrid />;
 
     if(viewCtx.view === "components"){
-        content = <ComponentsGrid favorites={favorites} toggleFavorite={toggleFavorite}/>;
+        content = <ComponentsGrid/>;
     } else if(viewCtx.view === "products"){
-        content = <ProductsGrid favorites={favorites} toggleFavorite={toggleFavorite}/>;
+        content = <ProductsGrid />;
     } else if(viewCtx.view === "favorites"){
-        content = <FavoritesGrid favorites={favorites} toggleFavorite={toggleFavorite}/>;
+        content = <FavoritesGrid />;
     }
 
 

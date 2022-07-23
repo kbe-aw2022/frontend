@@ -1,7 +1,8 @@
 
 import GridItem from "../gridItem/GridItem";
 import "./FavoritesGrid.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment, useContext } from "react";
+import computerStockImage from "../../resources/images/computer.png"
 import ramStockImage from "../../resources/images/ram.jpg"
 import mainboardStockImage from "../../resources/images/mainboard.jpg"
 import cpuStockImage from "../../resources/images/cpu.jpg"
@@ -14,15 +15,13 @@ import psuStockImage from "../../resources/images/psu.jpg"
 import mouseStockImage from "../../resources/images/mouse.jpg"
 import keyboardStockImage from "../../resources/images/keyboard.jpg"
 import ComponentsGridItemMidArea from "../componentsGridItemMidArea/ComponentsGridItemMidArea";
+import { productsContext } from "../../store/products-context";
+import ProductsGridItemMidArea from "../productsGridItemMidArea/ProductsGridItemMidArea";
+import { favoritesContext } from "../../store/favorites-context";
 
 
 
-
-
-
-
-
-const FavoritesGrid:React.FC<{favorites:string[], toggleFavorite:(id:string)=>void}> = (props) =>{
+const FavoritesGrid:React.FC<{}> = (props) =>{
 
     const dummyComponents = [{id:'c'+1, img:"", name:"", vendor:"", price:5, description:"Lorem Ipsum", location:"", manufacturer:"", product_group:"", weight:"",status:"",ean_number:""}]
     const productTypeImages :any = {
@@ -42,6 +41,10 @@ const FavoritesGrid:React.FC<{favorites:string[], toggleFavorite:(id:string)=>vo
     const [components, setComponents] = useState(dummyComponents);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+
+    const productCtx = useContext(productsContext);
+    const favoritesCtx = useContext(favoritesContext);
+
 
     const fetchComponents = async () => {
         setLoading(true);
@@ -68,10 +71,17 @@ const FavoritesGrid:React.FC<{favorites:string[], toggleFavorite:(id:string)=>vo
     // productTypeImages[component.product_type]
 
     if(!loading && error==null){
-        if(props.favorites.length===0){
+        if(favoritesCtx.favorites.length===0){
             content = <p>NO FAVORITES</p>
         }else{
-            content = components.filter((component)=>{return props.favorites.includes('c'+component.id)}).map((component) => <GridItem midArea={<ComponentsGridItemMidArea description="t"/>} key={component.id} imgLink={productTypeImages[component.product_group]} name={component.name} price={component.price} description={component.description} itemId={'c'+component.id} isFavorite={props.favorites.includes(component.id)} toggleFavorite={props.toggleFavorite}/>)
+
+            content = <Fragment>
+                {productCtx.products.filter((product)=>{return favoritesCtx.favorites.includes('p'+product.id)}).map((product:any, index:number) => <GridItem midArea={<ProductsGridItemMidArea components={product.productComponents}/>} 
+                key={index} imgLink={computerStockImage} name={product.name} price={product.price} 
+                description={product.description} itemId={'p'+index} isFavorite={favoritesCtx.favorites.includes('p'+index)} 
+                toggleFavorite={favoritesCtx.toggleFavorite}/>)}
+                {components.filter((component)=>{return favoritesCtx.favorites.includes('c'+component.id)}).map((component) => <GridItem midArea={<ComponentsGridItemMidArea description="t"/>} key={component.id} imgLink={productTypeImages[component.product_group]} name={component.name} price={component.price} description={component.description} itemId={'c'+component.id} isFavorite={favoritesCtx.favorites.includes('c'+component.id)} toggleFavorite={favoritesCtx.toggleFavorite}/>)}
+            </Fragment> 
         }
     }
 

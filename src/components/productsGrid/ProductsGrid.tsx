@@ -20,75 +20,21 @@ import { productsContext } from "../../store/products-context";
 import AddNewProductCard from "../addNewProductCard/AddNewProductCard";
 import GridItem from "../gridItem/GridItem";
 import ProductsGridItemMidArea from "../productsGridItemMidArea/ProductsGridItemMidArea";
+import { favoritesContext } from "../../store/favorites-context";
 
 
-const ProductsGrid:React.FC<{favorites:string[], toggleFavorite:(id:string)=>void}> = (props) =>{
+const ProductsGrid:React.FC<{}> = (props) =>{
 
     const productsCtx = useContext(productsContext);
-
-    // const dummyComponents = [{id:1, img:"maus2.jpg", name:"component", vendor:"", price:5, description:"Lorem Ipsum", location:"", manufacturer:"", product_group:"Mouse", weight:"",status:"",ean_number:""}]
-    // const productTypeImages :any = {
-    //     "mainboard" : mainboardStockImage,
-    //     "RAM": ramStockImage,
-    //     "Cooling fan" : coolerStockImage,
-    //     "GPU" : gpuStockImage,
-    //     "CPU" : cpuStockImage,
-    //     "SSD" : hddStockImage,
-    //     "power-supply" : psuStockImage,
-    //     "Mouse" : mouseStockImage,
-    //     "Keyboard" : keyboardStockImage,
-    //     "Blueray-drive" : driveStockImage,
-    //     "PC Case" : caseStockImage
-    // }
-    
-    // const [components, setComponents] = useState(dummyComponents);
-    // const [error, setError] = useState(null);
-    // const [loading, setLoading] = useState(false);
-
-    // const fetchComponents = async () => {
-    //     setLoading(true);
-    //     try {
-    //         const response = await fetch("https://87scpi.deta.dev/components");
-    //         if(!response.ok){
-    //             throw new Error(response.statusText);
-    //         }
-    //         const data = await response.json();
-    //         setComponents(data);
-    //         console.log(data);
-    //         // return data;
-    //     } catch (error:any) {
-    //         setError(error.message);
-    //     }
-    //     setLoading(false)
-    // }
-
-    // useEffect(()=>{
-    //     fetchComponents();
-    // },[]);
-
-    // let content = null;
-    // productTypeImages[component.product_type]
-
-    // if(!loading && error==null){
-    //    content = <p>PRODUCTS</p>
-    // }
-
-    // if(error){
-    //     content = <p>{error}</p>
-    // }
-
-    // if(loading){
-    //     content = <p>Loading...</p>
-    // }
+    const favoritesCtx = useContext(favoritesContext);
 
 
     let content = 
     <Fragment>
             {productsCtx.products.map((product:any, index:number) => <GridItem midArea={<ProductsGridItemMidArea components={product.productComponents}/>} 
                 key={index} imgLink={computerStockImage} name={product.name} price={product.price} 
-                description={product.description} itemId={'p'+index} isFavorite={props.favorites.includes('p'+index)} 
-                toggleFavorite={props.toggleFavorite}/>)}
-
+                description={product.description} itemId={'p'+index} isFavorite={favoritesCtx.favorites.includes('p'+index)} 
+                toggleFavorite={favoritesCtx.toggleFavorite}/>)}
             <AddNewProductCard/>
     </Fragment>
    
