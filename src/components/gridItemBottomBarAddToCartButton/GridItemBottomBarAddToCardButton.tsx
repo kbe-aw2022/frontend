@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { shoppingCartContext } from "../../store/shoppingCard-context";
 import addToCartIcon from "../../resources/icons/add-to-cart.svg";
 import addToCartSuccessIcon from "../../resources/icons/cart-green.svg";
@@ -8,12 +8,13 @@ const GridItemBottomBarAddToCardButton:React.FC<{itemId:string}> = (props) => {
 
     const cartCtx = useContext(shoppingCartContext);
 
-    let cartButtonIcon = addToCartIcon;
+    const [cartButtonIcon, setCartButtonIcon] = useState(addToCartIcon);
+    
 
     const onClickHandler = () => {
         cartCtx.addToCart(props.itemId);
-        // cartButtonIcon = addToCartSuccessIcon;
-        // setTimeout(()=>{cartButtonIcon=addToCartIcon},1000)
+        setCartButtonIcon(addToCartSuccessIcon);
+        setTimeout(()=>{setCartButtonIcon(addToCartIcon);},1000)
     }
 
 

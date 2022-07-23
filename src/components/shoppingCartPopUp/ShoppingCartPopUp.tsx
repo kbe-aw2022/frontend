@@ -1,20 +1,21 @@
-import { Key, useContext } from "react";
+import { useContext } from "react";
 import { component, componentsContext } from "../../store/components-context";
 import { product, productsContext } from "../../store/products-context";
 import { shoppingCartContext } from "../../store/shoppingCard-context";
+import ShoppingCartPopUpListItem from "../shoppingCartPopUpListItem/ShoppingCartPopUpListItem";
 import "./ShoppingCartPopUp.css";
 
 
-const calculatePriceSum = (inShoppingCardComponents: component[],inShoppingCardProducts: product[]) =>{
+const calculatePriceSum = (inShoppingCardComponents: component[],inShoppingCardProducts: product[], shoppingCart:string[]) =>{
     let priceSum:number = 0;
     for(let component of inShoppingCardComponents)
     {
-        priceSum = priceSum + parseFloat(component.price);
+        priceSum = priceSum + parseFloat(component.price) * shoppingCart.filter(c => c === ('c'+component.id)).length;
     }
 
     for(let product of inShoppingCardProducts)
     {
-        priceSum = priceSum + parseFloat(product.price);
+        priceSum = priceSum + parseFloat(product.price) * shoppingCart.filter(c => c === ('p'+product.id)).length;
     }
 
     console.log("priceSum:"+priceSum);
@@ -22,7 +23,7 @@ const calculatePriceSum = (inShoppingCardComponents: component[],inShoppingCardP
 
 }
 
-const ShoppingCartPopUp:React.FC = () => {
+const ShoppingCartPopUp:React.FC<{closePopUpHandler:()=>void}> = (props) => {
 
     const shoppingCartCtx = useContext(shoppingCartContext);
     const productsCtx = useContext(productsContext);
@@ -32,14 +33,23 @@ const ShoppingCartPopUp:React.FC = () => {
     const inShoppingCardComponents = componentsCtx.components.filter((component: any)=>{return shoppingCartCtx.isInCart('c'+component.id)});
    
 
+    let content = shoppingCartCtx.shoppingCart.length===0 ? "NO ITEMS IN SHOPPING CART" :
+        <ul className="shopping-cart-items-list">
+            {inShoppingCardProducts.map((product)=>{return <ShoppingCartPopUpListItem itemKey={'p'+product.id} itemName={product.name} itemAmount={shoppingCartCtx.shoppingCart.filter(p => p === ('p'+product.id)).length} price={parseFloat(product.price)}/>})}
+            {inShoppingCardComponents.map((component:any)=>{return <ShoppingCartPopUpListItem itemKey={'c'+component.id} itemName={component.name} itemAmount={shoppingCartCtx.shoppingCart.filter(c => c === ('c'+component.id)).length} price={parseFloat(component.price)}/>})}
+        </ul>
+
   return (
     <div className="shopping-cart-popup">
-        <ul className="shopping-cart-items-list">
-            {inShoppingCardProducts.map((product, index)=>{return <li key={index}>{product.name}</li>})}
-            {inShoppingCardComponents.map((component:any, index: Key | null | undefined)=>{return <li key={index}>{component.name}</li>})}
-        </ul>
+        <div className="shopping-cart-popup-top-bar">
+            <div></div>
+            <p>Shopping Cart</p>
+            <button className="shopping-cart-popup-close-button" onClick={props.closePopUpHandler}>X</button>
+        </div>
+        {content}
         <div className="shopping-cart-popup-bottom-bar">
-            <p>{calculatePriceSum(inShoppingCardComponents,inShoppingCardProducts)}</p>
+            <p>total: {calculatePriceSum(inShoppingCardComponents,inShoppingCardProducts,shoppingCartCtx.shoppingCart).toFixed(2)} &euro;</p>
+            <p className="proceed-to-checkout-link">proceed to checkout</p>
         </div>
     </div>
   )
