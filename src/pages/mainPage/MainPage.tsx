@@ -5,6 +5,7 @@ import GridView from "../../components/gridView/GridView";
 import ViewContextProvider from "../../store/view-context";
 import ComponentsContextProvider from "../../store/components-context";
 import ProductsContextProvider from "../../store/products-context";
+import FavoritesContextProvider from "../../store/favorites-context";
 
 
 const MainPage:React.FC = () => {
@@ -15,7 +16,9 @@ const MainPage:React.FC = () => {
                 <ComponentsContextProvider>
                     <ProductsContextProvider>
                         <Header></Header>
-                        <GridView></GridView>
+                        <FavoritesContextProvider>
+                            <GridView></GridView>
+                        </FavoritesContextProvider>
                     </ProductsContextProvider>
                 </ComponentsContextProvider>
             </ViewContextProvider>

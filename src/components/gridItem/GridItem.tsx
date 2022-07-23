@@ -1,7 +1,7 @@
 import GridItemBottomBar from "../gridItemBottomBar/GridItemBottomBar";
 import "./GridItem.css";
 
-const GridItem: React.FC<{imgLink:string, name:string, price:number, description:string, itemId:number, isFavorite:boolean, toggleFavorite:(id:number) =>void, midArea:React.ReactNode}> = (props) => {
+const GridItem: React.FC<{imgLink:string, name:string, price:number, description:string, itemId:string, isFavorite:boolean, toggleFavorite:(id:string) =>void, midArea:React.ReactNode}> = (props) => {
   return (
     <div className="grid-item">
       <div className="img-wrapper">
