@@ -20,21 +20,16 @@ import { productsContext } from "../../store/products-context";
 import AddNewProductCard from "../addNewProductCard/AddNewProductCard";
 import GridItem from "../gridItem/GridItem";
 import ProductsGridItemMidArea from "../productsGridItemMidArea/ProductsGridItemMidArea";
-import { favoritesContext } from "../../store/favorites-context";
 
 
 const ProductsGrid:React.FC<{}> = (props) =>{
 
     const productsCtx = useContext(productsContext);
-    const favoritesCtx = useContext(favoritesContext);
-
 
     let content = 
     <Fragment>
-            {productsCtx.products.map((product:any, index:number) => <GridItem midArea={<ProductsGridItemMidArea components={product.productComponents}/>} 
-                key={index} imgLink={computerStockImage} name={product.name} price={product.price} 
-                description={product.description} itemId={'p'+index} isFavorite={favoritesCtx.favorites.includes('p'+index)} 
-                toggleFavorite={favoritesCtx.toggleFavorite}/>)}
+            {productsCtx.products.map((product:any, index:number) => <GridItem isDetailedView={false} onClose={()=>{}} midArea={<ProductsGridItemMidArea components={product.productComponents}/>} 
+                key={index} imgLink={computerStockImage} itemProps={product} itemId={'p'+index}/>)}
             <AddNewProductCard/>
     </Fragment>
    

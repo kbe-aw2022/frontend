@@ -1,0 +1,60 @@
+.componentsGridItemMidArea{
+    display: flex;
+    align-items:flex-start;
+    justify-content:flex-start;
+    flex-direction: column;
+    background-color: rgb(201, 199, 199);
+    width: 100%;
+    /* height: 110%; */
+    height: 100%;
+    border-radius: 15px;
+    
+}
+
+.description,
+.product-group,
+.property{
+    
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+.description,
+.property{
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-size: 24px;
+}
+
+.property-name{
+    font-weight: 500;
+}
+
+.property{
+   
+    max-width: 100%;
+    overflow:hidden;
+    text-overflow: ellipsis;
+}
+
+.product-group{
+    align-self: center;
+    font-weight: 500;
+    margin-bottom: 4px;
+    margin-top: 6px;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.description{
+    max-width: 100%;
+    max-height: 78px;
+    margin-top: 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+}
+

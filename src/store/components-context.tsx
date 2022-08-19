@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 type componentsContextObj ={
-    components:any,
+    components:component[],
     setComponents:(components:component[])=>void
 };
 

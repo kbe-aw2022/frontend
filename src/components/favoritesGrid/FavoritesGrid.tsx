@@ -18,12 +18,12 @@ import ComponentsGridItemMidArea from "../componentsGridItemMidArea/ComponentsGr
 import { productsContext } from "../../store/products-context";
 import ProductsGridItemMidArea from "../productsGridItemMidArea/ProductsGridItemMidArea";
 import { favoritesContext } from "../../store/favorites-context";
+import { componentsContext } from "../../store/components-context";
 
 
 
 const FavoritesGrid:React.FC<{}> = (props) =>{
 
-    const dummyComponents = [{id:'c'+1, img:"", name:"", vendor:"", price:5, description:"Lorem Ipsum", location:"", manufacturer:"", product_group:"", weight:"",status:"",ean_number:""}]
     const productTypeImages :any = {
         "mainboard" : mainboardStockImage,
         "RAM": ramStockImage,
@@ -38,10 +38,10 @@ const FavoritesGrid:React.FC<{}> = (props) =>{
         "PC Case" : caseStockImage
     }
     
-    const [components, setComponents] = useState(dummyComponents);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
+    const componentCtx = useContext(componentsContext);
     const productCtx = useContext(productsContext);
     const favoritesCtx = useContext(favoritesContext);
 
@@ -54,7 +54,7 @@ const FavoritesGrid:React.FC<{}> = (props) =>{
                 throw new Error(response.statusText);
             }
             const data = await response.json();
-            setComponents(data);
+            componentCtx.setComponents(data);
             console.log(data);
             // return data;
         } catch (error:any) {
@@ -65,6 +65,7 @@ const FavoritesGrid:React.FC<{}> = (props) =>{
 
     useEffect(()=>{
         fetchComponents();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 
     let content = null;
@@ -76,11 +77,9 @@ const FavoritesGrid:React.FC<{}> = (props) =>{
         }else{
 
             content = <Fragment>
-                {productCtx.products.filter((product)=>{return favoritesCtx.favorites.includes('p'+product.id)}).map((product:any, index:number) => <GridItem midArea={<ProductsGridItemMidArea components={product.productComponents}/>} 
-                key={index} imgLink={computerStockImage} name={product.name} price={product.price} 
-                description={product.description} itemId={'p'+index} isFavorite={favoritesCtx.favorites.includes('p'+index)} 
-                toggleFavorite={favoritesCtx.toggleFavorite}/>)}
-                {components.filter((component)=>{return favoritesCtx.favorites.includes('c'+component.id)}).map((component) => <GridItem midArea={<ComponentsGridItemMidArea description="t"/>} key={component.id} imgLink={productTypeImages[component.product_group]} name={component.name} price={component.price} description={component.description} itemId={'c'+component.id} isFavorite={favoritesCtx.favorites.includes('c'+component.id)} toggleFavorite={favoritesCtx.toggleFavorite}/>)}
+                {productCtx.products.filter((product)=>{return favoritesCtx.favorites.includes('p'+product.id)}).map((product:any, index:number) => <GridItem isDetailedView={false} onClose={()=>{}} midArea={<ProductsGridItemMidArea components={product.productComponents}/>} 
+                key={index} imgLink={computerStockImage} itemProps={product} itemId={'p'+index}/>)}
+                {componentCtx.components.filter((component)=>{return favoritesCtx.favorites.includes('c'+component.id)}).map((component) => <GridItem isDetailedView={false} onClose={()=>{}} midArea={<ComponentsGridItemMidArea componentProps={component} isDetailedView={false}/>} key={component.id} imgLink={productTypeImages[component.product_group]} itemProps={component} itemId={'c'+component.id} />)}
             </Fragment> 
         }
     }
