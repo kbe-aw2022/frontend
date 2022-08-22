@@ -37,6 +37,11 @@
     align-items: center;
 }
 
+
 .shopping-cart-list-item-price-tag{
     margin-right: 5px;
+}
+
+.remove-button{
+    margin-right: 6px;
 }

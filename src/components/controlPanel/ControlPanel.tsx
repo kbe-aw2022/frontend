@@ -4,7 +4,7 @@ import userIcon from "../../resources/icons/user.svg"
 import cartIcon from "../../resources/icons/cart-line.svg"
 import { useContext, useState } from "react"
 import { shoppingCartContext } from "../../store/shoppingCard-context"
-import ShoppingCartPopUp from "../shoppingCartPopUp/ShoppingCartPopUp"
+import ShoppingCartPopUp from "../shoppingCard/shoppingCartPopUp/ShoppingCartPopUp"
 
 const ControlPanel:React.FC = () => {
 
@@ -27,7 +27,7 @@ const ControlPanel:React.FC = () => {
             <img src={cartIcon} alt="not loaded" className="cart-icon" />
           </button> 
           {
-            cartCtx.shoppingCart.length===0?null:<div className="shopping-cart-icon-count">{cartCtx.shoppingCart.length}</div>
+            cartCtx.shoppingCart.length===0?null:<div className="shopping-cart-icon-count">{cartCtx.getCartItemsAmount()}</div>
           }
           {shoppingCartPopUpIsShown?<ShoppingCartPopUp closePopUpHandler={onClickHandler}/>:null}
         </div>
