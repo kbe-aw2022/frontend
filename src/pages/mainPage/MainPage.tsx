@@ -8,6 +8,7 @@ import ProductsContextProvider from "../../store/products-context";
 
 import ShoppingCartContextProvider from "../../store/shoppingCard-context";
 import FavoritesContextProvider from "../../store/favorites-context";
+import SearchFilterContextProvider from "../../store/search-filter-context";
 
 
 const MainPage:React.FC = () => {
@@ -18,9 +19,11 @@ const MainPage:React.FC = () => {
                 <ComponentsContextProvider>
                     <ProductsContextProvider>
                       <ShoppingCartContextProvider>
-                          <Header></Header>
                         <FavoritesContextProvider>
+                         <SearchFilterContextProvider>
+                            <Header></Header>
                             <GridView></GridView>
+                         </SearchFilterContextProvider>
                         </FavoritesContextProvider>
                       </ShoppingCartContextProvider>
                     </ProductsContextProvider>
