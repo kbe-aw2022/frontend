@@ -1,0 +1,34 @@
+.componentsGridItemMidArea{
+    display: inline;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    width: 100%;
+    height: 100px;
+}
+
+
+.property{
+    margin-left: 40px;
+    max-width: 645px;
+    overflow:hidden;
+    text-overflow: ellipsis;
+}
+
+.property-name{
+    font-weight: 500;
+}
+
+.description{
+    overflow: scroll;
+    max-height: 236px;
+    max-width: 645px;
+    margin-left: 40px;
+}
+
+.manufacturer{
+    margin-top: 40px;
+    margin-left: 40px;
+
+}

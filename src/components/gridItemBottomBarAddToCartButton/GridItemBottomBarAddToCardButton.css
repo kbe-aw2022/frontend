@@ -1,0 +1,23 @@
+.add-to-cart-button{
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0);
+    /* padding: 0px; */
+    border: none;
+    /* position: absolute; */
+    /* left: 160px; */
+    /* right: 18%; */
+    /* top:50%; */
+    margin-right: 2px;
+    margin-left: 8px;
+    bottom: 14%;
+    cursor: pointer;
+    z-index: 4;
+}
+
+.add-to-cart-button-icon{
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+
+}

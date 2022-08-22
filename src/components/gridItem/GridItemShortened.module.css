@@ -1,0 +1,109 @@
+.grid-item{
+    /* border: 1px darkgray solid; */
+    background-color: rgb(224, 222, 222);
+    height: 600px;
+    width: 444px;
+    margin-bottom: 30px;
+    margin-right: 26px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    font-size: x-large;
+    border-radius: 20px;
+    /* padding: 4px; */
+    box-shadow: 0px 1px 10px  rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+}
+
+.image{
+    border: none;
+    object-fit:cover;
+      /* flex: 1; */
+      height: 304px;
+      width: 100%;
+      object-fit: cover;
+      object-position:center;
+      /* border-radius: inherit; */
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+      z-index: 1;
+      margin: 0;
+      cursor: pointer;
+}
+
+
+.img-wrapper{
+    height: 300px;
+    width: 100%;
+    object-fit: cover;
+    object-position: right;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    /* overflow: visible; */
+    /* border-radius: inherit; */
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+    flex: 1;
+}
+  
+.content-wrapper{
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: lightgray;
+    /* margin-bottom: 20px; */
+    border-radius: 15px;
+
+}
+
+.item-name{
+    padding-top: 10.5px;
+    padding-bottom: 10.5px;
+    
+    width: 100%;
+    background-color: #c6c3c3;
+    /* height: 50px; */
+    border-radius: inherit;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    margin: 0;
+    z-index: 1;
+
+}
+
+.item-name p{
+    padding: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: 0;
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-weight: 500;
+
+}
+
+.mid-area{
+    flex: 1.5;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-height: 180px;
+    /* overflow: hidden; */
+    /* height: 120%; */
+    /* background-color: lightgray; */
+
+}
+
