@@ -2,7 +2,7 @@ import { useContext } from "react"
 import { componentsContext } from "../../store/components-context"
 import "./ProductsGridItemMidArea.css"
 
-const ProductsGridItemMidArea:React.FC<{components:[number]}> = (props) => {
+const ProductsGridItemMidArea:React.FC<{components:number[]}> = (props) => {
 
     const componentsCtx = useContext(componentsContext);
 
