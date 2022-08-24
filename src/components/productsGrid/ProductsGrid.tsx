@@ -20,15 +20,17 @@ import { productsContext } from "../../store/products-context";
 import AddNewProductCard from "../addNewProductCard/AddNewProductCard";
 import GridItem from "../gridItem/GridItem";
 import ProductsGridItemMidArea from "../productsGridItemMidArea/ProductsGridItemMidArea";
+import { searchFilterContext } from "../../store/search-filter-context";
 
 
 const ProductsGrid:React.FC<{}> = (props) =>{
 
     const productsCtx = useContext(productsContext);
+    const searchCtx = useContext(searchFilterContext);
 
     let content = 
     <Fragment>
-            {productsCtx.products.map((product:any, index:number) => <GridItem isDetailedView={false} onClose={()=>{}} midArea={<ProductsGridItemMidArea components={product.productComponents}/>} 
+            {searchCtx.filterByName(productsCtx.products).map((product:any, index:number) => <GridItem isDetailedView={false} onClose={()=>{}} midArea={<ProductsGridItemMidArea components={product.productComponents}/>} 
                 key={index} imgLink={computerStockImage} itemProps={product} itemId={'p'+index}/>)}
             <AddNewProductCard/>
     </Fragment>

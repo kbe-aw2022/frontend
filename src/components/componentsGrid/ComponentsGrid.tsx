@@ -15,12 +15,14 @@ import mouseStockImage from "../../resources/images/mouse.jpg"
 import keyboardStockImage from "../../resources/images/keyboard.jpg"
 import { component, componentsContext } from "../../store/components-context";
 import ComponentsGridItemMidArea from "../componentsGridItemMidArea/ComponentsGridItemMidArea";
+import { searchFilterContext } from "../../store/search-filter-context";
 
 
 
 const ComponentsGrid:React.FC<{}> = (props) =>{
 
     const componentsCtx = useContext(componentsContext);
+    const searchCtx = useContext(searchFilterContext);
    
     const componentTypeImages :any = {
         "mainboard" : mainboardStockImage,
@@ -35,6 +37,8 @@ const ComponentsGrid:React.FC<{}> = (props) =>{
         "Blueray-drive" : driveStockImage,
         "PC Case" : caseStockImage
     }
+
+
     
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -65,7 +69,7 @@ const ComponentsGrid:React.FC<{}> = (props) =>{
     // productTypeImages[component.product_type]
 
     if(!loading && error==null){
-        content = componentsCtx.components.map((component:any, index:number) => <GridItem onClose={()=>{}} isDetailedView={false} midArea={<ComponentsGridItemMidArea componentProps={component} isDetailedView={false}/>} key={index} imgLink={componentTypeImages[component.product_group]} itemProps={component} itemId={'c'+index}/>)
+        content = searchCtx.filterByNameAndKeyWords(componentsCtx.components).map((component:any, index:number) => <GridItem onClose={()=>{}} isDetailedView={false} midArea={<ComponentsGridItemMidArea componentProps={component} isDetailedView={false}/>} key={index} imgLink={componentTypeImages[component.product_group]} itemProps={component} itemId={'c'+index}/>)
     }
 
     if(error){
