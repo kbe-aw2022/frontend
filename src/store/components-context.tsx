@@ -2,7 +2,8 @@ import React, { useState } from "react";
 
 type componentsContextObj ={
     components:component[],
-    setComponents:(components:component[])=>void
+    setComponents:(components:component[])=>void,
+    updateComponentPricesByCurrency:(exchangeRate:number, targetCurrencyCode:string)=>void
 };
 
 export type component = {
@@ -20,14 +21,27 @@ export type component = {
   ean_number:string
 }
 
-export const componentsContext = React.createContext<componentsContextObj>({components:[], setComponents:()=>{}});
+export const componentsContext = React.createContext<componentsContextObj>({components:[], setComponents:()=>{}, updateComponentPricesByCurrency:()=>{}});
 
 const ComponentsContextProvider:React.FC<{children?: React.ReactNode}> = (props) => {
     const [components,setComponents] = useState<component[]>([]);
+
+    const updateComponentPricesByCurrency = (exchangeRate:number,targetCurrencyCode:string) =>{
+
+      setComponents((components)=>{
+          return components.map((component)=>{
+              console.log("rate"+exchangeRate);
+              const newPrice = (targetCurrencyCode === "BTC") ? ""+parseFloat(component.price)*exchangeRate : (parseFloat(component.price)*exchangeRate).toFixed(2);
+              return {...component, price:newPrice}
+          })
+      });
+
+    }
     
     const componentsContextValue:componentsContextObj ={
         components:components,
-        setComponents: setComponents
+        setComponents: setComponents,
+        updateComponentPricesByCurrency:updateComponentPricesByCurrency
     }
 
 
