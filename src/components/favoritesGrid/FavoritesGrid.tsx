@@ -19,6 +19,7 @@ import { productsContext } from "../../store/products-context";
 import ProductsGridItemMidArea from "../productsGridItemMidArea/ProductsGridItemMidArea";
 import { favoritesContext } from "../../store/favorites-context";
 import { componentsContext } from "../../store/components-context";
+import { searchFilterContext } from "../../store/search-filter-context";
 
 
 
@@ -44,6 +45,7 @@ const FavoritesGrid:React.FC<{}> = (props) =>{
     const componentCtx = useContext(componentsContext);
     const productCtx = useContext(productsContext);
     const favoritesCtx = useContext(favoritesContext);
+    const searchCtx = useContext(searchFilterContext);
 
 
     const fetchComponents = async () => {
@@ -77,9 +79,9 @@ const FavoritesGrid:React.FC<{}> = (props) =>{
         }else{
 
             content = <Fragment>
-                {productCtx.products.filter((product)=>{return favoritesCtx.favorites.includes('p'+product.id)}).map((product:any, index:number) => <GridItem isDetailedView={false} onClose={()=>{}} midArea={<ProductsGridItemMidArea components={product.productComponents}/>} 
+                {searchCtx.filterByName(productCtx.products).filter((product)=>{return favoritesCtx.favorites.includes('p'+product.id)}).map((product:any, index:number) => <GridItem isDetailedView={false} onClose={()=>{}} midArea={<ProductsGridItemMidArea components={product.productComponents}/>} 
                 key={index} imgLink={computerStockImage} itemProps={product} itemId={'p'+index}/>)}
-                {componentCtx.components.filter((component)=>{return favoritesCtx.favorites.includes('c'+component.id)}).map((component) => <GridItem isDetailedView={false} onClose={()=>{}} midArea={<ComponentsGridItemMidArea componentProps={component} isDetailedView={false}/>} key={component.id} imgLink={productTypeImages[component.product_group]} itemProps={component} itemId={'c'+component.id} />)}
+                {searchCtx.filterByNameAndKeyWords(componentCtx.components).filter((component)=>{return favoritesCtx.favorites.includes('c'+component.id)}).map((component) => <GridItem isDetailedView={false} onClose={()=>{}} midArea={<ComponentsGridItemMidArea componentProps={component} isDetailedView={false}/>} key={component.id} imgLink={productTypeImages[component.product_group]} itemProps={component} itemId={'c'+component.id} />)}
             </Fragment> 
         }
     }
