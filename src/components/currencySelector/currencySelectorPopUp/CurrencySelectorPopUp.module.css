@@ -1,0 +1,15 @@
+.currency-list{
+    overflow:scroll;
+    /* text-overflow: ellipsis; */
+    width: 85%;
+    /* height: 250px; */
+    max-height: 294px;
+    justify-self:flex-start;
+    padding: 10px;
+    padding-bottom:0px;
+    padding-top: 0px;
+    margin-top: 9px;
+    background-color: rgb(230, 227, 227);
+    border-radius: 15px;
+    margin-bottom: 0;
+}

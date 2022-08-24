@@ -1,10 +1,11 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useContext, useEffect, useRef, useState } from "react";
 import { component } from "../../store/components-context";
 import { product } from "../../store/products-context";
 import ComponentDetailViewModal from "../componentDetailViewModal/ComponentDetailViewModal";
 import GridItemBottomBar from "../gridItemBottomBar/GridItemBottomBar";
 import shortenedStyle from "./GridItemShortened.module.css";
 import detailedStyle from "./GridItemDetailed.module.css";
+import { currencyContext } from "../../store/currency-context";
 
 
 const GridItem:React.FC<{isDetailedView:boolean, onClose:()=>void, imgLink:string, 
@@ -15,6 +16,8 @@ const GridItem:React.FC<{isDetailedView:boolean, onClose:()=>void, imgLink:strin
   const itemNameRef = useRef<HTMLParagraphElement>(null);
 
   const [isOverflow, setIsOverflow] = useState(false);
+
+  const currencyCtx = useContext(currencyContext);
 
   
   const openModal = () => {
@@ -60,7 +63,7 @@ const GridItem:React.FC<{isDetailedView:boolean, onClose:()=>void, imgLink:strin
         <div className={gridItemStyle["mid-area"]}>
           {props.midArea}
         </div>
-        <GridItemBottomBar isDetailedView={props.isDetailedView} onClick={openModal} itemId={props.itemId} price={parseFloat(props.itemProps.price)} currency={"Euro"} />
+        <GridItemBottomBar isDetailedView={props.isDetailedView} onClick={openModal} itemId={props.itemId} price={parseFloat(props.itemProps.price)} currency={currencyCtx.currency.symbol} />
       </div>
       
     </div>

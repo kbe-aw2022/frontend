@@ -48,7 +48,7 @@ const ComponentsGrid:React.FC<{}> = (props) =>{
         const fetchComponents = async () => {
         setLoading(true);
         try {
-            const response = await fetch("https://87scpi.deta.dev/components");
+            const response = await fetch("https://0lzfoo.deta.dev/components");
             if(!response.ok){
                 throw new Error(response.statusText);
             }

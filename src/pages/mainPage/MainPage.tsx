@@ -9,6 +9,7 @@ import ProductsContextProvider from "../../store/products-context";
 import ShoppingCartContextProvider from "../../store/shoppingCard-context";
 import FavoritesContextProvider from "../../store/favorites-context";
 import SearchFilterContextProvider from "../../store/search-filter-context";
+import CurrencyContextProvider from "../../store/currency-context";
 
 
 const MainPage:React.FC = () => {
@@ -16,18 +17,20 @@ const MainPage:React.FC = () => {
         <div className="main">
             <ViewContextProvider>
                 <SideBar></SideBar>
-                <ComponentsContextProvider>
-                    <ProductsContextProvider>
-                      <ShoppingCartContextProvider>
-                        <FavoritesContextProvider>
-                         <SearchFilterContextProvider>
-                            <Header></Header>
-                            <GridView></GridView>
-                         </SearchFilterContextProvider>
-                        </FavoritesContextProvider>
-                      </ShoppingCartContextProvider>
-                    </ProductsContextProvider>
-                </ComponentsContextProvider>
+                <CurrencyContextProvider>
+                  <ComponentsContextProvider>
+                      <ProductsContextProvider>
+                        <ShoppingCartContextProvider>
+                          <FavoritesContextProvider>
+                           <SearchFilterContextProvider>
+                              <Header></Header>
+                              <GridView></GridView>
+                           </SearchFilterContextProvider>
+                          </FavoritesContextProvider>
+                        </ShoppingCartContextProvider>
+                      </ProductsContextProvider>
+                    </ComponentsContextProvider>
+                  </CurrencyContextProvider>
             </ViewContextProvider>
         </div>
     );

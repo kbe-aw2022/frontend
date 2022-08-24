@@ -12,7 +12,7 @@ describe("shoppingCartPopUp",()=>{
     const dummyProducts=[{id:1,name:"testProduct",price:"5",productComponents:[0]}] 
     const dummyShoppingCart=[{itemId:"c1", amount:1}, {itemId:"p1", amount:1}]
     const shoppingCartContextValue = {shoppingCart:dummyShoppingCart, addToCart:()=>{}, decreaseAmount:()=>{}, removeFromCart:()=>{}, isInCart:()=>{return true}, getCartItemAmountById:()=>{return 2}, setCartItemAmountById:()=>{}, getCartItemsAmount:()=>{return 1}}
-    const componentsContextValue = {components:dummyComponents , setComponents:()=>{}};
+    const componentsContextValue = {components:dummyComponents , setComponents:()=>{}, updateComponentPricesByCurrency:()=>{}};
     const productsContextValue = {products:dummyProducts, setProducts:()=>{}};
 
 
