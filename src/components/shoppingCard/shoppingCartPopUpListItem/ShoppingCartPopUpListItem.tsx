@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { currencyContext } from "../../../store/currency-context";
 import styles from "./ShoppingCartPopUpListItem.module.css"
 
 const ShoppingCartPopUpListItem:React.FC<{itemId:string, itemName:string, itemAmount:number, price:number, onIncreaseAmount:(id:string)=>void, onDecreaseAmount:(id:string)=>void, onRemove:(id:string)=>void, onInput:(id:string, amount:number)=>void}> = (props) => {
@@ -6,6 +7,8 @@ const ShoppingCartPopUpListItem:React.FC<{itemId:string, itemName:string, itemAm
   const [removeButtonIsShown, setRemoveButtonIsShown] = useState(false);
   const [isOverflow, setIsOverflow] = useState(false);
   const [inputValue, setInputValue] = useState(""+props.itemAmount);
+
+  const currencyCtx = useContext(currencyContext);
 
   const itemNameRef = useRef<HTMLParagraphElement>(null);
 
@@ -79,7 +82,7 @@ const ShoppingCartPopUpListItem:React.FC<{itemId:string, itemName:string, itemAm
     <li className={styles["shopping-cart-list-item"]} onMouseEnter={mouseEnterHandler} onMouseLeave={mouseLeaveHandler}>
       { isOverflow? <p className={styles["shopping-cart-list-item-name"]} ref={itemNameRef} title={props.itemName}>{props.itemName}</p> : <p className={styles["shopping-cart-list-item-name"]} ref={itemNameRef} >{props.itemName}</p> }
       <div className={styles["shopping-cart-list-item-price-amount-detail-bar"]}>
-        <p className={styles["shopping-cart-list-item-price-tag"]}>{props.price}&euro;</p>
+        <p className={styles["shopping-cart-list-item-price-tag"]}>{props.price}{currencyCtx.currency.symbol}</p>
         {removeButtonIsShown ? <button className={styles["remove-button"]} onClick={removeButtonHandler}>x</button> : null}
         <button onClick={decreaseButtonHandler}>{'<'}</button>
         <input type="text" className={styles["shopping-cart-list-item-amount"]} value={inputValue} onKeyDown={keyDownHandler} onChange={changeInputHandler} onBlur={loseFocusHandler}></input>

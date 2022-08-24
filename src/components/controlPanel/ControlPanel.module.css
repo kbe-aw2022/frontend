@@ -1,0 +1,135 @@
+.control-panel{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.control-panel img{
+    height: 40px;
+    width: 40px;
+    object-fit: fill;
+    cursor: pointer;
+}
+
+
+.shopping-cart-selector{
+    flex: 1;
+    padding-right: 20px;
+    position: relative;
+}
+
+.shopping-cart-button{
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+    
+}
+.shopping-cart-button :hover{
+    background-color: rgba(0, 0, 0, 0);
+}
+
+
+.shopping-cart-icon-count{
+    position: absolute;
+    background-color: rgb(238, 107, 107);
+    /* background-color: rgb(229, 226, 226); */
+    border: solid black 2px;
+    color: black;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 6px;
+    padding-right: 6px;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: bold;
+    right: 8px;
+    top: -6px;
+}
+
+.shopping-cart-popup-position{
+    position: absolute;
+    top:56px;
+    left: -118px;
+}
+
+.currency-selector-popup-position{
+    position: absolute;
+    top:56px;
+    left: -150px;
+}
+
+
+.currency-selector-button,.account-selector,.shopping-cart-selector{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    height: 42px;
+
+}
+
+.currency-selector-button,.account-selector{
+    /* background-color: rgb(224, 222, 222); */
+    border-radius: 2px;
+}
+
+.user-name:hover,.currency-name:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.currency-selector{
+    padding-right: 20px;
+    border-left: 3px solid black;
+    padding-left: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.currency-icon-and-popup-wrapper{
+    position: relative;
+}
+
+.user-name,.currency-name{
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+.currency-selector-button{
+ 
+    /* padding-right: 20px;
+    border-left: 3px solid black;
+    padding-left: 15px; */
+    border: none;
+    box-shadow: none;
+    background-color: rgba(255, 255, 255, 0);
+  
+}
+
+.currency-icon{
+   position: relative;
+}
+
+.background-gradient{
+    background-image:linear-gradient(90deg, rgb(224, 222, 222) 77%, rgb(240, 236, 236) 100%);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.account-selector{
+    flex: 1;
+}
+
+
+
+/* .cart-icon{
+   
+} */
+
+/* .user-icon{
+   
+} */
