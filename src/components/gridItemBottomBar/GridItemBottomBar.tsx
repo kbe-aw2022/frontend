@@ -9,7 +9,7 @@ const GridItemBottomBar:React.FC<{ isDetailedView:boolean, onClick:()=>void, ite
 
   let infoButton = <button className={styles["info-button"]} onClick={props.onClick}><img src={infoButtonIcon} alt="info button" className={styles["info-button-icon"]} /></button>;
 
-  console.log("btm render")
+  // console.log("btm render")
   return (
     <div className={styles["grid-item-bottom-bar"]}>
         <p className={styles["price-tag"]}>{props.price + " "+props.currency}</p>

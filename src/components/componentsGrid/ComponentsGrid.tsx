@@ -16,6 +16,7 @@ import keyboardStockImage from "../../resources/images/keyboard.jpg"
 import { component, componentsContext } from "../../store/components-context";
 import ComponentsGridItemMidArea from "../componentsGridItemMidArea/ComponentsGridItemMidArea";
 import { searchFilterContext } from "../../store/search-filter-context";
+import { currencyContext } from "../../store/currency-context";
 
 
 
@@ -23,15 +24,16 @@ const ComponentsGrid:React.FC<{}> = (props) =>{
 
     const componentsCtx = useContext(componentsContext);
     const searchCtx = useContext(searchFilterContext);
+    const currencyCtx = useContext(currencyContext);
    
     const componentTypeImages :any = {
-        "mainboard" : mainboardStockImage,
+        "Mainboard" : mainboardStockImage,
         "RAM": ramStockImage,
         "Cooling fan" : coolerStockImage,
         "GPU" : gpuStockImage,
         "CPU" : cpuStockImage,
         "SSD" : hddStockImage,
-        "power-supply" : psuStockImage,
+        "Power-supply" : psuStockImage,
         "Mouse" : mouseStockImage,
         "Keyboard" : keyboardStockImage,
         "Blueray-drive" : driveStockImage,
@@ -45,6 +47,24 @@ const ComponentsGrid:React.FC<{}> = (props) =>{
 
     
     useEffect(()=>{
+
+        const fetchCurrencyExchangeRate = async (oldCurrencyCode:string, targetCurrencyCode:string) => {     
+            try {
+                const response:any = await fetch("https://0lzfoo.deta.dev/currencies/"+oldCurrencyCode+"/"+targetCurrencyCode);
+                if(!response.ok){
+                    throw new Error(response.statusText);
+                }
+                const data = await response.json();
+                const exchangeRateObj = data;
+                if(exchangeRateObj!==undefined && exchangeRateObj.rate!==undefined){
+                    componentsCtx.updateComponentPricesByCurrency(exchangeRateObj.rate,targetCurrencyCode);
+                }
+                return exchangeRateObj;
+            } catch (error:any) {
+                console.log(error);
+            }
+        }
+
         const fetchComponents = async () => {
         setLoading(true);
         try {
@@ -54,6 +74,7 @@ const ComponentsGrid:React.FC<{}> = (props) =>{
             }
             const data:component[] = await response.json();
             componentsCtx.setComponents(data);
+            fetchCurrencyExchangeRate("EUR", currencyCtx.currency.code);
             console.log(data);
             // return data;
         } catch (error:any) {
@@ -61,6 +82,8 @@ const ComponentsGrid:React.FC<{}> = (props) =>{
         }
         setLoading(false)
     }
+
+
     fetchComponents();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
@@ -69,7 +92,7 @@ const ComponentsGrid:React.FC<{}> = (props) =>{
     // productTypeImages[component.product_type]
 
     if(!loading && error==null){
-        content = searchCtx.filterByNameAndKeyWords(componentsCtx.components).map((component:any, index:number) => <GridItem onClose={()=>{}} isDetailedView={false} midArea={<ComponentsGridItemMidArea componentProps={component} isDetailedView={false}/>} key={index} imgLink={componentTypeImages[component.product_group]} itemProps={component} itemId={'c'+index}/>)
+        content = searchCtx.applyTypeFilters(searchCtx.applyVendorFilters(searchCtx.filterByNameAndKeyWords(componentsCtx.components))).map((component:any, index:number) => <GridItem onClose={()=>{}} isDetailedView={false} midArea={<ComponentsGridItemMidArea componentProps={component} isDetailedView={false}/>} key={index} imgLink={componentTypeImages[component.product_group]} itemProps={component} itemId={'c'+index}/>)
     }
 
     if(error){

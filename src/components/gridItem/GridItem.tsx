@@ -42,8 +42,8 @@ const GridItem:React.FC<{isDetailedView:boolean, onClose:()=>void, imgLink:strin
     }
   }  , [itemName]);
 
-  if(!props.isDetailedView){
-  console.log(`griditem ${props.itemId} render!`)}
+  // if(!props.isDetailedView){
+  // console.log(`griditem ${props.itemId} render!`)}
   
   return (
 

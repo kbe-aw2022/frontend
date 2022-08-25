@@ -29,9 +29,10 @@ const CurrencySelectorListItem:React.FC<{ currency:currency }> = (props) => {
         const oldCurrencyCode = currencyCtx.currency.code;
         const targetCurrencyCode = props.currency.code;
         const exchangeRateObj = await fetchCurrencyExchangeRate(oldCurrencyCode, targetCurrencyCode);
-        if(exchangeRateObj!==undefined && exchangeRateObj.rates!==undefined){
-            componentsCtx.updateComponentPricesByCurrency(exchangeRateObj.rates[targetCurrencyCode],targetCurrencyCode);
-            currencyCtx.setCurrency(props.currency);
+        if(exchangeRateObj!==undefined && exchangeRateObj.rate!==undefined){
+            console.log(exchangeRateObj.rate)
+            componentsCtx.updateComponentPricesByCurrency(exchangeRateObj.rate,targetCurrencyCode);
+            currencyCtx.setCurrency({...props.currency, exchangeRate:exchangeRateObj.rate});
         }
 
     }
