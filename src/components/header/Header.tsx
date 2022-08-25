@@ -1,26 +1,39 @@
 
 import SearchBar from "../searchBar/SearchBar";
-import "./Header.css";
+import styles from "./Header.module.css";
 import filterIcon from "../../resources/icons/filter-line.svg"
 import ControlPanel from "../controlPanel/ControlPanel";
+import { useContext, useState } from "react";
+import FilterPopUp from "../filterPopUp/FilterPopUp";
+import { viewContext } from "../../store/view-context";
 
 const Header:React.FC = () =>{
+
+    const [filterPopUpIsShown, setfilterPopUpIsShown] = useState(false);
+    const viewCtx = useContext(viewContext);
+
+    const onClickHandler = ()=>{
+        filterPopUpIsShown ? setfilterPopUpIsShown(false) : setfilterPopUpIsShown(true);
+    }
     
     return(
 
-        <header className="header">
-            <div className="header-left-section">
-                  <div className="company-logo">
-                      <p className="company-name">Computer-Store</p>
+        <header className={styles["header"]}>
+            <div className={styles["header-left-section"]}>
+                  <div className={styles["company-logo"]}>
+                      <p className={styles["company-name"]}>Computer-Store</p>
                   </div>
             </div>
-            <div className="header-mid-section">
+            <div className={styles["header-mid-section"]}>
                 <SearchBar></SearchBar>
-                <button className="filter-button">
-                    <img className="filter-icon" src={filterIcon} alt="not loaded"></img>
+                <button className={styles["filter-button"]} onClick={onClickHandler} disabled={viewCtx.view==="products"}>
+                    <img className={styles["filter-icon"]} src={filterIcon} alt={styles["not loaded"]}></img>
                 </button>
+                <span className={styles["filter-popup-position"]}>
+                    {filterPopUpIsShown? <FilterPopUp closePopUpHandler={onClickHandler}/>:null}
+                </span>
             </div>
-            <div className="header-right-section">
+            <div className={styles["header-right-section"]}>
                 <ControlPanel></ControlPanel>
             </div>
         </header>

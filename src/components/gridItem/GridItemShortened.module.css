@@ -18,7 +18,6 @@
 
 .image{
     border: none;
-    object-fit:cover;
       /* flex: 1; */
       height: 304px;
       width: 100%;

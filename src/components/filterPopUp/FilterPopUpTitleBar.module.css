@@ -1,0 +1,31 @@
+.filter-popup-title-bar{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    align-items: center;
+    position: relative;
+    width: 100%;
+}
+
+.reset-button{
+    background-color: rgba(240, 248, 255, 0);
+    border: none;
+    cursor: pointer;
+    max-width: 20px;
+    max-height: 20px;
+    margin-right: 9px;
+    right: 10px;
+}
+
+.reset-button-icon{
+    object-fit: cover;
+    object-position:center;
+    width: 20px;
+    height: 20px;
+}
+
+.component-types-title{
+    /* position: absolute; */
+    font-weight: 500;
+    
+}
