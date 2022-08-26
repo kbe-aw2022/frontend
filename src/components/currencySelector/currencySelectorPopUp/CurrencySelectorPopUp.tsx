@@ -55,7 +55,7 @@ const CurrencySelectorPopUp:React.FC<{closePopUpHandler:()=>void}> = (props) => 
     }
 
   return (
-    <PopUp popUpTitle="Currencies" onClose={props.closePopUpHandler}>
+    <PopUp popUpTitle="Currencies" size={{width: 300,height: 360}} onClose={props.closePopUpHandler}>
         {content}
     </PopUp>
   )

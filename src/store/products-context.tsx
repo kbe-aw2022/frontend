@@ -25,7 +25,6 @@ const ProductsContextProvider:React.FC<{children?: React.ReactNode}> = (props) =
     setProducts: setProducts,
   }
 
-
   return (
     <productsContext.Provider value={productsContextValue}>{props.children}</productsContext.Provider>
     )

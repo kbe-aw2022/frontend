@@ -63,7 +63,7 @@ const ShoppingCartPopUp:React.FC<{closePopUpHandler:()=>void}> = (props) => {
 
 
   return (
-      <PopUp popUpTitle="Shopping Cart" onClose={props.closePopUpHandler}>
+      <PopUp popUpTitle="Shopping Cart" size={{width: 300,height: 360}} onClose={props.closePopUpHandler}>
         <span className={styles["shopping-cart-popup-body"]}>
             {content}
             <div className={styles["shopping-cart-popup-bottom-bar"]}>

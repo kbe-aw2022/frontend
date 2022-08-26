@@ -6,11 +6,13 @@ import ControlPanel from "../controlPanel/ControlPanel";
 import { useContext, useState } from "react";
 import FilterPopUp from "../filterPopUp/FilterPopUp";
 import { viewContext } from "../../store/view-context";
+import { searchFilterContext } from "../../store/search-filter-context";
 
 const Header:React.FC = () =>{
 
     const [filterPopUpIsShown, setfilterPopUpIsShown] = useState(false);
     const viewCtx = useContext(viewContext);
+    const searchCtx = useContext(searchFilterContext);
 
     const onClickHandler = ()=>{
         filterPopUpIsShown ? setfilterPopUpIsShown(false) : setfilterPopUpIsShown(true);
@@ -25,7 +27,9 @@ const Header:React.FC = () =>{
                   </div>
             </div>
             <div className={styles["header-mid-section"]}>
-                <SearchBar></SearchBar>
+                <span className={styles["search-bar-wrapper"]}>
+                    <SearchBar onSetSearchFilter={searchCtx.setSearchFilter} inputValue={searchCtx.searchFilter}></SearchBar>
+                </span>
                 <button className={styles["filter-button"]} onClick={onClickHandler} disabled={viewCtx.view==="products"}>
                     <img className={styles["filter-icon"]} src={filterIcon} alt={styles["not loaded"]}></img>
                 </button>

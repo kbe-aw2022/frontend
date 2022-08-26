@@ -1,12 +1,13 @@
+import CloseButton from "../../ui/CloseButton"
 import styles from "./PopUp.module.css"
 
-const PopUp:React.FC<{children?: React.ReactNode, popUpTitle:string, onClose:()=>void}> = (props) => {
+const PopUp:React.FC<{children?: React.ReactNode, popUpTitle:string, size:{width:number, height:number}, onClose:()=>void}> = (props) => {
     return (
  
-        <div className={styles.popup}>
+        <div className={styles.popup} style={props.size}>
             <div className={styles["popup-top-bar"]}>
                 <p>{props.popUpTitle}</p>
-                <button className={styles["popup-close-button"]} onClick={props.onClose}>X</button>
+                <CloseButton onClose={props.onClose}/>
             </div>
             {props.children}
         </div>

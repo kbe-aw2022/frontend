@@ -1,0 +1,109 @@
+.create-product-form{
+    /* height: 600px;
+    width: 744px; */
+    flex: 1;
+    width: 70%;
+    max-height: 490px;
+    margin-top: 14px;
+    background-color: #d3d3d3;
+    /* position: relative; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    /* top:25px; */
+}
+
+.create-product-form label{
+    align-self: flex-start;
+    font-size: 24px;
+}
+
+.create-product-form input{
+    border-radius: 8px;
+}
+
+.create-product-form textarea{
+    resize: none;
+}
+
+
+.create-product-form input, textarea{
+    width: 100%;
+    font-size: 18px;
+}
+
+.product-name-input{
+    width: 100%;
+}
+
+.product-description-input{
+    height: 110px;
+}
+
+.components-list{
+    width: 100%;
+    max-height: 205px;
+    height: 205px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: scroll;
+    padding: 0px;
+    margin-top: 9px;
+    margin-bottom: 8px;
+    background-color: rgb(230, 227, 227);
+    border-radius: 15px;
+}
+
+
+.component-list-item-no-scroll{  
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    /* overflow: hidden; */
+    max-height: 40px;
+    height: 40px;
+    width: 94%;
+    margin: 0px;
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    bottom: 0;
+}
+
+
+.add-component-button{
+    width: 100%;
+    height: 40px;
+    border: 2px solid gray;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.add-component-button:disabled{
+    cursor:initial;
+    background-color: rgb(167, 167, 167);
+    border: 1px solid rgb(167, 167, 167);
+}
+
+.submit-button{
+    margin-right: 8px;
+}
+
+.submit-button, .close-button{
+    font-size: 20px;
+    margin-bottom: 0;
+    cursor: pointer;
+}
+
+.total-price{
+    font-size: 20px;
+    margin-top: 8px;
+    margin-bottom: 0px;
+}
+

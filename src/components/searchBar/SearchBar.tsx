@@ -1,27 +1,24 @@
 import styles from "./SearchBar.module.css";
 import searchIcon from "../../resources/icons/magnifier-glass.svg"
-import React, { useContext, useRef } from "react";
-import { searchFilterContext } from "../../store/search-filter-context";
+import React, { useRef } from "react";
 
-const SearchBar:React.FC = () => {
-
-  const searchCtx = useContext(searchFilterContext);
+const SearchBar:React.FC<{onSetSearchFilter:(filter:string)=>void, inputValue:string}> = (props) => {
 
   const inputRef = useRef<HTMLInputElement>(null);
 
   const onChangeHandler = (event:React.ChangeEvent<HTMLInputElement>) =>{
-    searchCtx.setSearchFilter(event.target.value)
+    props.onSetSearchFilter(event.target.value);
   }
 
   const onClickHandler = () =>{
     if(inputRef.current!==null){
-      searchCtx.setSearchFilter(inputRef.current.value)
+      props.onSetSearchFilter(inputRef.current.value);
     }
   }
 
   return (
     <div className={styles["search-bar"]}>
-      <input className={styles["search-input"]} ref={inputRef} type="text" placeholder="Search...  (by name/type ex: gpu)" value={searchCtx.searchFilter} onChange={onChangeHandler}></input>
+      <input className={styles["search-input"]} ref={inputRef} type="text" placeholder="Search...  (by name/type ex: gpu)" value={props.inputValue} onChange={onChangeHandler}></input>
       <button className={styles["search-button"]} onClick={onClickHandler}>
         <img src={searchIcon} alt="not loaded"></img>
       </button>

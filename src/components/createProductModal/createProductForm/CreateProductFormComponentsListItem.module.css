@@ -1,0 +1,80 @@
+.component-list-item{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    /* overflow: hidden; */
+    max-height: 40px;
+    height: 40px;
+    width: 94%;
+    margin: 0px;
+    border-radius: 8px;
+    border: thin solid gray;
+    cursor: pointer;
+}
+
+.component-list-item-selected{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    /* overflow: hidden; */
+    max-height: 40px;
+    height: 40px;
+    width: 94%;
+    margin: 0px;
+    border-radius: 8px;
+    background-color: gray;
+    border: thin solid gray;
+}
+
+.component-list-item-no-scroll{  
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    /* overflow: hidden; */
+    max-height: 40px;
+    height: 40px;
+    width: 94%;
+    margin: 0px;
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    bottom: 0;
+}
+
+
+.component-list-item:not(:first-child) {
+    border-top: none;
+   
+}
+
+.component-list-item-type{
+    width: 100px;
+    max-width: 100px;
+    text-align: left;
+    margin-left: 4px;
+}
+
+.component-list-item-name{
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+.currency-close-button-wrapper{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.remove-button{
+    margin-left: 4px;
+    margin-right: 4px;
+    cursor: pointer;
+}
