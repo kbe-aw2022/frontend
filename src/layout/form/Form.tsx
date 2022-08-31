@@ -15,7 +15,7 @@ const Form:React.FC<{children?: React.ReactNode, formTitle:string, submitButtonN
                 <CloseButton onClose={props.onClose}/>
             </div>
             {props.children}
-            <span>
+            <span className={styles["form-buttons"]}>
                 <button className={styles["submit-button"]} type="submit">{props.submitButtonName}</button>
                 <button className={styles["close-button"]} onClick={onCancelButtonClickHandler} type="button">Cancel</button>
             </span>
