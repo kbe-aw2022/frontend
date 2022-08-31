@@ -6,27 +6,48 @@ import GridItemBottomBar from "../gridItemBottomBar/GridItemBottomBar";
 import shortenedStyle from "./GridItemShortened.module.css";
 import detailedStyle from "./GridItemDetailed.module.css";
 import { currencyContext } from "../../store/currency-context";
+import CreateProductForm from "../createProductModal/createProductForm/CreateProductForm";
 
 
-const GridItem:React.FC<{isDetailedView:boolean, onClose:()=>void, imgLink:string, 
+const GridItem:React.FC<{isDetailedView:boolean, onClose:()=>void, imgLink:string, isProduct:boolean, fetchProducts:(()=>void),
       itemProps:component|product, itemId:string, midArea:React.ReactNode}> = (props) => {
   
   const [detailedViewModalIsShown, setDetailedViewModalIsShown] = useState(false);
+  const [createProductFormModalIsShown, setCreateProductFormModalIsShown] = useState(false);
 
   const itemNameRef = useRef<HTMLParagraphElement>(null);
 
   const [isOverflow, setIsOverflow] = useState(false);
 
   const currencyCtx = useContext(currencyContext);
-
   
   const openModal = () => {
-    
-    (!props.isDetailedView) ? setDetailedViewModalIsShown(true) :  setDetailedViewModalIsShown(false);
+    ('ean_number' in props.itemProps && !props.isDetailedView) ? setDetailedViewModalIsShown(true) :  setDetailedViewModalIsShown(false);
+    ('components' in props.itemProps) && setCreateProductFormModalIsShown(true)
   };
 
   const closeModal = () =>{
     setDetailedViewModalIsShown(false);
+  }
+
+  const sendRemove = () =>{
+    removeProduct();
+  }
+
+  const removeProduct = async () => {
+      try {
+        const response = await fetch("https://0lzfoo.deta.dev/products/"+props.itemProps.id,
+        {
+            method:"DELETE",
+            headers:{
+                "content-type":"application/json"
+            }
+        })
+        console.log(response);
+        props.fetchProducts && props.fetchProducts();
+    } catch (error) {
+        console.log("error:"+error);
+    }
   }
   
   let gridItemStyle = props.isDetailedView ? detailedStyle : shortenedStyle;
@@ -50,6 +71,8 @@ const GridItem:React.FC<{isDetailedView:boolean, onClose:()=>void, imgLink:strin
     <Fragment>
 
     {( detailedViewModalIsShown && 'ean_number' in props.itemProps) ? <ComponentDetailViewModal onClose={closeModal} imgLink={props.imgLink} componentProps={props.itemProps} itemId={props.itemId}/>:null}
+    {createProductFormModalIsShown && 'components' in props.itemProps ? <CreateProductForm product={props.itemProps} onAddProduct={props.fetchProducts} onClose={()=>{setCreateProductFormModalIsShown(false)}}/>:null}
+
 
     <div className={gridItemStyle["grid-item"]}>
       {props.isDetailedView ? <button className={gridItemStyle["close-button"]} onClick={props.onClose}>X</button>:null}
@@ -63,7 +86,7 @@ const GridItem:React.FC<{isDetailedView:boolean, onClose:()=>void, imgLink:strin
         <div className={gridItemStyle["mid-area"]}>
           {props.midArea}
         </div>
-        <GridItemBottomBar isDetailedView={props.isDetailedView} onClick={openModal} itemId={props.itemId} price={parseFloat(props.itemProps.price)} currency={currencyCtx.currency.symbol} />
+        <GridItemBottomBar isDetailedView={props.isDetailedView} onInfo={openModal} onRemove={props.isProduct ? sendRemove : null} itemId={props.itemId} price={parseFloat(props.itemProps.price)} currency={currencyCtx.currency.symbol} />
       </div>
       
     </div>

@@ -1,11 +1,11 @@
 import { Fragment } from "react"
-import "./Modal.css"
+import styles from  "./Modal.module.css"
 
 const Modal:React.FC<{children?: React.ReactNode, onClose:()=>void}> = (props) => {
   return (
       <Fragment>
-          <div className="modal">{props.children}</div>
-          <div className="backdrop" onClick={props.onClose}></div>
+          <div className={styles["modal"]}>{props.children}</div>
+          <div className={styles["backdrop"]} onClick={props.onClose}></div>
       </Fragment>
   )
 }

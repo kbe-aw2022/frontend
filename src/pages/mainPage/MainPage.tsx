@@ -24,7 +24,7 @@ const MainPage:React.FC = () => {
                           <FavoritesContextProvider>
                            <SearchFilterContextProvider>
                               <Header></Header>
-                              <GridView></GridView>
+                                <GridView></GridView>
                            </SearchFilterContextProvider>
                           </FavoritesContextProvider>
                         </ShoppingCartContextProvider>

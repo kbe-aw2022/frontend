@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { component } from "./components-context";
 import { product } from "./products-context";
+import searchFilterFunctions from "../util/searchFilter-functions";
 
 type searchFilterContextObj ={
     searchFilter:string,
@@ -36,11 +37,6 @@ export const searchFilterContext = React.createContext<searchFilterContextObj>({
         applyVendorFilters:(components:component[])=>[]
       });
  
-const productTypeKeyWords = ["mainboard","ram","gpu","cpu","ssd", "mouse", "keyboard"];
-const powerSupplyKeyWords = ["power supply", "power"];
-const coolingFanKeyWords =  ["cooling", "fan", "cooling fan"];
-const driveKeyWords = ["blueray", "drive"];
-const caseKeyWords = ["pc case", "computer case", "case"];
 
 const SearchFilterContextProvider:React.FC<{children?: React.ReactNode}> = (props) => {
 
@@ -49,53 +45,11 @@ const SearchFilterContextProvider:React.FC<{children?: React.ReactNode}> = (prop
     const [vendorFilters, setVendorFilters] = useState<filter[]>([]);
 
   const filterByNameAndKeyWords = (components:component[]) =>{
-    return components.filter((component)=>{
-      if(searchBoxFilter===""){
-          return component;
-      }
-      if(component.name.toLowerCase().includes(searchBoxFilter.toLowerCase())){
-          return component;
-      }
-      if(productTypeKeyWords.includes(searchBoxFilter.toLowerCase())){
-          if(component.product_group.toLowerCase()===searchBoxFilter.toLowerCase()){
-              return component;
-          }
-      }
-      if(powerSupplyKeyWords.includes(searchBoxFilter.toLowerCase())){
-          if(component.product_group==="power-supply"){
-              return component;
-          }
-      }
-      if(coolingFanKeyWords.includes(searchBoxFilter.toLowerCase())){
-          if(component.product_group==="Cooling fan"){
-              return component;
-          }
-      }
-      if(driveKeyWords.includes(searchBoxFilter.toLowerCase())){
-          if(component.product_group==="Blueray-drive"){
-              return component;
-          }
-      }
-      if(caseKeyWords.includes(searchBoxFilter.toLowerCase())){
-          if(component.product_group==="PC Case"){
-              return component;
-          }
-      }
-      return null;
-    })
+      return searchFilterFunctions.filterByNameAndKeyWords(components,searchBoxFilter);
   }
 
   const filterByName = (array:(product|component)[]) =>{
-
-    return array.filter((element)=>{
-      if(searchBoxFilter===""){
-        return element;
-      }
-      if(element.name.toLowerCase().includes(searchBoxFilter.toLowerCase())){
-          return element;
-      }
-      return null;
-    })
+      return searchFilterFunctions.filterByName(array,searchBoxFilter);
   }
 
   const addTypeFilter = (filter:filter)=>{

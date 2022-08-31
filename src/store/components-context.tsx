@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import updateCurrency from "../util/currencyUpdate-functions";
 
 type componentsContextObj ={
     components:component[],
     setComponents:(components:component[])=>void,
-    updateComponentPricesByCurrency:(exchangeRate:number, targetCurrencyCode:string)=>void
+    updateComponentPricesByCurrency:(exchangeRate:number, targetCurrencyCode:string, componentsToUpdate?:component[])=>void
 };
 
 export type component = {
@@ -26,15 +27,11 @@ export const componentsContext = React.createContext<componentsContextObj>({comp
 const ComponentsContextProvider:React.FC<{children?: React.ReactNode}> = (props) => {
     const [components,setComponents] = useState<component[]>([]);
 
-    const updateComponentPricesByCurrency = (exchangeRate:number,targetCurrencyCode:string) =>{
+    const updateComponentPricesByCurrency = (exchangeRate:number,targetCurrencyCode:string,componentsToUpdate=components) =>{
 
-      setComponents((components)=>{
-          return components.map((component)=>{
-              console.log("rate"+exchangeRate);
-              const newPrice = (targetCurrencyCode === "BTC") ? ""+parseFloat(component.price)*exchangeRate : (parseFloat(component.price)*exchangeRate).toFixed(2);
-              return {...component, price:newPrice}
-          })
-      });
+      setComponents((components:component[])=>{
+        return updateCurrency(components,exchangeRate,targetCurrencyCode) as component[];
+      })
 
     }
     

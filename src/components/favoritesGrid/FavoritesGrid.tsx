@@ -15,7 +15,7 @@ import psuStockImage from "../../resources/images/psu.jpg"
 import mouseStockImage from "../../resources/images/mouse.jpg"
 import keyboardStockImage from "../../resources/images/keyboard.jpg"
 import ComponentsGridItemMidArea from "../componentsGridItemMidArea/ComponentsGridItemMidArea";
-import { productsContext } from "../../store/products-context";
+import { product, productsContext } from "../../store/products-context";
 import ProductsGridItemMidArea from "../productsGridItemMidArea/ProductsGridItemMidArea";
 import { favoritesContext } from "../../store/favorites-context";
 import { componentsContext } from "../../store/components-context";
@@ -43,8 +43,8 @@ const FavoritesGrid:React.FC<{}> = (props) =>{
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const componentCtx = useContext(componentsContext);
-    const productCtx = useContext(productsContext);
+    const componentsCtx = useContext(componentsContext);
+    const productsCtx = useContext(productsContext);
     const favoritesCtx = useContext(favoritesContext);
     const currencyCtx = useContext(currencyContext);
     const searchCtx = useContext(searchFilterContext);
@@ -58,7 +58,25 @@ const FavoritesGrid:React.FC<{}> = (props) =>{
                 throw new Error(response.statusText);
             }
             const data = await response.json();
-            componentCtx.setComponents(data);
+            componentsCtx.setComponents(data);
+            console.log(data);
+            // return data;
+        } catch (error:any) {
+            setError(error.message);
+        }
+        setLoading(false)
+    }
+
+    const fetchProducts = async () => {
+        setLoading(true);
+        try {
+            const response = await fetch("https://0lzfoo.deta.dev/products");
+            if(!response.ok){
+                throw new Error(response.statusText);
+            }
+            const data:product[] = await response.json();
+            productsCtx.setProducts(data);
+            // fetchCurrencyExchangeRate("EUR", currencyCtx.currency.code);
             console.log(data);
             // return data;
         } catch (error:any) {
@@ -76,7 +94,7 @@ const FavoritesGrid:React.FC<{}> = (props) =>{
             const data = await response.json();
             const exchangeRateObj = data;
             if(exchangeRateObj!==undefined && exchangeRateObj.rate!==undefined){
-                componentCtx.updateComponentPricesByCurrency(exchangeRateObj.rate,targetCurrencyCode);
+                componentsCtx.updateComponentPricesByCurrency(exchangeRateObj.rate,targetCurrencyCode);
             }
             return exchangeRateObj;
         } catch (error:any) {
@@ -100,15 +118,15 @@ const FavoritesGrid:React.FC<{}> = (props) =>{
 
             content = <Fragment>
                 {   
-                    (searchCtx.typeFilters.length===0 && searchCtx.vendorFilters.length===0) &&
-                    searchCtx.filterByName(productCtx.products).filter((product)=>{return favoritesCtx.favorites.includes('p'+product.id)}).map((product:any, index:number) => 
-                    <GridItem isDetailedView={false} onClose={()=>{}} 
-                    midArea={<ProductsGridItemMidArea components={product.productComponents}/>} 
-                    key={index} imgLink={computerStockImage} itemProps={product} itemId={'p'+index}/>)
+                    (searchCtx.typeFilters.length===0 && searchCtx.vendorFilters.length===0) && searchCtx.filterByName(productsCtx.products).filter((product)=>
+                        {return favoritesCtx.favorites.includes('p'+product.id)}).map((product:any) => 
+                        <GridItem isDetailedView={false} onClose={()=>{}} isProduct={true} fetchProducts={fetchProducts} 
+                        midArea={<ProductsGridItemMidArea components={product.components.map((p:string)=>parseInt(p))}/>} 
+                        key={product.id} imgLink={computerStockImage} itemProps={product} itemId={'p'+product.id}/>)
                 }
 
 
-                {searchCtx.applyTypeFilters(searchCtx.applyVendorFilters(searchCtx.filterByNameAndKeyWords(componentCtx.components))).filter((component)=>{return favoritesCtx.favorites.includes('c'+component.id)}).map((component) => <GridItem isDetailedView={false} onClose={()=>{}} midArea={<ComponentsGridItemMidArea componentProps={component} isDetailedView={false}/>} key={component.id} imgLink={productTypeImages[component.product_group]} itemProps={component} itemId={'c'+component.id} />)}
+                {searchCtx.applyTypeFilters(searchCtx.applyVendorFilters(searchCtx.filterByNameAndKeyWords(componentsCtx.components))).filter((component)=>{return favoritesCtx.favorites.includes('c'+component.id)}).map((component) => <GridItem isDetailedView={false} onClose={()=>{}} isProduct={false} fetchProducts={()=>{}} midArea={<ComponentsGridItemMidArea componentProps={component} isDetailedView={false}/>} key={component.id} imgLink={productTypeImages[component.product_group]} itemProps={component} itemId={'c'+component.id} />)}
             </Fragment> 
         }
     }

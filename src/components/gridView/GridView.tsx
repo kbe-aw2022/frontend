@@ -35,7 +35,9 @@ const GridView:React.FC = () =>{
 
 
     return(
-            <div className="grid-view">{content}</div>
+            <>
+                <div className="grid-view">{content}</div>
+            </>
     )
 
 }

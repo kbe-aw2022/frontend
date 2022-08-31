@@ -35,7 +35,7 @@
 }
 
 
-.info-button{
+.info-button, .remove-button{
     background-color: rgba(128, 128, 128, 0);
     border: none;
     width: 44px;
@@ -47,7 +47,7 @@
     cursor: pointer;
 }
 
-.info-button-icon{
+.info-button-icon, .remove-button-icon{
     height: 100%;
     width: 100%;
 }

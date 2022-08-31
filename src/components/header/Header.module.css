@@ -60,8 +60,6 @@
     cursor:initial;
     background-color: rgb(167, 167, 167);
     border: 1px solid rgb(167, 167, 167);
-
-
 }
 
 .filter-popup-position{
@@ -75,4 +73,8 @@
     font-size: 40px;
     font-weight: 500;
     user-select: none;
+}
+
+.search-bar-wrapper{
+    min-width: 340px;
 }
