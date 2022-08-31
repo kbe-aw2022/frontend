@@ -2,7 +2,6 @@ import "./AddNewProductCard.css"
 import plusIcon from "../../resources/icons/plus-round-line.svg"
 import { useState } from "react"
 import CreateProductForm from "../createProductModal/createProductForm/CreateProductForm"
-import ReactDOM from "react-dom"
 
 const AddNewProductCard:React.FC<{onAddProduct:()=>void}> = (props) => {
 
