@@ -2,8 +2,8 @@ import styles from "./ComponentSelectorModal.module.css";
 import PopUp from "../../../layout/popUp/PopUp"
 import Modal from "../../../layout/Modal/Modal";
 import SearchBar from "../../searchBar/SearchBar";
-import { useContext, useState } from "react";
-import { component, componentsContext } from "../../../store/components-context";
+import { useState } from "react";
+import { component } from "../../../store/components-context";
 import CreateProductFormComponentsListItem from "../createProductForm/CreateProductFormComponentsListItem";
 import { filterByNameAndKeyWords } from "../../../util/searchFilter-functions";
 
@@ -19,7 +19,7 @@ const ComponentSelectorModal:React.FC<{ currencySymbol:string, components:compon
     }
   }
 
-  let selectedComponentTag = selectedComponent ? `Selected: ${selectedComponent.name}` : "Select a component!";
+  const selectedComponentTag = selectedComponent ? `Selected: ${selectedComponent.name}` : "Select a component!";
 
   return (
     <Modal onClose={props.onClose}>

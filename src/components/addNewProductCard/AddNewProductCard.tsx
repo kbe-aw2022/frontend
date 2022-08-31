@@ -1,24 +1,28 @@
 import "./AddNewProductCard.css"
 import plusIcon from "../../resources/icons/plus-round-line.svg"
-import { useContext } from "react"
-import { modalContext } from "../../store/CreateProductModal-context"
+import { useState } from "react"
+import CreateProductForm from "../createProductModal/createProductForm/CreateProductForm"
+import ReactDOM from "react-dom"
 
-const AddNewProductCard:React.FC<{}> = (props) => {
+const AddNewProductCard:React.FC<{onAddProduct:()=>void}> = (props) => {
 
-  const modalCtx = useContext(modalContext);
+  const [createProductFormModalIsShown,setCreateProductFormModalIsShown] = useState(false);
 
   const onClickHandler = () =>{
-      modalCtx.setCreateProductFormModalIsShown(true);
-      console.log("show create modal!");
+      setCreateProductFormModalIsShown(true);
   }
 
   return (
-      <div className="addNewProductCard">
-          <button className="addNewProductCard-button" onClick={onClickHandler}>
-              <img className="plus-icon" src={plusIcon} alt="+"></img>
-              <p className="button-text">Add new<br/>custom product</p>
-          </button>
-      </div>
+      <>
+        
+        {createProductFormModalIsShown && <CreateProductForm product={null} onAddProduct={props.onAddProduct} onClose={()=>{setCreateProductFormModalIsShown(false)}}/>}
+        <div className="addNewProductCard">
+            <button className="addNewProductCard-button" onClick={onClickHandler}>
+                <img className="plus-icon" src={plusIcon} alt="+"></img>
+                <p className="button-text">Add new<br/>custom product</p>
+            </button>
+        </div>
+      </>
   )
 }
 export default AddNewProductCard

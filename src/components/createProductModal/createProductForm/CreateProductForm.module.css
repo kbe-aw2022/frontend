@@ -2,7 +2,7 @@
     /* height: 600px;
     width: 744px; */
     flex: 1;
-    width: 70%;
+    width: 80%;
     max-height: 490px;
     margin-top: 14px;
     background-color: #d3d3d3;
@@ -89,16 +89,6 @@
     cursor:initial;
     background-color: rgb(167, 167, 167);
     border: 1px solid rgb(167, 167, 167);
-}
-
-.submit-button{
-    margin-right: 8px;
-}
-
-.submit-button, .close-button{
-    font-size: 20px;
-    margin-bottom: 0;
-    cursor: pointer;
 }
 
 .total-price{

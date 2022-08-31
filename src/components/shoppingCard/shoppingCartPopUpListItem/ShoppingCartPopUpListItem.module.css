@@ -9,6 +9,10 @@
     border-bottom: solid rgb(175, 174, 174) 1px;
 }
 
+.shopping-cart-list-item button{
+    cursor: pointer;
+}
+
 
 
 .shopping-cart-list-item-name{

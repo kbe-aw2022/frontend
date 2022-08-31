@@ -33,4 +33,5 @@
 .confirm-button, .close-button{
     font-size: 18px;
     margin-bottom: 0;
+    cursor: pointer;
 }

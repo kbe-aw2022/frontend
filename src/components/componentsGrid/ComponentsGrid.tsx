@@ -66,22 +66,22 @@ const ComponentsGrid:React.FC<{}> = (props) =>{
         }
 
         const fetchComponents = async () => {
-        setLoading(true);
-        try {
-            const response = await fetch("https://0lzfoo.deta.dev/components");
-            if(!response.ok){
-                throw new Error(response.statusText);
+            setLoading(true);
+            try {
+                const response = await fetch("https://0lzfoo.deta.dev/components");
+                if(!response.ok){
+                    throw new Error(response.statusText);
+                }
+                const data:component[] = await response.json();
+                componentsCtx.setComponents(data);
+                fetchCurrencyExchangeRate("EUR", currencyCtx.currency.code);
+                console.log(data);
+                // return data;
+            } catch (error:any) {
+                setError(error.message);
             }
-            const data:component[] = await response.json();
-            componentsCtx.setComponents(data);
-            fetchCurrencyExchangeRate("EUR", currencyCtx.currency.code);
-            console.log(data);
-            // return data;
-        } catch (error:any) {
-            setError(error.message);
+            setLoading(false)
         }
-        setLoading(false)
-    }
 
 
     fetchComponents();
@@ -92,7 +92,7 @@ const ComponentsGrid:React.FC<{}> = (props) =>{
     // productTypeImages[component.product_type]
 
     if(!loading && error==null){
-        content = searchCtx.applyTypeFilters(searchCtx.applyVendorFilters(searchCtx.filterByNameAndKeyWords(componentsCtx.components))).map((component:any, index:number) => <GridItem onClose={()=>{}} isDetailedView={false} midArea={<ComponentsGridItemMidArea componentProps={component} isDetailedView={false}/>} key={index} imgLink={componentTypeImages[component.product_group]} itemProps={component} itemId={'c'+index}/>)
+        content = searchCtx.applyTypeFilters(searchCtx.applyVendorFilters(searchCtx.filterByNameAndKeyWords(componentsCtx.components))).map((component:any, index:number) => <GridItem onClose={()=>{}} isProduct={false} fetchProducts={()=>{}} isDetailedView={false} midArea={<ComponentsGridItemMidArea componentProps={component} isDetailedView={false}/>} key={index} imgLink={componentTypeImages[component.product_group]} itemProps={component} itemId={'c'+index}/>)
     }
 
     if(error){

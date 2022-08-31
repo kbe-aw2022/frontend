@@ -5,8 +5,6 @@ import ComponentsGrid from "../componentsGrid/ComponentsGrid";
 import ProductsGrid from "../productsGrid/ProductsGrid";
 import FavoritesGrid from "../favoritesGrid/FavoritesGrid";
 import { viewContext } from "../../store/view-context";
-import { modalContext } from "../../store/CreateProductModal-context";
-import CreateProductForm from "../createProductModal/createProductForm/CreateProductForm";
 // import ramStockImage from "../../resources/images/ram.jpg"
 // import mainboardStockImage from "../../resources/images/mainboard.jpg"
 // import cpuStockImage from "../../resources/images/cpu.jpg"
@@ -24,7 +22,6 @@ import CreateProductForm from "../createProductModal/createProductForm/CreatePro
 const GridView:React.FC = () =>{
 
     const viewCtx = useContext(viewContext);
-    const modalCtx = useContext(modalContext);
 
     let content = <ComponentsGrid />;
 
@@ -39,7 +36,6 @@ const GridView:React.FC = () =>{
 
     return(
             <>
-                {modalCtx.createProductFormModalIsShown && <CreateProductForm product={null} onClose={()=>{modalCtx.setCreateProductFormModalIsShown(false)}}/>}
                 <div className="grid-view">{content}</div>
             </>
     )

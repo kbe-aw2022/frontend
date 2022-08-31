@@ -3,11 +3,13 @@ import { currency, currencyContext } from "../../../store/currency-context";
 import { useContext, useEffect, useRef, useState } from "react";
 import { componentsContext } from "../../../store/components-context";
 import bitcoinIcon from "../../../resources/icons/bitcoin-color-icon.svg";
+import { productsContext } from "../../../store/products-context";
 
 const CurrencySelectorListItem:React.FC<{ currency:currency }> = (props) => {
 
     const [isOverflow, setIsOverflow] = useState(false);
     const componentsCtx = useContext(componentsContext);
+    const productCtx = useContext(productsContext);
     const currencyCtx = useContext(currencyContext);
     const currencyNameRef = useRef<HTMLParagraphElement>(null);
 
@@ -32,6 +34,7 @@ const CurrencySelectorListItem:React.FC<{ currency:currency }> = (props) => {
         if(exchangeRateObj!==undefined && exchangeRateObj.rate!==undefined){
             console.log(exchangeRateObj.rate)
             componentsCtx.updateComponentPricesByCurrency(exchangeRateObj.rate,targetCurrencyCode);
+            productCtx.updateProductPricesByCurrency(exchangeRateObj.rate,targetCurrencyCode);
             currencyCtx.setCurrency({...props.currency, exchangeRate:exchangeRateObj.rate});
         }
 

@@ -10,7 +10,6 @@ import ShoppingCartContextProvider from "../../store/shoppingCard-context";
 import FavoritesContextProvider from "../../store/favorites-context";
 import SearchFilterContextProvider from "../../store/search-filter-context";
 import CurrencyContextProvider from "../../store/currency-context";
-import ModalContextProvider from "../../store/CreateProductModal-context";
 
 
 const MainPage:React.FC = () => {
@@ -25,9 +24,7 @@ const MainPage:React.FC = () => {
                           <FavoritesContextProvider>
                            <SearchFilterContextProvider>
                               <Header></Header>
-                              <ModalContextProvider>
                                 <GridView></GridView>
-                              </ModalContextProvider>
                            </SearchFilterContextProvider>
                           </FavoritesContextProvider>
                         </ShoppingCartContextProvider>
