@@ -60,7 +60,7 @@
 }
 
 
-.currency-selector-button,.account-selector,.shopping-cart-selector{
+.currency-selector-button,.log-in-button,.shopping-cart-selector{
     flex: 1;
     display: flex;
     align-items: center;
@@ -97,7 +97,7 @@
     font-size: 20px;
 }
 
-.currency-selector-button{
+.currency-selector-button, .log-in-button{
  
     /* padding-right: 20px;
     border-left: 3px solid black;

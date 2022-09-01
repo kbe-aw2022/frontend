@@ -1,18 +1,19 @@
-
-.input-field{
+.input-field-label-wrapper{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
     position: relative;
+    /* margin-bottom: 10px; */
+
 }
 
-.input-field label{
+.input-field-label{
     align-self: flex-start;
 }
 
-.input{
+.input-field{
     width: 100%;
 }
 
