@@ -39,7 +39,7 @@ const LoginModal:React.FC<{onClose:()=>void}> = (props) => {
                     {passwordInput}
                 </div>
                 <span className={styles["login-form-links"]}>
-                    {// eslint-disable-next-line jsx-a11y/anchor-is-valid}
+                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid*/}
                     <a href="" className={styles["registration-link"]}>register</a>
                 </span>
             </Form>
