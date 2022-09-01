@@ -18,7 +18,6 @@ const useCreateInput = (validationLogic:(input:string)=>boolean, labelName:strin
 
     const showError = !inputIsValid && inputIsTouched;
 
-
     const inputField =  <span className={styles["input-field-label-wrapper"]}>
         <label htmlFor="input" className={styles["input-field-label"]}>{labelName}</label>
         <input name="input-field" className={styles["input-field"]} type="text" value={inputValue} onBlur={onBlurHandler} onChange={onChangeHandler} />
