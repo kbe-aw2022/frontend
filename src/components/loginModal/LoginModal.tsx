@@ -1,5 +1,5 @@
 import React from "react";
-import useCreateInput from "../../hooks/useCreateInput"
+import useCreateInput from "../../hooks/useCreateInput/useCreateInput"
 import Form from "../../layout/form/Form";
 import Modal from "../../layout/Modal/Modal";
 import styles from "./LoginModal.module.css"
