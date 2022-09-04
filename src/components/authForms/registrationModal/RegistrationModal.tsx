@@ -16,7 +16,7 @@ const RegistrationModal:React.FC<{onContextSwitch:()=>void, onClose:()=>void}> =
 
     const onResponse = (response:any) => {
         if(response?.token && response.token.length>0){
-            authCtx.login({userName:response.user,token:response.token});
+            authCtx.login({userName:response.user_name,token:response.token});
             props.onClose();
         }
     }
@@ -32,7 +32,7 @@ const RegistrationModal:React.FC<{onContextSwitch:()=>void, onClose:()=>void}> =
     }
     
     const validateEmail =(input:string) =>{
-        if(input.includes(' ') || input.includes('@')){
+        if(input.includes(' ') || !input.includes('@')){
             return false;
         }
         const [before,after] = input.split('@')
@@ -69,15 +69,15 @@ const RegistrationModal:React.FC<{onContextSwitch:()=>void, onClose:()=>void}> =
 
         if(formIsValid){
             console.log("Form is valid!")
-            sendRegistrationRequest("http://localhost:8080/register",onResponse,
+            sendRegistrationRequest("http://localhost:8080/users/register",onResponse,
             {
                 method: "POST",
-                headers: {},
+                headers: {"content-type":"application/json"},
                 payload: {
-                    user_name:userNameValue,
-                    email:emailValue,
                     first_name:firstNameValue,
                     last_name:lastNameValue,
+                    user_name:userNameValue,
+                    email:emailValue,
                     password:passwordValue
                 }
             })

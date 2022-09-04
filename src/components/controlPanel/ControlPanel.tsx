@@ -10,6 +10,7 @@ import { currencyContext } from "../../store/currency-context"
 import LoginModal from "../authForms/loginModal/LoginModal"
 import RegistrationModal from "../authForms/registrationModal/RegistrationModal"
 import { authContext } from "../../store/auth-context"
+import AccountMenuPopUp from "../accountMenuPopUp/AccountMenuPopUp"
 
 const ControlPanel:React.FC = () => {
 
@@ -25,9 +26,9 @@ const ControlPanel:React.FC = () => {
 
   
   const shoppingCartButtonOnClickHandler = () =>{
-    if(currencySelectorPopUpIsShown){
-      setCurrencySelectorPopUpIsShown(false)
-    }
+    currencySelectorPopUpIsShown && setCurrencySelectorPopUpIsShown(false);
+    accountMenuPopUpIsShown && setAccountMenuPopUpIsShown(false);
+
     if(shoppingCartPopUpIsShown){
       setShoppingCartPopUpIsShown(false)
     }else{
@@ -36,9 +37,9 @@ const ControlPanel:React.FC = () => {
   }
 
   const currencySelectorButtonOnClickHandler = () =>{
-    if(shoppingCartPopUpIsShown){
-      setShoppingCartPopUpIsShown(false)
-    }
+    shoppingCartPopUpIsShown && setShoppingCartPopUpIsShown(false);
+    accountMenuPopUpIsShown && setAccountMenuPopUpIsShown(false);
+
     if(currencySelectorPopUpIsShown){
       setCurrencySelectorPopUpIsShown(false)
     }else{
@@ -47,15 +48,26 @@ const ControlPanel:React.FC = () => {
   }
 
   const loginButtonOnClickHandler = () => {
+    currencySelectorPopUpIsShown && setCurrencySelectorPopUpIsShown(false);
+    shoppingCartPopUpIsShown && setShoppingCartPopUpIsShown(false);
+
     if(authCtx.isLoggedIn){
-      accountMenuPopUpIsShown ? setAccountMenuPopUpIsShown(false): setAccountMenuPopUpIsShown(true);
+      !accountMenuPopUpIsShown && setAccountMenuPopUpIsShown(true);
     }else{
-      loginModalIsShown ? setLoginModalIsShown(false): setLoginModalIsShown(true);
+      !loginModalIsShown && setLoginModalIsShown(true);
     }
+  }
+
+  const closeLoginModal = () => {
+    setLoginModalIsShown(false);
   }
 
   const closeRegistrationForm = () => {
     setRegistrationModalIsShown(false);
+  }
+
+  const closeAccountMenuPopUp = () => {
+    setAccountMenuPopUpIsShown(false);
   }
 
   const authFormContextSwitch = () => {
@@ -100,9 +112,12 @@ const ControlPanel:React.FC = () => {
                 <p className={styles["user-name"]}>{authCtx.isLoggedIn? authCtx.currentUser?.userName : "login"}</p>
                 <img src={userIcon} alt="not loaded" className={styles["user-icon"]} />
               </button>
+              <span className={styles["account-menu-popup-position"]}>
+                {accountMenuPopUpIsShown && <AccountMenuPopUp onClose={closeAccountMenuPopUp} />}
+              </span>
             </div>
         </span>
-        {loginModalIsShown && <LoginModal onContextSwitch={authFormContextSwitch} onClose={loginButtonOnClickHandler} />}
+        {loginModalIsShown && <LoginModal onContextSwitch={authFormContextSwitch} onClose={closeLoginModal} />}
         {registrationModalIsShown && <RegistrationModal onContextSwitch={authFormContextSwitch} onClose={closeRegistrationForm} />}
     </div>
   )

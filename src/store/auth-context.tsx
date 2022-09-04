@@ -29,7 +29,7 @@ const AuthContextProvider:React.FC<{children?: React.ReactNode}> = (props) => {
 
     const logout = () => {
         setCurrentUser(null);
-        localStorage.removeItem("token");
+        localStorage.removeItem("user");
     }
 
     const isLoggedIn = !!currentUser;

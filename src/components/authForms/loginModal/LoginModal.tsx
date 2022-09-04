@@ -30,7 +30,7 @@ const LoginModal:React.FC<{onContextSwitch:()=>void, onClose:()=>void}> = (props
 
     const onResponse = (response:any) => {
         if(response?.token && response.token.length>0){
-            authCtx.login({userName:response.user,token:response.token});
+            authCtx.login({userName:response.user_name,token:response.token});
             props.onClose();
         }
     }
@@ -44,10 +44,10 @@ const LoginModal:React.FC<{onContextSwitch:()=>void, onClose:()=>void}> = (props
 
         if(formIsValid){
             console.log("Form is valid!")
-            sendLoginRequest("http://localhost:8080/login",onResponse,
+            sendLoginRequest("http://localhost:8080/users/login",onResponse,
             {
                 method: "POST",
-                headers: {},
+                headers: {"content-type":"application/json"},
                 payload: {
                     user_name:userNameValue,
                     password:passwordValue
