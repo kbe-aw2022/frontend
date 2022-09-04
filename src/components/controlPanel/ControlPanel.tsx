@@ -7,15 +7,21 @@ import { shoppingCartContext } from "../../store/shoppingCard-context"
 import ShoppingCartPopUp from "../shoppingCard/shoppingCartPopUp/ShoppingCartPopUp"
 import CurrencySelectorPopUp from "../currencySelector/currencySelectorPopUp/CurrencySelectorPopUp"
 import { currencyContext } from "../../store/currency-context"
-import LoginModal from "../loginModal/LoginModal"
+import LoginModal from "../authForms/loginModal/LoginModal"
+import RegistrationModal from "../authForms/registrationModal/RegistrationModal"
+import { authContext } from "../../store/auth-context"
 
 const ControlPanel:React.FC = () => {
 
-  const cartCtx = useContext(shoppingCartContext);
-  const currencyCtx = useContext(currencyContext);
   const [shoppingCartPopUpIsShown, setShoppingCartPopUpIsShown] = useState(false);
   const [currencySelectorPopUpIsShown, setCurrencySelectorPopUpIsShown] = useState(false);
+  const [accountMenuPopUpIsShown, setAccountMenuPopUpIsShown] = useState(false);
   const [loginModalIsShown, setLoginModalIsShown] = useState(false);
+  const [registrationModalIsShown, setRegistrationModalIsShown] = useState(false);
+  
+  const cartCtx = useContext(shoppingCartContext);
+  const currencyCtx = useContext(currencyContext);
+  const authCtx = useContext(authContext);
 
   
   const shoppingCartButtonOnClickHandler = () =>{
@@ -41,9 +47,27 @@ const ControlPanel:React.FC = () => {
   }
 
   const loginButtonOnClickHandler = () => {
-    loginModalIsShown ? setLoginModalIsShown(false): setLoginModalIsShown(true);
+    if(authCtx.isLoggedIn){
+      accountMenuPopUpIsShown ? setAccountMenuPopUpIsShown(false): setAccountMenuPopUpIsShown(true);
+    }else{
+      loginModalIsShown ? setLoginModalIsShown(false): setLoginModalIsShown(true);
+    }
   }
 
+  const closeRegistrationForm = () => {
+    setRegistrationModalIsShown(false);
+  }
+
+  const authFormContextSwitch = () => {
+    if(loginModalIsShown){
+      setLoginModalIsShown(false);
+      setRegistrationModalIsShown(true);
+    }else if(registrationModalIsShown){
+      setRegistrationModalIsShown(false);
+      setLoginModalIsShown(true);
+    }
+
+  }
 
   
 
@@ -73,12 +97,13 @@ const ControlPanel:React.FC = () => {
           </div>
             <div className={styles["account-selector"]}>
               <button className={styles["log-in-button"]} onClick={loginButtonOnClickHandler} >
-                <p className={styles["user-name"]}>login</p>
+                <p className={styles["user-name"]}>{authCtx.isLoggedIn? authCtx.currentUser?.userName : "login"}</p>
                 <img src={userIcon} alt="not loaded" className={styles["user-icon"]} />
               </button>
             </div>
         </span>
-        {loginModalIsShown && <LoginModal onClose={loginButtonOnClickHandler} />}
+        {loginModalIsShown && <LoginModal onContextSwitch={authFormContextSwitch} onClose={loginButtonOnClickHandler} />}
+        {registrationModalIsShown && <RegistrationModal onContextSwitch={authFormContextSwitch} onClose={closeRegistrationForm} />}
     </div>
   )
 }

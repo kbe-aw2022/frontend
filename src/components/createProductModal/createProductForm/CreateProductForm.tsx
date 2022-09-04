@@ -47,8 +47,10 @@ const CreateProductForm:React.FC<{product:product|null, onAddProduct:()=>void, o
                 setIsTouched:setProductNameInputIsTouched
             } = useCreateInput(
                 (input:string)=>{return input.trim().length>0},
+                "text",
                 "Product name:",
                 "The product name must contain at least one character",
+                false,
                 NAME_CHARACTER_LIMIT);
 
     let formIsValid = productNameIsValid && productComponents.length>0;

@@ -1,0 +1,39 @@
+.registration-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 70%;
+    margin-top: 20px;
+    height: 460px;
+    /* margin-bottom: 10px */
+}
+
+.registration-form input{
+    font-size: 18px;
+}
+
+.registration-form-links{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.login-link{
+    margin-right: 10px;
+    font-size: 16px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    text-decoration: underline;
+    color: darkblue;
+    cursor: pointer;
+}
+
+.login-context-switch-button{
+    border: none;
+    background-color: rgba(250, 235, 215, 0);
+    padding: 0px;
+    margin: 0px;
+}
