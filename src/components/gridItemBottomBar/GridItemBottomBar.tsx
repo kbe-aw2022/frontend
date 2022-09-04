@@ -3,10 +3,14 @@ import GridItemBottomBarFavoriteButton from "../gridItemBottomBarFavoriteButton/
 import styles from "./GridItemBottomBar.module.css"
 import infoButtonIcon from "../../resources/icons/information-icon.svg"
 import removeButtonIcon from "../../resources/icons/remove-icon-circle.svg"
+import { useContext } from "react"
+import { authContext } from "../../store/auth-context"
 
 
 
 const GridItemBottomBar:React.FC<{ isDetailedView:boolean, onInfo:()=>void, onRemove:(()=>void)|null, itemId:string, price:number, currency:string}> = (props) => {
+
+  const authCtx = useContext(authContext);
 
   const onInfoButtonClickHandler = () =>{
     props.onInfo();
@@ -26,7 +30,7 @@ const GridItemBottomBar:React.FC<{ isDetailedView:boolean, onInfo:()=>void, onRe
         <div className={styles["button-wrapper"]}>
           {(props.onRemove===null) ? null : removeButton}
           {props.isDetailedView ? null : infoButton}
-          <GridItemBottomBarFavoriteButton itemId={props.itemId}/>
+          {authCtx.isLoggedIn && <GridItemBottomBarFavoriteButton itemId={props.itemId}/>}
           <GridItemBottomBarAddToCardButton itemId={props.itemId}/>
         </div>
     </div>
