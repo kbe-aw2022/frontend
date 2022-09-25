@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg clip-rule="evenodd" fill-rule="evenodd" image-rendering="optimizeQuality" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" version="1.1" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<clipPath id="a">
+<path d="m158.04 235.26c19.67 11.33 32.46 20.75 47.71 37.55 39.53-63.63 82.44-98.89 138.24-148.93l5.45-2.11h61.06c-81.87 90.93-145.34 165.9-202.18 275.53-29.59-63.26-55.96-106.93-114.96-147.43z" display="none" fill="#fff" fill-rule="nonzero"/>
+<path class="powerclip" d="m-5-5h522v522h-522zm163.04 240.26-64.68 14.61c59 40.5 85.37 84.17 114.96 147.43 56.84-109.63 120.31-184.6 202.18-275.53h-61.06l-5.45 2.11c-55.8 50.04-98.71 85.3-138.24 148.93-15.25-16.8-28.04-26.22-47.71-37.55z"/>
+</clipPath>
+</defs>
+<path d="m256 0c141.39 0 256 114.61 256 256s-114.61 256-256 256-256-114.61-256-256 114.61-256 256-256z" clip-path="url(#a)" fill="#1f6d1f"/>
+<path d="m391.27 143.23h19.23c-81.87 90.92-145.34 165.89-202.18 275.52-29.59-63.26-55.96-106.93-114.96-147.42l22.03-4.98c44.09 36.07 67.31 76.16 92.93 130.95 52.31-100.9 110.24-172.44 182.95-254.07z" fill="#005300" fill-rule="nonzero"/>
+</svg>
+

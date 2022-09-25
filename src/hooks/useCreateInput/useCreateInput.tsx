@@ -29,7 +29,7 @@ const useCreateInput = (validationLogic:(input:string)=>boolean, type:string, la
        { showError && !isDisabled ?  <p className={styles["error-message"]} >{errorMessage}</p> : <p className={styles["error-message"]} > </p>}
     </span>
 
-    return {inputField, inputValue, isValid:inputIsValid, setInputValue, setIsTouched:setInputIsTouched}
+    return {inputField, inputValue, isValid:inputIsValid, setInputValue, inputIsTouched, setIsTouched:setInputIsTouched}
 }
 
 export default useCreateInput;

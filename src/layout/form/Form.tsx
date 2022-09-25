@@ -1,7 +1,7 @@
 import CloseButton from "../../ui/CloseButton"
 import styles from  "./Form.module.css"
 
-const Form:React.FC<{children?: React.ReactNode, formTitle:string, submitButtonName:string, size:{width:number,height:number}, onSubmit:(event:React.FormEvent)=>void, onClose:()=>void}> = (props) => {
+const Form:React.FC<{children?: React.ReactNode, formTitle:string, submitButtonName:string, cancelButtonName:string, size:{width:number,height:number}, onSubmit:(event:React.FormEvent)=>void, onClose:()=>void}> = (props) => {
   
     const onCancelButtonClickHandler = () =>{
         props.onClose();
@@ -17,7 +17,7 @@ const Form:React.FC<{children?: React.ReactNode, formTitle:string, submitButtonN
             {props.children}
             <span className={styles["form-buttons"]}>
                 <button className={styles["submit-button"]} type="submit">{props.submitButtonName}</button>
-                <button className={styles["close-button"]} onClick={onCancelButtonClickHandler} type="button">Cancel</button>
+                <button className={styles["cancel-button"]} onClick={onCancelButtonClickHandler} type="button">{props.cancelButtonName}</button>
             </span>
         </form>
   )

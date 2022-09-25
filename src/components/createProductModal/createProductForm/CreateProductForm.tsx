@@ -123,7 +123,7 @@ const CreateProductForm:React.FC<{product:product|null, onAddProduct:()=>void, o
 
   return (
       <Modal onClose={props.onClose}>
-        <Form formTitle="Create new custom product" submitButtonName={props.product===null?"Submit":"Update"} onSubmit={onSubmitHandler} onClose={props.onClose} size={{width:644,height:600}}>
+        <Form formTitle="Create new custom product" submitButtonName={props.product===null?"Submit":"Update"} cancelButtonName="Cancel" onSubmit={onSubmitHandler} onClose={props.onClose} size={{width:644,height:600}}>
           <span className={styles["create-product-form"]} >
             {/* <label htmlFor="product-name-input">Product name: </label> */}
             {/* <input type="text" name="product-name-input" id="product-name-input" className={styles["product-name-input"]} onChange={onNameInputChangeHandler} value={productName}/> */}

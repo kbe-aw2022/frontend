@@ -38,7 +38,7 @@
     margin-right: 8px;
 }
 
-.submit-button, .close-button{
+.submit-button, .cancel-button{
     font-size: 20px;
     margin-bottom: 0;
     cursor: pointer;
