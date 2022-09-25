@@ -5,8 +5,8 @@ import MainPage from "./pages/mainPage/MainPage";
 function App() {
   return (
     <div className="App">
-      {/* <MainPage></MainPage> */}
-      {<AccountSettingsPage/>}
+      <MainPage></MainPage>
+      {/* {<AccountSettingsPage/>} */}
       
     </div>
   );
