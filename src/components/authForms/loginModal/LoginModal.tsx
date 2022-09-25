@@ -60,7 +60,7 @@ const LoginModal:React.FC<{onContextSwitch:()=>void, onClose:()=>void}> = (props
 
     return (
         <Modal onClose={props.onClose}>
-            <Form formTitle="Login" onClose={props.onClose} submitButtonName="Login" onSubmit={onSubmitHandler} size={{width:350,height:340}}>
+            <Form formTitle="Login" onClose={props.onClose} submitButtonName="Login" cancelButtonName="Cancel" onSubmit={onSubmitHandler} size={{width:350,height:340}}>
                 <div className={styles["login-form"]}>
                     {userNameInput}
                     {passwordInput}

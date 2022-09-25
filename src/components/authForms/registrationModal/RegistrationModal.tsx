@@ -88,7 +88,7 @@ const RegistrationModal:React.FC<{onContextSwitch:()=>void, onClose:()=>void}> =
     
   return (
     <Modal onClose={props.onClose}>
-    <Form formTitle="Create new account" onClose={props.onClose} submitButtonName="Submit" onSubmit={onSubmitHandler} size={{width:550,height:620}}>
+    <Form formTitle="Create new account" onClose={props.onClose} submitButtonName="Submit" cancelButtonName="Cancel" onSubmit={onSubmitHandler} size={{width:550,height:620}}>
         <div className={styles["registration-form"]}>
             {firstNameInput}
             {lastNameInput}
