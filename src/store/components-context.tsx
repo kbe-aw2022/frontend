@@ -1,5 +1,16 @@
 import React, { useState } from "react";
 import updateCurrency from "../util/currencyUpdate-functions";
+import ramStockImage from "../resources/images/ram.jpg"
+import mainboardStockImage from "../resources/images/mainboard.jpg"
+import cpuStockImage from "../resources/images/cpu.jpg"
+import gpuStockImage from "../resources/images/gpu.jpg"
+import coolerStockImage from "../resources/images/kuehler.jpg"
+import hddStockImage from "../resources/images/hdd.jpg"
+import driveStockImage from "../resources/images/drive.jpg"
+import caseStockImage from "../resources/images/case.jpg"
+import psuStockImage from "../resources/images/psu.jpg"
+import mouseStockImage from "../resources/images/mouse.jpg"
+import keyboardStockImage from "../resources/images/keyboard.jpg"
 
 type componentsContextObj ={
     components:component[],
@@ -20,6 +31,20 @@ export type component = {
   weight:string,
   status:string,
   ean_number:string
+}
+
+export const componentTypeImages :any = {
+  "Mainboard" : mainboardStockImage,
+  "RAM": ramStockImage,
+  "Cooling fan" : coolerStockImage,
+  "GPU" : gpuStockImage,
+  "CPU" : cpuStockImage,
+  "SSD" : hddStockImage,
+  "Power-supply" : psuStockImage,
+  "Mouse" : mouseStockImage,
+  "Keyboard" : keyboardStockImage,
+  "Blueray-drive" : driveStockImage,
+  "PC Case" : caseStockImage
 }
 
 export const componentsContext = React.createContext<componentsContextObj>({components:[], setComponents:()=>{}, updateComponentPricesByCurrency:()=>{}});

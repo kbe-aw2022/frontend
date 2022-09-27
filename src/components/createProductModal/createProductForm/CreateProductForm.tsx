@@ -12,7 +12,7 @@ import CreateProductFormComponentsListItem from "./CreateProductFormComponentsLi
 const CreateProductForm:React.FC<{product:product|null, onAddProduct:()=>void, onClose:()=>void}> = (props) => {
 
     const [productComponents, setProductComponents] = useState<component[]>([]);
-    const [productName, setProductName] = useState("");
+    // const [productName, setProductName] = useState("");
     const [productDescription, setProductDescription] = useState("");
     const [componentSelectorModalIsShown, setComponentSelectorModalIsShown] = useState(false);
 
@@ -26,38 +26,39 @@ const CreateProductForm:React.FC<{product:product|null, onAddProduct:()=>void, o
     // const LOCAL_SERVER_URL = "http://localhost:8080/products"
     
     let notAddedComponents = componentsCtx.components.filter(component => !productComponents.includes(component));
-
-    useEffect(()=>{
-        if(props.product!=null){
-            setProductName(props.product.name);
-            setProductDescription(props.product.description);
-            setProductComponents(componentsCtx.components.filter(component=> {
-                if(props.product!==null && component.id in props.product.components){
-                     return component;
-                }
-                return null;
-            }));
-        }
-    },[props.product, componentsCtx.components])
     
-
-    const   {
-                inputField:productNameInput, 
-                isValid:productNameIsValid, 
-                setIsTouched:setProductNameInputIsTouched
-            } = useCreateInput(
+    const   {inputField:productNameInput, 
+            inputValue:productNameInputValue,
+            isValid:productNameIsValid, 
+            setInputValue:setProductNameInputValue,
+            setIsTouched:setProductNameInputIsTouched} = useCreateInput
+            (
                 (input:string)=>{return input.trim().length>0},
                 "text",
                 "Product name:",
                 "The product name must contain at least one character",
                 false,
-                NAME_CHARACTER_LIMIT);
+                NAME_CHARACTER_LIMIT
+            );
+        
+        useEffect(()=>{
+            if(props.product!=null){
+                setProductNameInputValue(props.product.name);
+                setProductDescription(props.product.description);
+                setProductComponents(componentsCtx.components.filter(component=> {
+                    if(props.product!==null && component.id in props.product.components){
+                         return component;
+                    }
+                    return null;
+                }));
+            }
+        },[props.product, componentsCtx.components, setProductNameInputValue])
 
     let formIsValid = productNameIsValid && productComponents.length>0;
 
     const sendProduct = async (url:string, method:string) => {
 
-        const newProduct = {name:productName, description:productDescription, components:productComponents.map(component=>component.id)};
+        const newProduct = {name:productNameInputValue, description:productDescription, components:productComponents.map(component=>component.id)};
 
         try {
             const response = await fetch(url,{
@@ -123,7 +124,7 @@ const CreateProductForm:React.FC<{product:product|null, onAddProduct:()=>void, o
 
   return (
       <Modal onClose={props.onClose}>
-        <Form formTitle="Create new custom product" submitButtonName={props.product===null?"Submit":"Update"} cancelButtonName="Cancel" onSubmit={onSubmitHandler} onClose={props.onClose} size={{width:644,height:600}}>
+        <Form formTitle={props.product===null?"Create new custom product":"Update product"} submitButtonName={props.product===null?"Submit":"Update"} cancelButtonName="Cancel" onSubmit={onSubmitHandler} onClose={props.onClose} size={{width:644,height:600}}>
           <span className={styles["create-product-form"]} >
             {/* <label htmlFor="product-name-input">Product name: </label> */}
             {/* <input type="text" name="product-name-input" id="product-name-input" className={styles["product-name-input"]} onChange={onNameInputChangeHandler} value={productName}/> */}

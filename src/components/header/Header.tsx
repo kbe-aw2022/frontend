@@ -5,14 +5,14 @@ import filterIcon from "../../resources/icons/filter-line.svg"
 import ControlPanel from "../controlPanel/ControlPanel";
 import { useContext, useState } from "react";
 import FilterPopUp from "../filterPopUp/FilterPopUp";
-import { viewContext } from "../../store/view-context";
 import { searchFilterContext } from "../../store/search-filter-context";
+import { useLocation } from "react-router-dom";
 
 const Header:React.FC = () =>{
 
     const [filterPopUpIsShown, setfilterPopUpIsShown] = useState(false);
-    const viewCtx = useContext(viewContext);
     const searchCtx = useContext(searchFilterContext);
+    const location = useLocation();
 
     const onClickHandler = ()=>{
         filterPopUpIsShown ? setfilterPopUpIsShown(false) : setfilterPopUpIsShown(true);
@@ -30,7 +30,7 @@ const Header:React.FC = () =>{
                 <span className={styles["search-bar-wrapper"]}>
                     <SearchBar onSetSearchFilter={searchCtx.setSearchFilter} inputValue={searchCtx.searchFilter}></SearchBar>
                 </span>
-                <button className={styles["filter-button"]} onClick={onClickHandler} disabled={viewCtx.view==="products"}>
+                <button className={styles["filter-button"]} onClick={onClickHandler} disabled={location.pathname.startsWith("/products")}>
                     <img className={styles["filter-icon"]} src={filterIcon} alt={styles["not loaded"]}></img>
                 </button>
                 <span className={styles["filter-popup-position"]}>

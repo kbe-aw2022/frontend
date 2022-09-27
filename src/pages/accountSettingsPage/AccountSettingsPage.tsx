@@ -2,10 +2,13 @@ import styles from "./AccountSettingsPage.module.css"
 import UserDataForm from "../../components/userDataForm/UserDataForm"
 import { useState } from "react"
 import ChangePasswordForm from "../../components/authForms/changePasswordForm/ChangePasswordForm";
+import { useNavigate } from "react-router-dom";
 
 const AccountSettingsPage = () => {
 
     const [settingsPage,setSettingsPage] = useState("userData");
+
+    const navigate = useNavigate();
 
     const onUserDataButtonClickHandler = () => {
        setSettingsPage("userData");
@@ -16,7 +19,7 @@ const AccountSettingsPage = () => {
     }
 
     const onBackButtonClickHandler = () => {
-        setSettingsPage("changePassword");
+        navigate("/components");
     }
 
   return (

@@ -1,23 +1,25 @@
 import { useContext } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { authContext } from "../../store/auth-context";
-import { viewContext } from "../../store/view-context";
 import styles from "./SideBarItem.module.css";
 
 
 const SideBarItem:React.FC<{imgLink:string, viewName:string}> = (props) => {
 
-  const viewCtx = useContext(viewContext);
   const authCtx = useContext(authContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+
 
   const onClickHandler = () =>{
-    viewCtx.setView(props.viewName);
+    navigate(props.viewName);
   }
   
   let bgColor = {}
 
   if(!authCtx.isLoggedIn && props.viewName!=="components"){
     bgColor = {"backgroundColor":"rgb(100,100,100)"};
-  }else if(viewCtx.view===props.viewName){
+  }else if(location.pathname.startsWith("/"+props.viewName)){
     bgColor = {"backgroundColor":"rgb(190,190,190)"};
   }
 

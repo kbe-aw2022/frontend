@@ -1,20 +1,18 @@
 import "./AddNewProductCard.css"
 import plusIcon from "../../resources/icons/plus-round-line.svg"
-import { useState } from "react"
-import CreateProductForm from "../createProductModal/createProductForm/CreateProductForm"
+import { useNavigate } from "react-router-dom"
 
-const AddNewProductCard:React.FC<{onAddProduct:()=>void}> = (props) => {
+const AddNewProductCard:React.FC<{}> = (props) => {
 
-  const [createProductFormModalIsShown,setCreateProductFormModalIsShown] = useState(false);
+  const navigate = useNavigate();
 
   const onClickHandler = () =>{
-      setCreateProductFormModalIsShown(true);
+    navigate("/products/create");
   }
 
   return (
       <>
         
-        {createProductFormModalIsShown && <CreateProductForm product={null} onAddProduct={props.onAddProduct} onClose={()=>{setCreateProductFormModalIsShown(false)}}/>}
         <div className="addNewProductCard">
             <button className="addNewProductCard-button" onClick={onClickHandler}>
                 <img className="plus-icon" src={plusIcon} alt="+"></img>
