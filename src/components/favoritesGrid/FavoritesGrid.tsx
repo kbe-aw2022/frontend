@@ -121,7 +121,7 @@ const FavoritesGrid:React.FC<{}> = (props) =>{
                     (searchCtx.typeFilters.length===0 && searchCtx.vendorFilters.length===0) && searchCtx.filterByName(productsCtx.products).filter((product)=>
                         {return favoritesCtx.favorites.includes('p'+product.id)}).map((product:any) => 
                         <GridItem isDetailedView={false} onClose={()=>{}} isProduct={true} fetchProducts={fetchProducts} 
-                        midArea={<ProductsGridItemMidArea components={product.components.map((p:string)=>parseInt(p))}/>} 
+                        midArea={<ProductsGridItemMidArea productId={product.id} components={product.components.map((p:string)=>parseInt(p))}/>} 
                         key={product.id} imgLink={computerStockImage} itemProps={product} itemId={'p'+product.id}/>)
                 }
 

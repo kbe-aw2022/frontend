@@ -1,10 +1,12 @@
 
 import "./GridView.css";
-import { useContext} from "react";
 import ComponentsGrid from "../componentsGrid/ComponentsGrid";
 import ProductsGrid from "../productsGrid/ProductsGrid";
 import FavoritesGrid from "../favoritesGrid/FavoritesGrid";
-import { viewContext } from "../../store/view-context";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import NotFoundPage from "../../pages/notFoundPage/NotFoundPage";
+import LoginModal from "../authForms/loginModal/LoginModal";
+import RegistrationModal from "../authForms/registrationModal/RegistrationModal";
 // import ramStockImage from "../../resources/images/ram.jpg"
 // import mainboardStockImage from "../../resources/images/mainboard.jpg"
 // import cpuStockImage from "../../resources/images/cpu.jpg"
@@ -21,22 +23,49 @@ import { viewContext } from "../../store/view-context";
 
 const GridView:React.FC = () =>{
 
-    const viewCtx = useContext(viewContext);
+    const navigate = useNavigate();
+    const location = useLocation();
 
-    let content = <ComponentsGrid />;
-
-    if(viewCtx.view === "components"){
-        content = <ComponentsGrid/>;
-    } else if(viewCtx.view === "products"){
-        content = <ProductsGrid />;
-    } else if(viewCtx.view === "favorites"){
-        content = <FavoritesGrid />;
+    const closeLoginModal = () => {
+        navigate("/components");
+    }
+    
+    const closeRegistrationForm = () => {
+        navigate("/components");
     }
 
+    const authFormContextSwitch = () => {
+    
+        if(location.pathname.startsWith("/login")){
+          navigate("/register");
+        }else if(location.pathname.startsWith("/register")){
+          navigate("/login");
+        }
+    
+      }
 
     return(
             <>
-                <div className="grid-view">{content}</div>
+                <div className="grid-view"> 
+                    <Routes>
+                        <Route path="*" element={<NotFoundPage/>}/>
+                        <Route path="login/" element={
+                            <>
+                                <ComponentsGrid/>
+                                <LoginModal onContextSwitch={authFormContextSwitch} onClose={closeLoginModal} />
+                            </>
+                        }/>
+                        <Route path="register/" element={
+                            <>
+                                <ComponentsGrid/>
+                                <RegistrationModal onContextSwitch={authFormContextSwitch} onClose={closeRegistrationForm} />
+                            </>
+                        }/>
+                        <Route path="components/*" element={<ComponentsGrid/>}/>
+                        <Route path="products/*" element={<ProductsGrid/>}/>
+                        <Route path="favorites/*" element={<FavoritesGrid/>}/>
+                    </Routes>
+                </div>
             </>
     )
 

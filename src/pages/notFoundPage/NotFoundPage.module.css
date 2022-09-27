@@ -1,0 +1,7 @@
+.error-message{
+    font-size: 40px;
+    font-weight: 500;
+    position: absolute;
+    top:40%;
+    left:40%;
+}

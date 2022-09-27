@@ -7,27 +7,34 @@ import shortenedStyle from "./GridItemShortened.module.css";
 import detailedStyle from "./GridItemDetailed.module.css";
 import { currencyContext } from "../../store/currency-context";
 import CreateProductForm from "../createProductModal/createProductForm/CreateProductForm";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 
 const GridItem:React.FC<{isDetailedView:boolean, onClose:()=>void, imgLink:string, isProduct:boolean, fetchProducts:(()=>void),
       itemProps:component|product, itemId:string, midArea:React.ReactNode}> = (props) => {
   
-  const [detailedViewModalIsShown, setDetailedViewModalIsShown] = useState(false);
-  const [createProductFormModalIsShown, setCreateProductFormModalIsShown] = useState(false);
 
   const itemNameRef = useRef<HTMLParagraphElement>(null);
 
   const [isOverflow, setIsOverflow] = useState(false);
 
   const currencyCtx = useContext(currencyContext);
+
+  const navigate = useNavigate();
+  const location = useLocation();
   
   const openModal = () => {
-    ('ean_number' in props.itemProps && !props.isDetailedView) ? setDetailedViewModalIsShown(true) :  setDetailedViewModalIsShown(false);
-    ('components' in props.itemProps) && setCreateProductFormModalIsShown(true)
+    navigate(props.itemId);
   };
 
   const closeModal = () =>{
-    setDetailedViewModalIsShown(false);
+    if(location.pathname.includes("/products")){
+      navigate("/products");
+    }else if(location.pathname.includes("/components")){
+      navigate("/components");
+    }else if(location.pathname.includes("/favorites")){
+      navigate("/favorites");
+    }
   }
 
   const sendRemove = () =>{
@@ -63,15 +70,25 @@ const GridItem:React.FC<{isDetailedView:boolean, onClose:()=>void, imgLink:strin
     }
   }  , [itemName]);
 
+
+  const componentDetailViewModal = ('ean_number' in props.itemProps) && <ComponentDetailViewModal onClose={closeModal} imgLink={props.imgLink} componentProps={props.itemProps} itemId={props.itemId}/>;
+  const productDetailViewModal = ('components' in props.itemProps) && <CreateProductForm product={props.itemProps} onAddProduct={props.fetchProducts} onClose={closeModal}/>;
+
   // if(!props.isDetailedView){
   // console.log(`griditem ${props.itemId} render!`)}
   
   return (
 
     <Fragment>
+    <Routes>
+      <Route path={`${props.itemId}`} element={
+        ('ean_number' in props.itemProps) ? componentDetailViewModal: 
+        ('components' in props.itemProps) && productDetailViewModal
+      }/>
+    </Routes>
 
-    {( detailedViewModalIsShown && 'ean_number' in props.itemProps) ? <ComponentDetailViewModal onClose={closeModal} imgLink={props.imgLink} componentProps={props.itemProps} itemId={props.itemId}/>:null}
-    {createProductFormModalIsShown && 'components' in props.itemProps ? <CreateProductForm product={props.itemProps} onAddProduct={props.fetchProducts} onClose={()=>{setCreateProductFormModalIsShown(false)}}/>:null}
+    {/* {( detailedViewModalIsShown && 'ean_number' in props.itemProps) ? <ComponentDetailViewModal onClose={closeModal} imgLink={props.imgLink} componentProps={props.itemProps} itemId={props.itemId}/>:null} */}
+    {/* {createProductFormModalIsShown && 'components' in props.itemProps ? <CreateProductForm product={props.itemProps} onAddProduct={props.fetchProducts} onClose={()=>{setCreateProductFormModalIsShown(false)}}/>:null} */}
 
 
     <div className={gridItemStyle["grid-item"]}>

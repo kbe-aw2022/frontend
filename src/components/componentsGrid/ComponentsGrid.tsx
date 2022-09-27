@@ -1,18 +1,7 @@
 import GridItem from "../gridItem/GridItem";
 import "./ComponentsGrid.css";
 import { useEffect, useContext } from "react";
-import ramStockImage from "../../resources/images/ram.jpg"
-import mainboardStockImage from "../../resources/images/mainboard.jpg"
-import cpuStockImage from "../../resources/images/cpu.jpg"
-import gpuStockImage from "../../resources/images/gpu.jpg"
-import coolerStockImage from "../../resources/images/kuehler.jpg"
-import hddStockImage from "../../resources/images/hdd.jpg"
-import driveStockImage from "../../resources/images/drive.jpg"
-import caseStockImage from "../../resources/images/case.jpg"
-import psuStockImage from "../../resources/images/psu.jpg"
-import mouseStockImage from "../../resources/images/mouse.jpg"
-import keyboardStockImage from "../../resources/images/keyboard.jpg"
-import { componentsContext } from "../../store/components-context";
+import { componentsContext, componentTypeImages } from "../../store/components-context";
 import ComponentsGridItemMidArea from "../componentsGridItemMidArea/ComponentsGridItemMidArea";
 import { searchFilterContext } from "../../store/search-filter-context";
 import { currencyContext } from "../../store/currency-context";
@@ -25,19 +14,7 @@ const ComponentsGrid:React.FC<{}> = (props) =>{
     const searchCtx = useContext(searchFilterContext);
     const currencyCtx = useContext(currencyContext);
    
-    const componentTypeImages :any = {
-        "Mainboard" : mainboardStockImage,
-        "RAM": ramStockImage,
-        "Cooling fan" : coolerStockImage,
-        "GPU" : gpuStockImage,
-        "CPU" : cpuStockImage,
-        "SSD" : hddStockImage,
-        "Power-supply" : psuStockImage,
-        "Mouse" : mouseStockImage,
-        "Keyboard" : keyboardStockImage,
-        "Blueray-drive" : driveStockImage,
-        "PC Case" : caseStockImage
-    }
+   
 
     const {sendRequest:fetchComponents, error,loading} = useHttpRequest();
     const {sendRequest:fetchCurrencyExchangeRate} = useHttpRequest();
