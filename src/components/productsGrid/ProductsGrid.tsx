@@ -15,8 +15,8 @@
 // import keyboardStockImage from "../../resources/images/keyboard.jpg"
 import computerStockImage from "../../resources/images/computer.png"
 
-import { Fragment, useContext, useEffect, useState } from "react";
-import { product, productsContext } from "../../store/products-context";
+import { Fragment, useContext, useEffect } from "react";
+import { productsContext } from "../../store/products-context";
 import AddNewProductCard from "../addNewProductCard/AddNewProductCard";
 import GridItem from "../gridItem/GridItem";
 import ProductsGridItemMidArea from "../productsGridItemMidArea/ProductsGridItemMidArea";

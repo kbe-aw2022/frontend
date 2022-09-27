@@ -7,11 +7,9 @@ import { shoppingCartContext } from "../../store/shoppingCard-context"
 import ShoppingCartPopUp from "../shoppingCard/shoppingCartPopUp/ShoppingCartPopUp"
 import CurrencySelectorPopUp from "../currencySelector/currencySelectorPopUp/CurrencySelectorPopUp"
 import { currencyContext } from "../../store/currency-context"
-import LoginModal from "../authForms/loginModal/LoginModal"
-import RegistrationModal from "../authForms/registrationModal/RegistrationModal"
 import { authContext } from "../../store/auth-context"
 import AccountMenuPopUp from "../accountMenuPopUp/AccountMenuPopUp"
-import { useLocation, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 const ControlPanel:React.FC = () => {
 
@@ -24,7 +22,6 @@ const ControlPanel:React.FC = () => {
   const authCtx = useContext(authContext);
 
   const navigate = useNavigate();
-  const location = useLocation();
   
   const shoppingCartButtonOnClickHandler = () =>{
     currencySelectorPopUpIsShown && setCurrencySelectorPopUpIsShown(false);
