@@ -71,7 +71,7 @@ const GridItem:React.FC<{isDetailedView:boolean, onClose:()=>void, imgLink:strin
   }  , [itemName]);
 
 
-  const componentDetailViewModal = ('ean_number' in props.itemProps) && <ComponentDetailViewModal onClose={closeModal} imgLink={props.imgLink} componentProps={props.itemProps} itemId={props.itemId}/>;
+  const componentDetailViewModal = ('eanNumber' in props.itemProps) && <ComponentDetailViewModal onClose={closeModal} imgLink={props.imgLink} componentProps={props.itemProps} itemId={props.itemId}/>;
   const productDetailViewModal = ('components' in props.itemProps) && <CreateProductForm product={props.itemProps} onAddProduct={props.fetchProducts} onClose={closeModal}/>;
 
   // if(!props.isDetailedView){
@@ -82,7 +82,7 @@ const GridItem:React.FC<{isDetailedView:boolean, onClose:()=>void, imgLink:strin
     <Fragment>
     <Routes>
       <Route path={`${props.itemId}`} element={
-        ('ean_number' in props.itemProps) ? componentDetailViewModal: 
+        ('eanNumber' in props.itemProps) ? componentDetailViewModal: 
         ('components' in props.itemProps) && productDetailViewModal
       }/>
     </Routes>

@@ -37,33 +37,28 @@ const ProductsGrid:React.FC<{}> = (props) =>{
     
     const navigate = useNavigate();
     const {sendRequest:fetchComponents} = useHttpRequest();
-    const {sendRequest:fetchCurrencyExchangeRate} = useHttpRequest();
+    // const {sendRequest:fetchCurrencyExchangeRate} = useHttpRequest();
     const {sendRequest:fetchProducts,error,loading} = useHttpRequest();
 
     const processProducts = (products:any) =>{
         productsCtx.setProducts(products);
+        productsCtx.updateProductPrices();
+        productsCtx.updateProductPricesByCurrency(currencyCtx.currency.code);
     }
 
     useEffect(()=>{
 
-        const targetCurrencyCode   = currencyCtx.currency.code;
-
-        const updateCurrencyExchangeRate = (exchangeRate:any) => {
-            if(exchangeRate!==undefined && exchangeRate.rate!==undefined){
-                componentsCtx.updateComponentPricesByCurrency(exchangeRate.rate,targetCurrencyCode);
-            }
-        }
-
         const processComponents = (components:any) => {
             console.log("callback components:"+components);
             componentsCtx.setComponents(components);
-            fetchCurrencyExchangeRate("https://0lzfoo.deta.dev/currencies/EUR/"+targetCurrencyCode,updateCurrencyExchangeRate);
+            componentsCtx.updateComponentPricesByCurrency(currencyCtx.currency.code);
         }
 
         if( componentsCtx.components.length===0 ){
-            fetchComponents("https://0lzfoo.deta.dev/components",processComponents);
+            fetchComponents("http://localhost:9001/hardwarecomponents",processComponents);
         }
-        fetchProducts("https://0lzfoo.deta.dev/products",processProducts);
+        fetchProducts("http://localhost:9001/products",processProducts);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
@@ -72,11 +67,11 @@ const ProductsGrid:React.FC<{}> = (props) =>{
     }
 
     const onAddProductHandler = () => {
-        fetchProducts("https://0lzfoo.deta.dev/products",processProducts);
+        fetchProducts("http://localhost:9001/products",processProducts);
     }
 
     const onFetchProductsHandler = () =>{
-        fetchProducts("https://0lzfoo.deta.dev/products",processProducts);
+        fetchProducts("http://localhost:9001/products",processProducts);
     }
 
     let content = null;

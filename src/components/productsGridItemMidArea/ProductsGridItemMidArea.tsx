@@ -27,7 +27,7 @@ const ProductsGridItemMidArea:React.FC<{productId:string, components:number[]}> 
         <>
         <Routes>
             {includedComponents.map((component:component)=>
-                <Route key={component.id} path={`/grid/${props.productId}/c${component.id}`} element={<ComponentDetailViewModal onClose={closeModal} imgLink={componentTypeImages[component.product_group]} componentProps={component} itemId={"c"+component.id}/>}/>
+                <Route key={component.id} path={`/grid/${props.productId}/c${component.id}`} element={<ComponentDetailViewModal onClose={closeModal} imgLink={componentTypeImages[component.productGroup]} componentProps={component} itemId={"c"+component.id}/>}/>
             )}
         </Routes>
         

@@ -16,27 +16,27 @@ export const filterByNameAndKeyWords = (components:component[], searchFilter:str
           return component;
       }
       if(productTypeKeyWords.includes(searchFilter.toLowerCase())){
-          if(component.product_group.toLowerCase()===searchFilter.toLowerCase()){
+          if(component.productGroup.toLowerCase()===searchFilter.toLowerCase()){
               return component;
           }
       }
       if(powerSupplyKeyWords.includes(searchFilter.toLowerCase())){
-          if(component.product_group==="power-supply"){
+          if(component.productGroup==="power-supply"){
               return component;
           }
       }
       if(coolingFanKeyWords.includes(searchFilter.toLowerCase())){
-          if(component.product_group==="Cooling fan"){
+          if(component.productGroup==="Cooling fan"){
               return component;
           }
       }
       if(driveKeyWords.includes(searchFilter.toLowerCase())){
-          if(component.product_group==="Blueray-drive"){
+          if(component.productGroup==="Blueray-drive"){
               return component;
           }
       }
       if(caseKeyWords.includes(searchFilter.toLowerCase())){
-          if(component.product_group==="PC Case"){
+          if(component.productGroup==="PC Case"){
               return component;
           }
       }

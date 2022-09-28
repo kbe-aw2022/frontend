@@ -28,31 +28,12 @@ const CurrencySelectorListItem:React.FC<{ currency:currency }> = (props) => {
 
     const onClickHandler= async ()=>{
 
-        const oldCurrencyCode = currencyCtx.currency.code;
+        // const oldCurrencyCode = currencyCtx.currency.code;
         const targetCurrencyCode = props.currency.code;
-        const exchangeRateObj = await fetchCurrencyExchangeRate(oldCurrencyCode, targetCurrencyCode);
-        if(exchangeRateObj!==undefined && exchangeRateObj.rate!==undefined){
-            console.log(exchangeRateObj.rate)
-            componentsCtx.updateComponentPricesByCurrency(exchangeRateObj.rate,targetCurrencyCode);
-            productCtx.updateProductPricesByCurrency(exchangeRateObj.rate,targetCurrencyCode);
-            currencyCtx.setCurrency({...props.currency, exchangeRate:exchangeRateObj.rate});
-        }
+        componentsCtx.updateComponentPricesByCurrency(targetCurrencyCode);
+        productCtx.updateProductPricesByCurrency(targetCurrencyCode);
+        currencyCtx.setCurrency({...props.currency});
 
-    }
-
-    const fetchCurrencyExchangeRate = async (oldCurrencyCode:string, targetCurrencyCode:string) => {
-        
-        try {
-            const response:any = await fetch("https://0lzfoo.deta.dev/currencies/"+oldCurrencyCode+"/"+targetCurrencyCode);
-            if(!response.ok){
-                throw new Error(response.statusText);
-            }
-            const data = await response.json();
-            console.log(data);
-            return data;
-        } catch (error:any) {
-            console.log(error);
-        }
     }
 
     const countryFlagImageURL= props.currency.code==="BTC"? bitcoinIcon : "https://countryflagsapi.com/svg/"+props.currency.country;

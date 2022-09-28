@@ -1,11 +1,12 @@
 import GridItem from "../gridItem/GridItem";
 import "./ComponentsGrid.css";
 import { useEffect, useContext } from "react";
-import { componentsContext, componentTypeImages } from "../../store/components-context";
+import { component, componentsContext, componentTypeImages } from "../../store/components-context";
 import ComponentsGridItemMidArea from "../componentsGridItemMidArea/ComponentsGridItemMidArea";
 import { searchFilterContext } from "../../store/search-filter-context";
 import { currencyContext } from "../../store/currency-context";
 import useHttpRequest from "../../hooks/useHttpRequest/useHttpRequest";
+import useUpdateCurrency from "../../hooks/useUpdateCurrency/useUpdateCurrency";
 
 
 const ComponentsGrid:React.FC<{}> = (props) =>{
@@ -14,29 +15,31 @@ const ComponentsGrid:React.FC<{}> = (props) =>{
     const searchCtx = useContext(searchFilterContext);
     const currencyCtx = useContext(currencyContext);
    
-   
-
+    const {updateCurrency} =  useUpdateCurrency();
+    
     const {sendRequest:fetchComponents, error,loading} = useHttpRequest();
-    const {sendRequest:fetchCurrencyExchangeRate} = useHttpRequest();
     
     useEffect(()=>{
-        const targetCurrencyCode   = currencyCtx.currency.code;
-
-        const updateCurrencyExchangeRate = (exchangeRate:any) => {
-            if(exchangeRate!==undefined && exchangeRate.rate!==undefined){
-                componentsCtx.updateComponentPricesByCurrency(exchangeRate.rate,targetCurrencyCode);
-            }
-        }
-
+       
         const processComponents = (components:any) => {
             console.log("callback components:"+components);
             componentsCtx.setComponents(components);
-            fetchCurrencyExchangeRate("https://0lzfoo.deta.dev/currencies/EUR/"+targetCurrencyCode,updateCurrencyExchangeRate);
+            // updateCurrency(componentsCtx.components,currencyCtx.currency.code,(updatedComponents)=>{
+            //     componentsCtx.setComponents(updatedComponents as component[]);
+            // },);
         }
 
-        fetchComponents("https://0lzfoo.deta.dev/components",processComponents);
+        fetchComponents("http://localhost:9001/hardwarecomponents",processComponents);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
+
+    // useEffect(()=>{
+    //     // componentsCtx.updateComponentPricesByCurrency(currencyCtx.currency.code);
+    //     updateCurrency(componentsCtx.components,currencyCtx.currency.code,(updatedComponents)=>{
+    //         componentsCtx.setComponents(updatedComponents as component[]);
+    //     },);
+        
+    // },[currencyCtx.currency.code,updateCurrency])
 
     let content = null;
 
