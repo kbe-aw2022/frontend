@@ -22,6 +22,7 @@ import { componentsContext } from "../../store/components-context";
 import { searchFilterContext } from "../../store/search-filter-context";
 import { currencyContext } from "../../store/currency-context";
 import useHttpRequest from "../../hooks/useHttpRequest/useHttpRequest";
+import { authContext } from "../../store/auth-context";
 
 
 
@@ -49,6 +50,7 @@ const FavoritesGrid:React.FC<{}> = (props) =>{
     const favoritesCtx = useContext(favoritesContext);
     const currencyCtx = useContext(currencyContext);
     const searchCtx = useContext(searchFilterContext);
+    const authCtx = useContext(authContext);
 
 
     const {sendRequest:fetchComponents, error:componentsError,loading:componentsLoading} = useHttpRequest();
@@ -68,7 +70,11 @@ const FavoritesGrid:React.FC<{}> = (props) =>{
     }
 
     const fetchProductsHandler = ()=>{
-        fetchProducts("http://localhost:9001/products",processProducts);
+        fetchProducts("http://localhost:9001/products",processProducts,{
+            method:"POST",
+            headers:{"content-type":"application/json"},
+            payload:{"token":authCtx.currentUser?.token}
+        });
 
     }
 

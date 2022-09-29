@@ -27,6 +27,7 @@ import { component, componentsContext } from "../../store/components-context";
 import useHttpRequest from "../../hooks/useHttpRequest/useHttpRequest";
 import { currencyContext } from "../../store/currency-context";
 import useUpdateCurrency from "../../hooks/useUpdateCurrency/useUpdateCurrency";
+import { authContext } from "../../store/auth-context";
 
 
 const ProductsGrid:React.FC<{}> = (props) =>{
@@ -35,6 +36,7 @@ const ProductsGrid:React.FC<{}> = (props) =>{
     const componentsCtx = useContext(componentsContext);
     const searchCtx = useContext(searchFilterContext);
     const currencyCtx = useContext(currencyContext);
+    const authCtx = useContext(authContext);
     
     const navigate = useNavigate();
     const {sendRequest:fetchComponents} = useHttpRequest();
@@ -61,7 +63,11 @@ const ProductsGrid:React.FC<{}> = (props) =>{
         if( componentsCtx.components.length===0 ){
             fetchComponents("http://localhost:9001/hardwarecomponents",processComponents);
         }
-        fetchProducts("http://localhost:9001/products",processProducts);
+        fetchProducts("http://localhost:9001/products",processProducts,{
+            method:"POST",
+            headers:{"content-type":"application/json"},
+            payload:{"token":authCtx.currentUser?.token}
+        });
        
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
@@ -98,11 +104,19 @@ const ProductsGrid:React.FC<{}> = (props) =>{
     }
 
     const onAddProductHandler = () => {
-        fetchProducts("http://localhost:9001/products",processProducts);
+        fetchProducts("http://localhost:9001/products",processProducts,{
+            method:"POST",
+            headers:{"content-type":"application/json"},
+            payload:{"token":authCtx.currentUser?.token}
+        });
     }
 
     const onFetchProductsHandler = () =>{
-        fetchProducts("http://localhost:9001/products",processProducts);
+        fetchProducts("http://localhost:9001/products",processProducts,{
+            method:"POST",
+            headers:{"content-type":"application/json"},
+            payload:{"token":authCtx.currentUser?.token}
+        });
     }
 
     let content = null;
