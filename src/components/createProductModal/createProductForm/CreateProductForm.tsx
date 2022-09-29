@@ -12,7 +12,6 @@ import CreateProductFormComponentsListItem from "./CreateProductFormComponentsLi
 const CreateProductForm:React.FC<{product:product|null, onAddProduct:()=>void, onClose:()=>void}> = (props) => {
 
     const [productComponents, setProductComponents] = useState<component[]>([]);
-    // const [productName, setProductName] = useState("");
     const [productDescription, setProductDescription] = useState("");
     const [componentSelectorModalIsShown, setComponentSelectorModalIsShown] = useState(false);
 
@@ -45,14 +44,9 @@ const CreateProductForm:React.FC<{product:product|null, onAddProduct:()=>void, o
             if(props.product!=null){
                 setProductNameInputValue(props.product.name);
                 setProductDescription(props.product.description);
-                setProductComponents(componentsCtx.components.filter(component=> {
-                    if(props.product!==null && component.id in props.product.components){
-                         return component;
-                    }
-                    return null;
-                }));
+                setProductComponents(props.product.hardwareComponents);
             }
-        },[props.product, componentsCtx.components, setProductNameInputValue])
+        },[props.product, componentsCtx, setProductNameInputValue])
 
     let formIsValid = productNameIsValid && productComponents.length>0;
 
@@ -140,7 +134,7 @@ const CreateProductForm:React.FC<{product:product|null, onAddProduct:()=>void, o
                     <button className={styles["add-component-button"]} type="button" onClick={openComponentSelectorModal} disabled={notAddedComponents.length===0}>Add component</button>
                 </li>
             </ul>
-            <p className={styles["total-price"]}>total: {calculatePriceSum().toFixed(2)} {currencyCtx.currency.symbol}</p>
+            <p className={styles["total-price"]}>total: {(props.product) ? parseFloat(props.product.price).toFixed(2): calculatePriceSum().toFixed(2)} {currencyCtx.currency.symbol}</p>
          </span>
         </Form>
         

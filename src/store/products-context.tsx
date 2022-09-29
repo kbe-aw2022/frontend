@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import useHttpRequest from "../hooks/useHttpRequest/useHttpRequest";
-import useUpdateCurrency from "../hooks/useUpdateCurrency/useUpdateCurrency";
+import { component } from "./components-context";
 
 type productsContextObj ={
     products:product[],
@@ -10,18 +10,18 @@ type productsContextObj ={
 };
 
 export type product = {
-    id:string
+    id:string,
     name:string,
     eurPrice:string,
-    price:string
-    description:string
-    components:number[]
+    price:string,
+    description:string,
+    hardwareComponents:component[]
 }
 
 export const productsContext = React.createContext<productsContextObj>({products:[], setProducts:(products:product[])=>{}, updateProductPricesByCurrency:()=>{}, updateProductPrices:()=>{}});
 
 
-var dummyProducts:product[] = [{id:"0",components:[1,3], name:"product1", eurPrice:"20", price:'20', description:"" }]
+var dummyProducts:product[] = [{id:"0",hardwareComponents:[], name:"product1", eurPrice:"20", price:'20', description:"" }]
 
 const ProductsContextProvider:React.FC<{children?: React.ReactNode}> = (props) => {
   const [products,setProducts] = useState<product[]>(dummyProducts);
@@ -41,21 +41,22 @@ const ProductsContextProvider:React.FC<{children?: React.ReactNode}> = (props) =
 
   }
 
-  const updateProductPrices = () => {
+  const getProductsPrices = async () => {
 
     const newProducts:product[] = [];
 
-      for (const product of products)
+      for(const product of products)
       {
-        fetchProductPrice("http://localhost:9001/price",
-          (newPrice)=>{
-            newProducts.push({...product,eurPrice:newPrice});
-          },{
+        const {eurPrice,...sendProduct} = product;
+        const newPrice = await fetchProductPrice("http://localhost:9001/price",()=>{},
+        {
               method:"POST",
-              headers:"",
-              payload:product
-          });
-          
+              headers:{
+                "content-type":"application/json"
+            },
+              payload:sendProduct
+        });
+        newProducts.push({...product,price:newPrice,eurPrice:newPrice});
       }
 
     setProducts(newProducts);
@@ -66,7 +67,7 @@ const ProductsContextProvider:React.FC<{children?: React.ReactNode}> = (props) =
     products,
     setProducts,
     updateProductPricesByCurrency:useUpdateProductPricesByCurrency,
-    updateProductPrices
+    updateProductPrices:getProductsPrices
   }
 
   return (

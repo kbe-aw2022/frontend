@@ -38,7 +38,7 @@ const CreateProductFormComponentsListItem:React.FC<{component:component, currenc
         <p className={styles["component-list-item-type"]}>{props.component.productGroup}</p>
         { isOverflow ? <p className={styles["component-list-item-name"]} ref={itemNameRef}  title={props.component.name} >{props.component.name}</p> : <p className={styles["component-list-item-name"]} ref={itemNameRef}>{props.component.name}</p>}
         <span className={styles["currency-close-button-wrapper"]}>
-            <p>{props.component.price} {props.currencySymbol}</p>
+            <p>{parseFloat(props.component.price).toFixed(2)} {props.currencySymbol}</p>
             {props.showButton && <button className={styles["remove-button"]} onClick={onRemoveButtonClickHandler} >X</button>}
         </span>
     </li>

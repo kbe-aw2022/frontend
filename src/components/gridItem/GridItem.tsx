@@ -72,7 +72,7 @@ const GridItem:React.FC<{isDetailedView:boolean, onClose:()=>void, imgLink:strin
 
 
   const componentDetailViewModal = ('eanNumber' in props.itemProps) && <ComponentDetailViewModal onClose={closeModal} imgLink={props.imgLink} componentProps={props.itemProps} itemId={props.itemId}/>;
-  const productDetailViewModal = ('components' in props.itemProps) && <CreateProductForm product={props.itemProps} onAddProduct={props.fetchProducts} onClose={closeModal}/>;
+  const productDetailViewModal = ('hardwareComponents' in props.itemProps) && <CreateProductForm product={props.itemProps} onAddProduct={props.fetchProducts} onClose={closeModal}/>;
 
   // if(!props.isDetailedView){
   // console.log(`griditem ${props.itemId} render!`)}
@@ -83,7 +83,7 @@ const GridItem:React.FC<{isDetailedView:boolean, onClose:()=>void, imgLink:strin
     <Routes>
       <Route path={`${props.itemId}`} element={
         ('eanNumber' in props.itemProps) ? componentDetailViewModal: 
-        ('components' in props.itemProps) && productDetailViewModal
+        ('hardwareComponents' in props.itemProps) && productDetailViewModal
       }/>
     </Routes>
 

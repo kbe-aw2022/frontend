@@ -76,7 +76,7 @@ const ControlPanel:React.FC = () => {
         </div>
         <span className={styles["background-gradient"]}>
           <div className={styles["currency-selector"]}>
-            <button className={styles["currency-selector-button"]} onClick={currencySelectorButtonOnClickHandler}>
+            <div className={styles["currency-selector-button"]} onClick={currencySelectorButtonOnClickHandler}>
               <p className={styles["currency-name"]}>{currencyCtx.currency.name}</p>
               <span className={styles["currency-icon-and-popup-wrapper"]}>
               <img src={currencyIcon} alt="not loaded" className={styles["currency-icon"]} />
@@ -84,7 +84,7 @@ const ControlPanel:React.FC = () => {
                 {currencySelectorPopUpIsShown?<CurrencySelectorPopUp closePopUpHandler={currencySelectorButtonOnClickHandler}/>:null}
               </span> 
               </span>
-            </button>
+            </div>
           </div>
             <div className={styles["account-selector"]}>
               <button className={styles["log-in-button"]} onClick={loginButtonOnClickHandler} >

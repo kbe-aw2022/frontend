@@ -15,6 +15,7 @@ import useUpdateCurrency from "../hooks/useUpdateCurrency/useUpdateCurrency";
 type componentsContextObj ={
     components:component[],
     setComponents:(components:component[])=>void,
+    setComponentPrices:()=>void,
     updateComponentPricesByCurrency:(targetCurrencyCode:string, componentsToUpdate?:component[])=>void
 };
 
@@ -27,45 +28,47 @@ export type component = {
   price:string, 
   description:string, 
   location:string, 
-  manufacturer:string, 
+  manufacture:string, 
   productGroup:string, 
-  weight:string,
+  weightInGramm:string,
   status:string,
   eanNumber:string
 }
 
 export const componentTypeImages :any = {
-  "Mainboard" : mainboardStockImage,
+  "mainboard" : mainboardStockImage,
   "RAM": ramStockImage,
   "Cooling fan" : coolerStockImage,
   "GPU" : gpuStockImage,
   "CPU" : cpuStockImage,
   "SSD" : hddStockImage,
-  "Power-supply" : psuStockImage,
+  "power-supply" : psuStockImage,
   "Mouse" : mouseStockImage,
   "Keyboard" : keyboardStockImage,
   "Blueray-drive" : driveStockImage,
   "PC Case" : caseStockImage
 }
 
-export const componentsContext = React.createContext<componentsContextObj>({components:[], setComponents:()=>{}, updateComponentPricesByCurrency:()=>{}});
+export const componentsContext = React.createContext<componentsContextObj>({components:[], setComponents:()=>{},setComponentPrices:()=>{}, updateComponentPricesByCurrency:()=>{}});
 
 const ComponentsContextProvider:React.FC<{children?: React.ReactNode}> = (props) => {
     const [components,setComponents] = useState<component[]>([]);
+    const {updateCurrency} = useUpdateCurrency();
+
+    const setComponentPrices= () => {
+      setComponents(components.map((component)=>{return {...component,eurPrice:component.price}}));
+    }
 
     const useUpdateComponentPricesByCurrency = async (targetCurrencyCode:string,componentsToUpdate=components) =>{
 
-      // setComponents((components:component[])=>{
-      //   return updateCurrency(components,exchangeRate,targetCurrencyCode) as component[];
-      // })
-      // useUpdateCurrency(componentsToUpdate,targetCurrencyCode, (updatedComponents)=>{
-      //   setComponents(updatedComponents as component[]);
-      // });
+      updateCurrency(components,"USD",(newComponents)=>{setComponents(newComponents as component[])});
+    
     }
     
     const componentsContextValue:componentsContextObj ={
         components:components,
         setComponents: setComponents,
+        setComponentPrices,
         updateComponentPricesByCurrency:useUpdateComponentPricesByCurrency
     }
 

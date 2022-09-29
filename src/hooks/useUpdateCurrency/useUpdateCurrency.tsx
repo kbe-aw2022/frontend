@@ -24,16 +24,20 @@ const useUpdateCurrency =  ()=>{
                 updatedItems.push(updatePrice(item,newPrice));
             },{
                 method:"POST",
-                headers:{},
-                payload:{price:5, currency:targetCurrencyCode}
+                headers:{
+                    "content-type":"application/json"
+                },
+                payload:{price:item.eurPrice, currency:targetCurrencyCode}
                 
             })
+            // updatedItems.push({})
             
         }
         
         callback(updatedItems);
         
         return updatedItems;    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
     return {updateCurrency:updateCurrency};

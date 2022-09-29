@@ -23,28 +23,33 @@ const ComponentsGrid:React.FC<{}> = (props) =>{
        
         const processComponents = (components:any) => {
             console.log("callback components:"+components);
-            componentsCtx.setComponents(components);
-            // updateCurrency(componentsCtx.components,currencyCtx.currency.code,(updatedComponents)=>{
-            //     componentsCtx.setComponents(updatedComponents as component[]);
-            // },);
+            componentsCtx.setComponents(components as component[]);
         }
 
         fetchComponents("http://localhost:9001/hardwarecomponents",processComponents);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 
-    // useEffect(()=>{
-    //     // componentsCtx.updateComponentPricesByCurrency(currencyCtx.currency.code);
-    //     updateCurrency(componentsCtx.components,currencyCtx.currency.code,(updatedComponents)=>{
-    //         componentsCtx.setComponents(updatedComponents as component[]);
-    //     },);
-        
-    // },[currencyCtx.currency.code,updateCurrency])
+    useEffect(()=>{
+        if(componentsCtx.components.length!==0 && isNaN(parseFloat(componentsCtx.components[0].eurPrice)))
+        {
+            componentsCtx.setComponentPrices();
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[componentsCtx])
+
+    useEffect(()=>{
+        // componentsCtx.updateComponentPricesByCurrency(currencyCtx.currency.code);
+        updateCurrency(componentsCtx.components,currencyCtx.currency.code,(updatedComponents)=>{
+            componentsCtx.setComponents(updatedComponents as component[]);
+        },);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[currencyCtx.currency.code,updateCurrency])
 
     let content = null;
 
     if(!loading && error==null){
-        content = searchCtx.applyTypeFilters(searchCtx.applyVendorFilters(searchCtx.filterByNameAndKeyWords(componentsCtx.components))).map((component:any, index:number) => <GridItem onClose={()=>{}} isProduct={false} fetchProducts={()=>{}} isDetailedView={false} midArea={<ComponentsGridItemMidArea componentProps={component} isDetailedView={false}/>} key={index} imgLink={componentTypeImages[component.product_group]} itemProps={component} itemId={'c'+index}/>)
+        content = searchCtx.applyTypeFilters(searchCtx.applyVendorFilters(searchCtx.filterByNameAndKeyWords(componentsCtx.components))).map((component:any) => <GridItem onClose={()=>{}} isProduct={false} fetchProducts={()=>{}} isDetailedView={false} midArea={<ComponentsGridItemMidArea componentProps={component} isDetailedView={false}/>} key={component.id} imgLink={componentTypeImages[component.productGroup]} itemProps={component} itemId={'c'+component.id}/>)
     }
 
     if(error){
@@ -52,7 +57,7 @@ const ComponentsGrid:React.FC<{}> = (props) =>{
     }
 
     if(loading){
-        // content = <p>Loading...</p>
+        content = <p>Loading...</p>
     }
     
     return(

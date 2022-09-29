@@ -12,7 +12,7 @@ const LoginModal:React.FC<{onContextSwitch:()=>void, onClose:()=>void}> = (props
 
     const fillWithDummyData = () => {
         setUserNameInputValue("john.doe@mail.com")
-        setPasswordInputValue("dummypassword")
+        setPasswordInputValue("dummypassword2")
     }
   
     const validateUserName =(input:string) =>{
@@ -44,7 +44,7 @@ const LoginModal:React.FC<{onContextSwitch:()=>void, onClose:()=>void}> = (props
 
         if(formIsValid){
             console.log("Form is valid!")
-            sendLoginRequest("http://localhost:8080/users/login",onResponse,
+            sendLoginRequest("https://6qsv0v.deta.dev/users/login",onResponse,
             {
                 method: "POST",
                 headers: {"content-type":"application/json"},
