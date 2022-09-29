@@ -44,7 +44,7 @@ const LoginModal:React.FC<{onContextSwitch:()=>void, onClose:()=>void}> = (props
 
         if(formIsValid){
             console.log("Form is valid!")
-            sendLoginRequest("http://localhost:8080/users/login",onResponse,
+            sendLoginRequest("https://6qsv0v.deta.dev/users/login",onResponse,
             {
                 method: "POST",
                 headers: {"content-type":"application/json"},

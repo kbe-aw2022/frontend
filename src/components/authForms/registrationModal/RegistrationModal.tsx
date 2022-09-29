@@ -69,7 +69,7 @@ const RegistrationModal:React.FC<{onContextSwitch:()=>void, onClose:()=>void}> =
 
         if(formIsValid){
             console.log("Form is valid!")
-            sendRegistrationRequest("http://localhost:8080/users/register",onResponse,
+            sendRegistrationRequest("https://6qsv0v.deta.dev/users/register",onResponse,
             {
                 method: "POST",
                 headers: {"content-type":"application/json"},
