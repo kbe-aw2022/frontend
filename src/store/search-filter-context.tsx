@@ -90,7 +90,7 @@ const SearchFilterContextProvider:React.FC<{children?: React.ReactNode}> = (prop
     }
     return components.filter((component)=>{
         for(const filter of typeFilters){
-            if(component.product_group.toLowerCase()===filter.toLowerCase()){
+            if(component.productGroup.toLowerCase()===filter.toLowerCase()){
               return component;
             }
         }

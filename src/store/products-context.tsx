@@ -1,40 +1,73 @@
 import React, { useState } from "react";
-import updateCurrency from "../util/currencyUpdate-functions";
+import useHttpRequest from "../hooks/useHttpRequest/useHttpRequest";
+import { component } from "./components-context";
 
 type productsContextObj ={
     products:product[],
     setProducts:(products:product[])=>void,
-    updateProductPricesByCurrency:(exchangeRate:number,targetCurrencyCode:string)=>void
+    updateProductPricesByCurrency:(targetCurrencyCode:string)=>void,
+    updateProductPrices:()=>void
 };
 
 export type product = {
-    id:string
-    name:string
-    price:string
-    description:string
-    components:number[]
+    id:string,
+    name:string,
+    eurPrice:string,
+    price:string,
+    description:string,
+    hardwareComponents:component[]
 }
 
-export const productsContext = React.createContext<productsContextObj>({products:[], setProducts:(products:product[])=>{}, updateProductPricesByCurrency:()=>{}});
+export const productsContext = React.createContext<productsContextObj>({products:[], setProducts:(products:product[])=>{}, updateProductPricesByCurrency:()=>{}, updateProductPrices:()=>{}});
 
 
-var dummyProducts:product[] = [{id:"0",components:[1,3], name:"product1", price:'20', description:"" },{id:"1",components:[2,4,6,1,3,5,7,8], name:"product2", price:'40', description:"" }]
+var dummyProducts:product[] = [{id:"0",hardwareComponents:[], name:"product1", eurPrice:"20", price:'20', description:"" }]
 
 const ProductsContextProvider:React.FC<{children?: React.ReactNode}> = (props) => {
   const [products,setProducts] = useState<product[]>(dummyProducts);
+  const {sendRequest:fetchProductPrice} = useHttpRequest();
 
-  const updateProductPricesByCurrency = (exchangeRate:number,targetCurrencyCode:string) =>{
 
-    setProducts((products:product[])=>{
-      return updateCurrency(products,exchangeRate,targetCurrencyCode) as product[];
-    })
+  const useUpdateProductPricesByCurrency = async (targetCurrencyCode:string) =>{
 
+    // useUpdateCurrency(products,targetCurrencyCode,(updatedProducts)=>{
+    //   setProducts(updatedProducts as product[]);
+    // });
+
+    // setProducts((products:product[])=>{
+    //   return await useUpdateCurrency(products,exchangeRate,targetCurrencyCode);
+    // })
+
+
+  }
+
+  const getProductsPrices = async () => {
+
+    const newProducts:product[] = [];
+
+      for(const product of products)
+      {
+        const {eurPrice,...sendProduct} = product;
+        const newPrice = await fetchProductPrice("http://localhost:9001/price",()=>{},
+        {
+              method:"POST",
+              headers:{
+                "content-type":"application/json"
+            },
+              payload:sendProduct
+        });
+        newProducts.push({...product,price:newPrice,eurPrice:newPrice});
+      }
+
+    setProducts(newProducts);
+    
   }
   
   const productsContextValue:productsContextObj ={
-    products:products,
-    setProducts: setProducts,
-    updateProductPricesByCurrency:updateProductPricesByCurrency
+    products,
+    setProducts,
+    updateProductPricesByCurrency:useUpdateProductPricesByCurrency,
+    updateProductPrices:getProductsPrices
   }
 
   return (

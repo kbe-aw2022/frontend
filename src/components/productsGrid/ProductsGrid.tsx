@@ -16,16 +16,17 @@
 import computerStockImage from "../../resources/images/computer.png"
 
 import { Fragment, useContext, useEffect } from "react";
-import { productsContext } from "../../store/products-context";
+import { product, productsContext } from "../../store/products-context";
 import AddNewProductCard from "../addNewProductCard/AddNewProductCard";
 import GridItem from "../gridItem/GridItem";
 import ProductsGridItemMidArea from "../productsGridItemMidArea/ProductsGridItemMidArea";
 import { searchFilterContext } from "../../store/search-filter-context";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import CreateProductForm from "../createProductModal/createProductForm/CreateProductForm";
-import { componentsContext } from "../../store/components-context";
+import { component, componentsContext } from "../../store/components-context";
 import useHttpRequest from "../../hooks/useHttpRequest/useHttpRequest";
 import { currencyContext } from "../../store/currency-context";
+import useUpdateCurrency from "../../hooks/useUpdateCurrency/useUpdateCurrency";
 
 
 const ProductsGrid:React.FC<{}> = (props) =>{
@@ -37,46 +38,71 @@ const ProductsGrid:React.FC<{}> = (props) =>{
     
     const navigate = useNavigate();
     const {sendRequest:fetchComponents} = useHttpRequest();
-    const {sendRequest:fetchCurrencyExchangeRate} = useHttpRequest();
+    // const {sendRequest:fetchCurrencyExchangeRate} = useHttpRequest();
     const {sendRequest:fetchProducts,error,loading} = useHttpRequest();
+    const {updateCurrency:updateProductsCurrency} =  useUpdateCurrency();
+    const {updateCurrency:updateComponentsCurrency} =  useUpdateCurrency();
+
+
 
     const processProducts = (products:any) =>{
         productsCtx.setProducts(products);
+        productsCtx.updateProductPricesByCurrency(currencyCtx.currency.code);
     }
 
     useEffect(()=>{
 
-        const targetCurrencyCode   = currencyCtx.currency.code;
-
-        const updateCurrencyExchangeRate = (exchangeRate:any) => {
-            if(exchangeRate!==undefined && exchangeRate.rate!==undefined){
-                componentsCtx.updateComponentPricesByCurrency(exchangeRate.rate,targetCurrencyCode);
-            }
-        }
-
         const processComponents = (components:any) => {
             console.log("callback components:"+components);
             componentsCtx.setComponents(components);
-            fetchCurrencyExchangeRate("https://0lzfoo.deta.dev/currencies/EUR/"+targetCurrencyCode,updateCurrencyExchangeRate);
+            // componentsCtx.updateComponentPricesByCurrency(currencyCtx.currency.code);
         }
 
         if( componentsCtx.components.length===0 ){
-            fetchComponents("https://0lzfoo.deta.dev/components",processComponents);
+            fetchComponents("http://localhost:9001/hardwarecomponents",processComponents);
         }
-        fetchProducts("https://0lzfoo.deta.dev/products",processProducts);
+        fetchProducts("http://localhost:9001/products",processProducts);
+       
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[])
+    },[]);
+
+    useEffect(()=>{
+        if(componentsCtx.components.length!==0 && isNaN(parseFloat(componentsCtx.components[0].eurPrice)))
+        {
+            componentsCtx.setComponentPrices();
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[componentsCtx]);
+
+    useEffect(()=>{
+        if(productsCtx.products.length!==0 && isNaN(parseFloat(productsCtx.products[0].price))){
+            productsCtx.updateProductPrices();
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[productsCtx]);
+
+    useEffect(()=>{
+        // componentsCtx.updateComponentPricesByCurrency(currencyCtx.currency.code);
+        updateProductsCurrency(productsCtx.products,currencyCtx.currency.code,(updatedProducts)=>{
+            productsCtx.setProducts(updatedProducts as product[]);
+        },);
+
+        updateComponentsCurrency(componentsCtx.components,currencyCtx.currency.code,(updatedComponents)=>{
+            componentsCtx.setComponents(updatedComponents as component[]);
+        },);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[currencyCtx.currency.code,updateProductsCurrency])
 
     const onCloseCreateProductFormHandler = () =>{
         navigate("/products");
     }
 
     const onAddProductHandler = () => {
-        fetchProducts("https://0lzfoo.deta.dev/products",processProducts);
+        fetchProducts("http://localhost:9001/products",processProducts);
     }
 
     const onFetchProductsHandler = () =>{
-        fetchProducts("https://0lzfoo.deta.dev/products",processProducts);
+        fetchProducts("http://localhost:9001/products",processProducts);
     }
 
     let content = null;
@@ -85,7 +111,7 @@ const ProductsGrid:React.FC<{}> = (props) =>{
     
         content=  
                 <Fragment>
-                    {searchCtx.filterByName(productsCtx.products).map((product:any) => <GridItem isDetailedView={false} onClose={()=>{}} isProduct={true} fetchProducts={onFetchProductsHandler} midArea={<ProductsGridItemMidArea productId={product.id} components={product.components.map((p:string)=>parseInt(p))}/>} 
+                    {searchCtx.filterByName(productsCtx.products).map((product:any) => <GridItem isDetailedView={false} onClose={()=>{}} isProduct={true} fetchProducts={onFetchProductsHandler} midArea={<ProductsGridItemMidArea productId={product.id} components={product.hardwareComponents}/>} 
                     key={product.id} imgLink={computerStockImage} itemProps={product} itemId={'p'+product.id}/>)}
                     <AddNewProductCard/>
                 </Fragment> 

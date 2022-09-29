@@ -30,11 +30,13 @@ const useHttpRequest = () => {
                 }
                 const data= await response.json();
                 onResponseCallback && onResponseCallback(data);
+                return data;
             } catch (error:any) {
                 console.log("error:"+error);
                 setError(error.message)
+            }finally{
+                config.method === "GET" && setLoading(false);
             }
-            config.method === "GET" && setLoading(false);
     },[]);
 
     return {

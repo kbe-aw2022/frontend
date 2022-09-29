@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { componentsContext } from '../../../store/components-context';
-import { productsContext } from '../../../store/products-context';
+import { product, productsContext } from '../../../store/products-context';
 import { shoppingCartContext } from '../../../store/shoppingCard-context';
 import ShoppingCartPopUp from './ShoppingCartPopUp';
 
@@ -8,12 +8,12 @@ import ShoppingCartPopUp from './ShoppingCartPopUp';
 describe("shoppingCartPopUp",()=>{
     // render(<ShoppingCartPopUp closePopUpHandler={()=>{}}/>)
     // const list = screen.getByRole()
-    const dummyComponents=[{id:1, img:"", name:"testComponent", vendor:"", price:"4", description:"", location:"", manufacturer:"", product_group:"", ean_number:"", weight:"", status:"" }];
-    const dummyProducts=[{id:"1",name:"testProduct",description:"",price:"5",components:[0]}] 
+    const dummyComponents=[{id:1, img:"", name:"testComponent", vendor:"",eurPrice:"4", price:"4", description:"", location:"", manufacture:"", productGroup:"", eanNumber:"", weightInGramm:"", status:"" }];
+    const dummyProducts=[{id:"1",name:"testProduct",description:"",eurPrice:"5", price:"5",hardwareComponents:[]}] 
     const dummyShoppingCart=[{itemId:"c1", amount:1}, {itemId:"p1", amount:1}]
     const shoppingCartContextValue = {shoppingCart:dummyShoppingCart, addToCart:()=>{}, decreaseAmount:()=>{}, removeFromCart:()=>{}, isInCart:()=>{return true}, getCartItemAmountById:()=>{return 2}, setCartItemAmountById:()=>{}, getCartItemsAmount:()=>{return 1}}
-    const componentsContextValue = {components:dummyComponents , setComponents:()=>{}, updateComponentPricesByCurrency:()=>{}};
-    const productsContextValue = {products:dummyProducts, setProducts:()=>{}, updateProductPricesByCurrency:()=>{}};
+    const componentsContextValue = {components:dummyComponents , setComponents:()=>{}, setComponentPrices:()=>{}, updateComponentPricesByCurrency:()=>{}};
+    const productsContextValue = {products:dummyProducts, setProducts:()=>{}, updateProductPrices:()=>{}, updateProductPricesByCurrency:()=>{}};
 
 
     test('renders shoppingCartPopUpList with one component list item', () => {

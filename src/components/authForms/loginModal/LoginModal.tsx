@@ -12,7 +12,7 @@ const LoginModal:React.FC<{onContextSwitch:()=>void, onClose:()=>void}> = (props
 
     const fillWithDummyData = () => {
         setUserNameInputValue("john.doe@mail.com")
-        setPasswordInputValue("dummypassword")
+        setPasswordInputValue("dummypassword2")
     }
   
     const validateUserName =(input:string) =>{
