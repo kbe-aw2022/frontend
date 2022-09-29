@@ -87,7 +87,7 @@ const ControlPanel:React.FC = () => {
             </div>
           </div>
             <div className={styles["account-selector"]}>
-              <button className={styles["log-in-button"]} onClick={loginButtonOnClickHandler} >
+              <button className={styles["log-in-button"]} id="log-in-button" onClick={loginButtonOnClickHandler} >
                 <p className={styles["user-name"]}>{authCtx.isLoggedIn? authCtx.currentUser?.userName : "login"}</p>
                 <img src={userIcon} alt="not loaded" className={styles["user-icon"]} />
               </button>
