@@ -6,6 +6,7 @@
 }
 
 .search-bar{
+    width: 100%;
     display: flex;
 }
 
@@ -14,7 +15,7 @@
     /* margin-left: 12px; */
     flex: 1;
     height: 36px;
-    width: 300px;
+    width: 100%;
     border-radius: 2px;
     padding-left: 10px;
     border: 1px solid rgb(192, 192, 192);
@@ -30,5 +31,6 @@
     align-items: center;
     justify-content: center;
     width: 40px;
+    cursor: pointer;
 
 }

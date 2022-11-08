@@ -11,7 +11,7 @@ const ComponentDetailViewModal:React.FC<{onClose:()=>void, componentProps:compon
     return (
       <Modal onClose={props.onClose}>
           {/* <div className={styles['component-detail-view']}> */}
-            <GridItem isDetailedView={true} onClose={props.onClose} imgLink={props.imgLink} itemProps={props.componentProps} itemId={props.itemId} midArea={midArea}></GridItem>
+            <GridItem isDetailedView={true} isProduct={false} fetchProducts={()=>{}} onClose={props.onClose} imgLink={props.imgLink} itemProps={props.componentProps} itemId={props.itemId} midArea={midArea}></GridItem>
           {/* </div> */}
       </Modal>
   )

@@ -2,7 +2,7 @@
     /* border: 1px darkgray solid; */
     background-color: rgb(224, 222, 222);
     height: 600px;
-    width: 444px;
+    width: 427px;
     margin-bottom: 30px;
     margin-right: 26px;
     display: flex;
@@ -18,7 +18,6 @@
 
 .image{
     border: none;
-    object-fit:cover;
       /* flex: 1; */
       height: 304px;
       width: 100%;

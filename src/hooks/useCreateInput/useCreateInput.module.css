@@ -1,0 +1,33 @@
+.input-field-label-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    /* margin-bottom: 10px; */
+
+}
+
+.input-field-label{
+    align-self: flex-start;
+}
+
+.input-field{
+    width: 100%;
+}
+
+.error-message-tooltip{
+    background-color: rgb(247, 93, 93);
+    border: solid 2px rgb(185, 2, 2);
+    align-self: flex-start;
+    position: absolute;
+    padding: 2px;
+    top: 42px;
+}
+
+.error-message{
+    color: darkred;
+    align-self: flex-start;
+    margin: 4px;
+}

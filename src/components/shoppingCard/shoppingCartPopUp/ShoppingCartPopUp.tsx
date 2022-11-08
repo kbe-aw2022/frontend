@@ -1,5 +1,7 @@
 import { useContext } from "react";
+import PopUp from "../../../layout/popUp/PopUp";
 import { componentsContext } from "../../../store/components-context";
+import { currencyContext } from "../../../store/currency-context";
 import { productsContext } from "../../../store/products-context";
 import { shoppingCartContext } from "../../../store/shoppingCard-context";
 import ShoppingCartPopUpListItem from "../shoppingCartPopUpListItem/ShoppingCartPopUpListItem";
@@ -11,6 +13,7 @@ const ShoppingCartPopUp:React.FC<{closePopUpHandler:()=>void}> = (props) => {
     const shoppingCartCtx = useContext(shoppingCartContext);
     const productsCtx = useContext(productsContext);
     const componentsCtx = useContext(componentsContext);
+    const currencyCtx = useContext(currencyContext);
 
     const inShoppingCardProducts = productsCtx.products.filter((product)=>{return shoppingCartCtx.isInCart('p'+product.id)});
     const inShoppingCardComponents = componentsCtx.components.filter((component)=>{return shoppingCartCtx.isInCart('c'+component.id)});
@@ -28,7 +31,8 @@ const ShoppingCartPopUp:React.FC<{closePopUpHandler:()=>void}> = (props) => {
         return priceSum;
     }
 
-    let content = shoppingCartCtx.shoppingCart.length===0 ? "NO ITEMS IN SHOPPING CART" :
+
+    let content = shoppingCartCtx.shoppingCart.length===0 ? <p className={styles["no-items-warning"]}> NO ITEMS IN SHOPPING CART </p> :
         <ul className={styles["shopping-cart-items-list"]}>
             {shoppingCartCtx.shoppingCart.map((cartItem)=>{
                 if(cartItem.itemId.startsWith("p")){
@@ -60,17 +64,15 @@ const ShoppingCartPopUp:React.FC<{closePopUpHandler:()=>void}> = (props) => {
 
 
   return (
-    <div className={styles["shopping-cart-popup"]}>
-        <div className={styles["shopping-cart-popup-top-bar"]}>
-            <p>Shopping Cart</p>
-            <button className={styles["shopping-cart-popup-close-button"]} onClick={props.closePopUpHandler}>X</button>
-        </div>
-        {content}
-        <div className={styles["shopping-cart-popup-bottom-bar"]}>
-            <p>total: {calculatePriceSum().toFixed(2)} &euro;</p>
-            <p className={styles["proceed-to-checkout-link"]}>proceed to checkout</p>
-        </div>
-    </div>
+      <PopUp popUpTitle="Shopping Cart" size={{width: 300,height: 360}} onClose={props.closePopUpHandler}>
+        <span className={styles["shopping-cart-popup-body"]}>
+            {content}
+            <div className={styles["shopping-cart-popup-bottom-bar"]}>
+                <p>total: {calculatePriceSum().toFixed(2)} {currencyCtx.currency.symbol}</p>
+                <p className={styles["proceed-to-checkout-link"]}>proceed to checkout</p>
+            </div>
+        </span>
+      </PopUp>
   )
 }
 export default ShoppingCartPopUp

@@ -8,12 +8,12 @@ import ShoppingCartPopUp from './ShoppingCartPopUp';
 describe("shoppingCartPopUp",()=>{
     // render(<ShoppingCartPopUp closePopUpHandler={()=>{}}/>)
     // const list = screen.getByRole()
-    const dummyComponents=[{id:1, img:"", name:"testComponent", vendor:"", price:"4", description:"", location:"", manufacturer:"", product_group:"", ean_number:"", weight:"", status:"" }];
-    const dummyProducts=[{id:1,name:"testProduct",price:"5",productComponents:[0]}] 
+    const dummyComponents=[{id:"1", img:"", name:"testComponent", vendor:"", price:"4", description:"", location:"", manufacturer:"", productGroup:"", eanNumber:"", weight:"", status:"" }];
+    const dummyProducts=[{id:"1",name:"testProduct",description:"",price:"5",componentIds:["0"]}] 
     const dummyShoppingCart=[{itemId:"c1", amount:1}, {itemId:"p1", amount:1}]
     const shoppingCartContextValue = {shoppingCart:dummyShoppingCart, addToCart:()=>{}, decreaseAmount:()=>{}, removeFromCart:()=>{}, isInCart:()=>{return true}, getCartItemAmountById:()=>{return 2}, setCartItemAmountById:()=>{}, getCartItemsAmount:()=>{return 1}}
-    const componentsContextValue = {components:dummyComponents , setComponents:()=>{}};
-    const productsContextValue = {products:dummyProducts, setProducts:()=>{}};
+    const componentsContextValue = {components:dummyComponents , setComponents:()=>{}, updateComponentPricesByCurrency:()=>{}};
+    const productsContextValue = {products:dummyProducts, setProducts:()=>{}, updateProductPricesByCurrency:()=>{}};
 
 
     test('renders shoppingCartPopUpList with one component list item', () => {
