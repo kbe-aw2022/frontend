@@ -16,7 +16,6 @@ const AccountMenuPopUp:React.FC<{onClose:()=>void}> = (props) => {
 
   const onLogoutButtonClickHandler = () => {
     authCtx.logout();
-    navigate("/components");
     props.onClose();
   }
 

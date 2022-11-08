@@ -26,8 +26,7 @@ import CreateProductForm from "../createProductModal/createProductForm/CreatePro
 import { component, componentsContext } from "../../store/components-context";
 import useHttpRequest from "../../hooks/useHttpRequest/useHttpRequest";
 import { currencyContext } from "../../store/currency-context";
-import useUpdateCurrency from "../../hooks/useUpdateCurrency/useUpdateCurrency";
-import { authContext } from "../../store/auth-context";
+import { BACKEND_URL } from "../../util/globalConstants";
 
 
 const ProductsGrid:React.FC<{}> = (props) =>{
@@ -57,33 +56,13 @@ const ProductsGrid:React.FC<{}> = (props) =>{
         const processComponents = (components:any) => {
             console.log("callback components:"+components);
             componentsCtx.setComponents(components);
-            // componentsCtx.updateComponentPricesByCurrency(currencyCtx.currency.code);
+            fetchCurrencyExchangeRate(`${BACKEND_URL}/currencies/EUR/${targetCurrencyCode}`,updateCurrencyExchangeRate);
         }
 
         if( componentsCtx.components.length===0 ){
-            fetchComponents("http://localhost:9001/hardwarecomponents",processComponents);
+            fetchComponents(`${BACKEND_URL}/components`,processComponents);
         }
-        fetchProducts("http://localhost:9001/products",processProducts,{
-            method:"POST",
-            headers:{"content-type":"application/json"},
-            payload:{"token":authCtx.currentUser?.token}
-        });
-       
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[]);
-
-    useEffect(()=>{
-        if(componentsCtx.components.length!==0 && isNaN(parseFloat(componentsCtx.components[0].eurPrice)))
-        {
-            componentsCtx.setComponentPrices();
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[componentsCtx]);
-
-    useEffect(()=>{
-        if(productsCtx.products.length!==0 && isNaN(parseFloat(productsCtx.products[0].price))){
-            productsCtx.updateProductPrices();
-        }
+        fetchProducts(`${BACKEND_URL}/products`,processProducts);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[productsCtx]);
 
@@ -104,19 +83,13 @@ const ProductsGrid:React.FC<{}> = (props) =>{
     }
 
     const onAddProductHandler = () => {
-        fetchProducts("http://localhost:9001/products",processProducts,{
-            method:"POST",
-            headers:{"content-type":"application/json"},
-            payload:{"token":authCtx.currentUser?.token}
-        });
+
+        fetchProducts(`${BACKEND_URL}/products`,processProducts);
     }
 
     const onFetchProductsHandler = () =>{
-        fetchProducts("http://localhost:9001/products",processProducts,{
-            method:"POST",
-            headers:{"content-type":"application/json"},
-            payload:{"token":authCtx.currentUser?.token}
-        });
+        fetchProducts(`${BACKEND_URL}/products`,processProducts);
+
     }
 
     let content = null;
@@ -125,7 +98,8 @@ const ProductsGrid:React.FC<{}> = (props) =>{
     
         content=  
                 <Fragment>
-                    {searchCtx.filterByName(productsCtx.products).map((product:any) => <GridItem isDetailedView={false} onClose={()=>{}} isProduct={true} fetchProducts={onFetchProductsHandler} midArea={<ProductsGridItemMidArea productId={product.id} components={product.hardwareComponents}/>} 
+
+                    {searchCtx.filterByName(productsCtx.products).map((product:any) => <GridItem isDetailedView={false} onClose={()=>{}} isProduct={true} fetchProducts={onFetchProductsHandler} midArea={<ProductsGridItemMidArea productId={product.id} components={product.componentIds}/>} 
                     key={product.id} imgLink={computerStockImage} itemProps={product} itemId={'p'+product.id}/>)}
                     <AddNewProductCard/>
                 </Fragment> 

@@ -8,6 +8,8 @@ import detailedStyle from "./GridItemDetailed.module.css";
 import { currencyContext } from "../../store/currency-context";
 import CreateProductForm from "../createProductModal/createProductForm/CreateProductForm";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../../util/globalConstants";
+import useHttpRequest from "../../hooks/useHttpRequest/useHttpRequest";
 
 
 const GridItem:React.FC<{isDetailedView:boolean, onClose:()=>void, imgLink:string, isProduct:boolean, fetchProducts:(()=>void),
@@ -19,7 +21,7 @@ const GridItem:React.FC<{isDetailedView:boolean, onClose:()=>void, imgLink:strin
   const [isOverflow, setIsOverflow] = useState(false);
 
   const currencyCtx = useContext(currencyContext);
-
+  const {sendRequest:sendRemoveProductRequest} = useHttpRequest();
   const navigate = useNavigate();
   const location = useLocation();
   
@@ -38,24 +40,17 @@ const GridItem:React.FC<{isDetailedView:boolean, onClose:()=>void, imgLink:strin
   }
 
   const sendRemove = () =>{
-    removeProduct();
+    const config = {
+        method:"DELETE",
+        headers:{
+            "content-type":"application/json"
+        }
+    }
+    sendRemoveProductRequest(`${BACKEND_URL}/products/`+props.itemProps.id,()=>{
+      props.fetchProducts && props.fetchProducts();
+    }, config)
   }
 
-  const removeProduct = async () => {
-      try {
-        const response = await fetch("https://0lzfoo.deta.dev/products/"+props.itemProps.id,
-        {
-            method:"DELETE",
-            headers:{
-                "content-type":"application/json"
-            }
-        })
-        console.log(response);
-        props.fetchProducts && props.fetchProducts();
-    } catch (error) {
-        console.log("error:"+error);
-    }
-  }
   
   let gridItemStyle = props.isDetailedView ? detailedStyle : shortenedStyle;
   
@@ -72,7 +67,7 @@ const GridItem:React.FC<{isDetailedView:boolean, onClose:()=>void, imgLink:strin
 
 
   const componentDetailViewModal = ('eanNumber' in props.itemProps) && <ComponentDetailViewModal onClose={closeModal} imgLink={props.imgLink} componentProps={props.itemProps} itemId={props.itemId}/>;
-  const productDetailViewModal = ('hardwareComponents' in props.itemProps) && <CreateProductForm product={props.itemProps} onAddProduct={props.fetchProducts} onClose={closeModal}/>;
+  const productDetailViewModal = ('componentIds' in props.itemProps) && <CreateProductForm product={props.itemProps} onAddProduct={props.fetchProducts} onClose={closeModal}/>;
 
   // if(!props.isDetailedView){
   // console.log(`griditem ${props.itemId} render!`)}
@@ -83,7 +78,9 @@ const GridItem:React.FC<{isDetailedView:boolean, onClose:()=>void, imgLink:strin
     <Routes>
       <Route path={`${props.itemId}`} element={
         ('eanNumber' in props.itemProps) ? componentDetailViewModal: 
-        ('hardwareComponents' in props.itemProps) && productDetailViewModal
+
+        ('componentIds' in props.itemProps) && productDetailViewModal
+
       }/>
     </Routes>
 

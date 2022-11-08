@@ -10,6 +10,7 @@ describe("basic-tests", ()=>{
         cy.contains("Computer")
     })
     
+
     it("user login test",()=>{
         cy.get("#log-in-button").click()
         // cy.get("#Username/Email-input").type("test")
@@ -17,6 +18,7 @@ describe("basic-tests", ()=>{
         cy.get('input[name="Password:-input"]').type('testtest2')
         cy.get(".Form_submit-button__66Ysv").click()
         cy.contains("test")
+
 
     })
 

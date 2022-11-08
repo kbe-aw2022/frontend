@@ -4,6 +4,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { componentsContext } from "../../../store/components-context";
 import bitcoinIcon from "../../../resources/icons/bitcoin-color-icon.svg";
 import { productsContext } from "../../../store/products-context";
+import { BACKEND_URL } from "../../../util/globalConstants";
 
 const CurrencySelectorListItem:React.FC<{ currency:currency }> = (props) => {
 
@@ -30,10 +31,29 @@ const CurrencySelectorListItem:React.FC<{ currency:currency }> = (props) => {
 
         // const oldCurrencyCode = currencyCtx.currency.code;
         const targetCurrencyCode = props.currency.code;
-        componentsCtx.updateComponentPricesByCurrency(targetCurrencyCode);
-        productCtx.updateProductPricesByCurrency(targetCurrencyCode);
-        currencyCtx.setCurrency({...props.currency});
+        const exchangeRateObj = await fetchCurrencyExchangeRate(oldCurrencyCode, targetCurrencyCode);
+        if(exchangeRateObj!==undefined && exchangeRateObj.exchangeRate!==undefined){
+            console.log(exchangeRateObj.exchangeRate)
+            componentsCtx.updateComponentPricesByCurrency(exchangeRateObj.exchangeRate,targetCurrencyCode);
+            productCtx.updateProductPricesByCurrency(exchangeRateObj.exchangeRate,targetCurrencyCode);
+            currencyCtx.setCurrency({...props.currency, exchangeRate:exchangeRateObj.exchangeRate});
+        }
 
+    }
+
+    const fetchCurrencyExchangeRate = async (oldCurrencyCode:string, targetCurrencyCode:string) => {
+        
+        try {
+            const response:any = await fetch(`${BACKEND_URL}/currencies/${oldCurrencyCode}/${targetCurrencyCode}`);
+            if(!response.ok){
+                throw new Error(response.statusText);
+            }
+            const data = await response.json();
+            console.log(data);
+            return data;
+        } catch (error:any) {
+            console.log(error);
+        }
     }
 
     const countryFlagImageURL= props.currency.code==="BTC"? bitcoinIcon : "https://countryflagsapi.com/svg/"+props.currency.country;

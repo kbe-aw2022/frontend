@@ -20,7 +20,7 @@ type componentsContextObj ={
 };
 
 export type component = {
-  id:number, 
+  id:string, 
   img:string, 
   name:string, 
   vendor:string, 
@@ -28,9 +28,9 @@ export type component = {
   price:string, 
   description:string, 
   location:string, 
-  manufacture:string, 
+  manufacturer:string, 
   productGroup:string, 
-  weightInGramm:string,
+  weight:string,
   status:string,
   eanNumber:string
 }

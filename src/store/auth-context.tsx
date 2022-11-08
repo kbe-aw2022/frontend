@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 export type User={
     userName:string,
-    token:string|null
+    exp:string
 }
 
 type authContextObj ={
@@ -14,17 +14,24 @@ type authContextObj ={
 
 
 
-export const authContext = React.createContext<authContextObj>({currentUser:{userName:"",token:null}, isLoggedIn:false, login:(user:User)=>{}, logout:()=>{}});
+export const authContext = React.createContext<authContextObj>({currentUser:{userName:"",exp:""}, isLoggedIn:false, login:(user:User)=>{}, logout:()=>{}});
  
 
 const AuthContextProvider:React.FC<{children?: React.ReactNode}> = (props) => {
     const storedUserJson = localStorage.getItem("user");
     const storedUser:User = (storedUserJson !== null) && JSON.parse(storedUserJson);
-    const [currentUser,setCurrentUser] = useState<User|null>(storedUser.token?storedUser:null);
+    const [currentUser,setCurrentUser] = useState<User|null>(storedUser ? storedUser : null);
+    
 
     const login = (user:User) => {
-        setCurrentUser(user);
-        user!==null && user.token!==null && localStorage.setItem("user",JSON.stringify(user));
+        if(user!==null && user.exp!==null)
+        {
+            setCurrentUser(user);
+            localStorage.setItem("user",JSON.stringify(user));
+            const loggedInDuration = parseFloat(user.exp)*1000 - Date.now();
+            console.log(loggedInDuration/1000);
+            setTimeout(logout,loggedInDuration);
+        }
     }
 
     const logout = () => {

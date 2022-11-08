@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import useCreateInput from "../../../hooks/useCreateInput/useCreateInput";
+import useHttpRequest from "../../../hooks/useHttpRequest/useHttpRequest";
 import Form from "../../../layout/form/Form";
 import Modal from "../../../layout/Modal/Modal";
 import { component, componentsContext } from "../../../store/components-context";
 import { currencyContext } from "../../../store/currency-context";
 import { product } from "../../../store/products-context";
+import { BACKEND_URL } from "../../../util/globalConstants";
 import ComponentSelectorModal from "../componentSelector/ComponentSelectorModal";
 import styles from "./CreateProductForm.module.css";
 import CreateProductFormComponentsListItem from "./CreateProductFormComponentsListItem";
@@ -17,12 +19,11 @@ const CreateProductForm:React.FC<{product:product|null, onAddProduct:()=>void, o
 
     const componentsCtx = useContext(componentsContext);
     const currencyCtx = useContext(currencyContext);
+    const {sendRequest:sendCreateProductRequest} = useHttpRequest();
     
     const DESCRIPTION_CHARACTER_LIMIT = 240;
     const NAME_CHARACTER_LIMIT = 50;
 
-    const CLOUD_SERVER_URL = "https://0lzfoo.deta.dev/products/";
-    // const LOCAL_SERVER_URL = "http://localhost:8080/products"
     
     let notAddedComponents = componentsCtx.components.filter(component => !productComponents.includes(component));
     
@@ -42,9 +43,16 @@ const CreateProductForm:React.FC<{product:product|null, onAddProduct:()=>void, o
         
         useEffect(()=>{
             if(props.product!=null){
+                // debugger;
+                console.log(props.product.componentIds)
                 setProductNameInputValue(props.product.name);
                 setProductDescription(props.product.description);
-                setProductComponents(props.product.hardwareComponents);
+                setProductComponents(componentsCtx.components.filter(component=> {
+                    if(props.product!==null && props.product.componentIds.includes(component.id)){
+                         return component;
+                    }
+                    return null;
+                }));
             }
         },[props.product, componentsCtx, setProductNameInputValue])
 
@@ -52,30 +60,22 @@ const CreateProductForm:React.FC<{product:product|null, onAddProduct:()=>void, o
 
     const sendProduct = async (url:string, method:string) => {
 
-        const newProduct = {name:productNameInputValue, description:productDescription, components:productComponents.map(component=>component.id)};
+        const newProduct = {name:productNameInputValue, description:productDescription, componentIds:productComponents.map(component=>component.id)};
 
-        try {
-            const response = await fetch(url,{
-                method:method,
-                body:JSON.stringify(newProduct),
-                headers:{
-                    "content-type":"application/json"
-                }
+        sendCreateProductRequest(url,props.onAddProduct,
+            {
+                method: method,
+                headers: {"content-type":"application/json"},
+                payload: newProduct
             })
-            console.log(response);
-            props.onAddProduct();
-        } catch (error) {
-            console.log("error:"+error);
-        }
     }
-
     
 
     const onSubmitHandler = (event:React.FormEvent) =>{
         event.preventDefault();
         setProductNameInputIsTouched(true);
         if(formIsValid){
-            props.product===null? sendProduct(CLOUD_SERVER_URL,"POST") : sendProduct(CLOUD_SERVER_URL+props.product.id,"PUT");
+            props.product===null? sendProduct(`${BACKEND_URL}/products`,"POST") : sendProduct(`${BACKEND_URL}/products/${props.product.id}`,"PATCH");
             props.onClose();
         }
     }

@@ -22,7 +22,8 @@ import { componentsContext } from "../../store/components-context";
 import { searchFilterContext } from "../../store/search-filter-context";
 import { currencyContext } from "../../store/currency-context";
 import useHttpRequest from "../../hooks/useHttpRequest/useHttpRequest";
-import { authContext } from "../../store/auth-context";
+import { BACKEND_URL } from "../../util/globalConstants";
+
 
 
 
@@ -53,6 +54,7 @@ const FavoritesGrid:React.FC<{}> = (props) =>{
     const authCtx = useContext(authContext);
 
 
+
     const {sendRequest:fetchComponents, error:componentsError,loading:componentsLoading} = useHttpRequest();
     const {sendRequest:fetchProducts} = useHttpRequest();
 
@@ -76,6 +78,22 @@ const FavoritesGrid:React.FC<{}> = (props) =>{
             payload:{"token":authCtx.currentUser?.token}
         });
 
+
+    const fetchCurrencyExchangeRate = async (oldCurrencyCode:string, targetCurrencyCode:string) => {     
+        try {
+            const response:any = await fetch(`${BACKEND_URL}/currencies/${oldCurrencyCode}/${targetCurrencyCode}`);
+            if(!response.ok){
+                throw new Error(response.statusText);
+            }
+            const data = await response.json();
+            const exchangeRateObj = data;
+            if(exchangeRateObj!==undefined && exchangeRateObj.rate!==undefined){
+                componentsCtx.updateComponentPricesByCurrency(exchangeRateObj.rate,targetCurrencyCode);
+            }
+            return exchangeRateObj;
+        } catch (error:any) {
+            console.log(error);
+        }
     }
 
     useEffect(()=>{
@@ -107,8 +125,8 @@ const FavoritesGrid:React.FC<{}> = (props) =>{
                 {   
                     (searchCtx.typeFilters.length===0 && searchCtx.vendorFilters.length===0) && searchCtx.filterByName(productsCtx.products).filter((product)=>
                         {return favoritesCtx.favorites.includes('p'+product.id)}).map((product:any) => 
-                        <GridItem isDetailedView={false} onClose={()=>{}} isProduct={true} fetchProducts={fetchProductsHandler} 
-                        midArea={<ProductsGridItemMidArea productId={product.id} components={product.components.map((p:string)=>parseInt(p))}/>} 
+                        <GridItem isDetailedView={false} onClose={()=>{}} isProduct={true} fetchProducts={fetchProducts} 
+                        midArea={<ProductsGridItemMidArea productId={product.id} components={product.componentIds.map((p:string)=>parseInt(p))}/>} 
                         key={product.id} imgLink={computerStockImage} itemProps={product} itemId={'p'+product.id}/>)
                 }
 

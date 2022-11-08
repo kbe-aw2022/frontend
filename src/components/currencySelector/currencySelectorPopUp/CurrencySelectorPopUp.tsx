@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import PopUp from "../../../layout/popUp/PopUp";
 import { currency } from "../../../store/currency-context";
 import CurrencySelectorListItem from "../currencySelectorListItem/CurrencySelectorListItem";
+import { BACKEND_URL } from "../../../util/globalConstants";
 
 const CurrencySelectorPopUp:React.FC<{closePopUpHandler:()=>void}> = (props) => {
 
@@ -16,7 +17,7 @@ const CurrencySelectorPopUp:React.FC<{closePopUpHandler:()=>void}> = (props) => 
         const fetchCurrencies = async () => {
         setLoading(true);
         try {
-            const response = await fetch("https://0lzfoo.deta.dev/currencies");
+            const response = await fetch(`${BACKEND_URL}/currencies`);
             if(!response.ok){
                 throw new Error(response.statusText);
             }
@@ -34,7 +35,6 @@ const CurrencySelectorPopUp:React.FC<{closePopUpHandler:()=>void}> = (props) => 
     },[]);
 
     let content = <p>No currencies loaded!</p>;
-    // productTypeImages[component.product_type]
 
     if(!loading && error==null){
         content = <ul className={styles["currency-list"]}>
