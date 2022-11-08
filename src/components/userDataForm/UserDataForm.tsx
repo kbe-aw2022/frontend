@@ -4,6 +4,7 @@ import useHttpRequest from "../../hooks/useHttpRequest/useHttpRequest";
 import Form from "../../layout/form/Form";
 import ServerResponseFeedbackMessage from "../serverResponseFeedbackMessage/ServerResponseFeedbackMessage";
 import styles from "./UserDataForm.module.css"
+import { BACKEND_URL } from "../../util/globalConstants";
 
 const UserDataForm = () => {
     const USERNAME_REGEX = /^[A-z][A-z0-9]{3,24}$/;
@@ -25,12 +26,18 @@ const UserDataForm = () => {
         return before.length>0 && after.length>0;
     }
 
+    const validatePasswordNotEmpty =(input:string) =>{
+        return input.length>0
+    }
+
     const {inputField:userNameInput, inputValue:userNameValue, isValid:userNameInputIsValid, inputIsTouched:userNameInputIsTouched, setIsTouched:setUserNameInputIsTouched, setInputValue:setUserNameInputValue} = useCreateInput( validateUserName ,"text","Username:","Username must begin with a letter, be alphanumeric and between 3 and 24 characters long!",false,24)
     const {inputField:emailInput, inputValue:emailValue, isValid:emailInputIsValid, inputIsTouched:emailInputIsTouched, setIsTouched:setEmailInputIsTouched, setInputValue:setEmailInputValue} = useCreateInput( validateEmail,"email","E-mail:","Please provide a valid E-mail!",false,50)
     const {inputField:firstNameInput, inputValue:firstNameValue, isValid:firstNameInputIsValid, inputIsTouched:firstNameInputIsTouched, setIsTouched:setFirstNameInputIsTouched, setInputValue:setFirstNameInputValue} = useCreateInput( validateName,"text","First name:","First name must not be empty!",false,50)
     const {inputField:lastNameInput, inputValue:lastNameValue, isValid:lastNameInputIsValid, inputIsTouched:lastNameInputIsTouched, setIsTouched:setLastNameInputIsTouched, setInputValue:setLastNameInputValue} = useCreateInput( validateName,"text","Last name:","Last name must not be empty!",false,50)
+    const {inputField:passwordInput, inputValue:passwordValue, isValid:passwordInputIsValid, inputIsTouched:passwordInputIsTouched, setIsTouched:setPasswordInputIsTouched} = useCreateInput( validatePasswordNotEmpty,"password","Confirm with password:","Field must not be empty!",false,24)
     
-    const {sendRequest:sendChangeUserDataRequest} = useHttpRequest();
+
+    const {sendRequest:sendChangeUserDataRequest, resetError:resetChangeUserDataRequestError, error:changeUserDataRequestError} = useHttpRequest();
     const {sendRequest:sendGetUserDataRequest,resetError:resetGetUserRequestError,error:getUserDataRequestError} = useHttpRequest();
 
     const [isSuccessful,setIsSuccessful] = useState(false);
@@ -42,20 +49,21 @@ const UserDataForm = () => {
     }
 
     const setUserDataInputValues = (response:any) => {
-        setFirstNameInputValue(response.first_name);
-        setLastNameInputValue(response.last_name);
+        setFirstNameInputValue(response.firstName);
+        setLastNameInputValue(response.lastName);
         setEmailInputValue(response.email);
-        setUserNameInputValue(response.user_name);
+        setUserNameInputValue(response.userName);
+
     }
 
     feedbackMessage && setTimeout(resetResponseFeedback,5000);
 
     console.log("rerender!");
 
-    useEffect(resetResponseFeedback, [userNameInputIsTouched, emailInputIsTouched,firstNameInputIsTouched,lastNameInputIsTouched]);
+    useEffect(resetResponseFeedback, [userNameInputIsTouched, emailInputIsTouched,firstNameInputIsTouched,lastNameInputIsTouched, passwordInputIsTouched]);
 
     useEffect(()=>{
-        sendGetUserDataRequest("https://jljkkj:8080/users/id", setUserDataInputValues);
+        sendGetUserDataRequest(`${BACKEND_URL}/users`, setUserDataInputValues);
         
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
@@ -63,26 +71,35 @@ const UserDataForm = () => {
     useEffect(()=>{
         if(getUserDataRequestError!==null){
             setIsSuccessful(false);
-            setFeedbackMessage("Failed fetching user data!");
+            if(getUserDataRequestError === "Forbidden"){
+                setFeedbackMessage("Unauthorized fetching user data!");
+            }else{
+                setFeedbackMessage("Failed fetching user data!");
+            }
             setTimeout(()=>{
                 resetGetUserRequestError();
             },5000);
         }
     },[getUserDataRequestError, resetGetUserRequestError])
+
+    useEffect(()=>{
+        if(changeUserDataRequestError!==null){
+            setIsSuccessful(false);
+            if(changeUserDataRequestError === "Forbidden"){
+                setFeedbackMessage("Invalid password!");
+            }else{
+                setFeedbackMessage("Something went wrong, please try again!");
+            }
+            setTimeout(()=>{
+                resetChangeUserDataRequestError();
+            },5000);
+        }
+    },[changeUserDataRequestError, resetChangeUserDataRequestError])
     
     const onResponse = (response:any) => {
-        if(response.code===200){
+        if(response.status===204){
             setIsSuccessful(true);
-            setFeedbackMessage("User data successfully updated!");
-        }else{
-            setIsSuccessful(false);
-            setFeedbackMessage("Something went wrong, please try again!");
-            setEmailInputIsTouched(false);
-            setFirstNameInputIsTouched(false);
-            setLastNameInputIsTouched(false);
-            setUserNameInputIsTouched(false);
-        }
-       
+            setFeedbackMessage("User data successfully updated!");}
     }
 
     const onSubmitHandler = (event:React.FormEvent) => {
@@ -91,20 +108,22 @@ const UserDataForm = () => {
         setEmailInputIsTouched(true);
         setFirstNameInputIsTouched(true);
         setLastNameInputIsTouched(true);
+        setPasswordInputIsTouched(true);
 
-        const formIsValid = emailInputIsValid && firstNameInputIsValid && lastNameInputIsValid && userNameInputIsValid;
+        const formIsValid = emailInputIsValid && firstNameInputIsValid && lastNameInputIsValid && userNameInputIsValid && passwordInputIsValid;
 
         if(formIsValid){
             console.log("Form is valid!")
-            sendChangeUserDataRequest("http://localhost:8080/users/id",onResponse,
+            sendChangeUserDataRequest(`${BACKEND_URL}/users`,onResponse,
             {
-                method: "POST",
+                method: "PATCH",
                 headers: {"content-type":"application/json"},
                 payload: {
                     first_name:firstNameValue,
                     last_name:lastNameValue,
                     user_name:userNameValue,
-                    email:emailValue
+                    email:emailValue,
+                    password:passwordValue
                 }
             })
         }else{
@@ -115,17 +134,18 @@ const UserDataForm = () => {
     }
 
     const onResetHandler = () => {
-        sendGetUserDataRequest("https://jljkkj:8080/users/id", setUserDataInputValues);
+        sendGetUserDataRequest(`${BACKEND_URL}/users`, setUserDataInputValues);
     }
 
   return (
       <span className={styles["user-data-form-wrapper"]}>
-        <Form formTitle="Update personal data" onClose={onResetHandler} submitButtonName="Submit" cancelButtonName="Reset" onSubmit={onSubmitHandler} size={{width:580,height:500}}>
+        <Form formTitle="Update personal data" onClose={onResetHandler} submitButtonName="Submit" cancelButtonName="Reset" onSubmit={onSubmitHandler} size={{width:580,height:540}}>
                     <div className={styles["user-data-form"]}>
                         {firstNameInput}
                         {lastNameInput}
                         {userNameInput}
                         {emailInput}
+                        {passwordInput}
                     </div>
         </Form>
         {feedbackMessage && 

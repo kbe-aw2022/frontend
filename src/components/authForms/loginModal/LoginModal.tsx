@@ -5,14 +5,15 @@ import Form from "../../../layout/form/Form";
 import Modal from "../../../layout/Modal/Modal";
 import { authContext } from "../../../store/auth-context";
 import styles from "./LoginModal.module.css"
+import { BACKEND_URL } from "../../../util/globalConstants";
 
 const LoginModal:React.FC<{onContextSwitch:()=>void, onClose:()=>void}> = (props) => {
 
     const authCtx = useContext(authContext);
 
     const fillWithDummyData = () => {
-        setUserNameInputValue("john.doe@mail.com")
-        setPasswordInputValue("dummypassword")
+        setUserNameInputValue("JohnDoe")
+        setPasswordInputValue("dummypassword1")
     }
   
     const validateUserName =(input:string) =>{
@@ -29,8 +30,8 @@ const LoginModal:React.FC<{onContextSwitch:()=>void, onClose:()=>void}> = (props
     const {sendRequest:sendLoginRequest} = useHttpRequest();
 
     const onResponse = (response:any) => {
-        if(response?.token && response.token.length>0){
-            authCtx.login({userName:response.user_name,token:response.token});
+        if(response?.userName && response.userName.length>0){
+            authCtx.login({userName:response.userName, exp:response.exp});
             props.onClose();
         }
     }
@@ -44,12 +45,12 @@ const LoginModal:React.FC<{onContextSwitch:()=>void, onClose:()=>void}> = (props
 
         if(formIsValid){
             console.log("Form is valid!")
-            sendLoginRequest("https://6qsv0v.deta.dev/users/login",onResponse,
+            sendLoginRequest(`${BACKEND_URL}/login`,onResponse,
             {
                 method: "POST",
                 headers: {"content-type":"application/json"},
                 payload: {
-                    user_name:userNameValue,
+                    userName:userNameValue,
                     password:passwordValue
                 }
             })

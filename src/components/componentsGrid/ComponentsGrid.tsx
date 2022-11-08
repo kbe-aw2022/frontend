@@ -6,6 +6,7 @@ import ComponentsGridItemMidArea from "../componentsGridItemMidArea/ComponentsGr
 import { searchFilterContext } from "../../store/search-filter-context";
 import { currencyContext } from "../../store/currency-context";
 import useHttpRequest from "../../hooks/useHttpRequest/useHttpRequest";
+import { BACKEND_URL } from "../../util/globalConstants";
 
 
 const ComponentsGrid:React.FC<{}> = (props) =>{
@@ -31,17 +32,17 @@ const ComponentsGrid:React.FC<{}> = (props) =>{
         const processComponents = (components:any) => {
             console.log("callback components:"+components);
             componentsCtx.setComponents(components);
-            fetchCurrencyExchangeRate("https://0lzfoo.deta.dev/currencies/EUR/"+targetCurrencyCode,updateCurrencyExchangeRate);
+            fetchCurrencyExchangeRate(`${BACKEND_URL}/currencies/EUR/${targetCurrencyCode}`,updateCurrencyExchangeRate);
         }
 
-        fetchComponents("https://0lzfoo.deta.dev/components",processComponents);
+        fetchComponents(`${BACKEND_URL}/components`,processComponents);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 
     let content = null;
 
     if(!loading && error==null){
-        content = searchCtx.applyTypeFilters(searchCtx.applyVendorFilters(searchCtx.filterByNameAndKeyWords(componentsCtx.components))).map((component:any, index:number) => <GridItem onClose={()=>{}} isProduct={false} fetchProducts={()=>{}} isDetailedView={false} midArea={<ComponentsGridItemMidArea componentProps={component} isDetailedView={false}/>} key={index} imgLink={componentTypeImages[component.product_group]} itemProps={component} itemId={'c'+index}/>)
+        content = searchCtx.applyTypeFilters(searchCtx.applyVendorFilters(searchCtx.filterByNameAndKeyWords(componentsCtx.components))).map((component:any, index:number) => <GridItem onClose={()=>{}} isProduct={false} fetchProducts={()=>{}} isDetailedView={false} midArea={<ComponentsGridItemMidArea componentProps={component} isDetailedView={false}/>} key={index} imgLink={componentTypeImages[component.productGroup]} itemProps={component} itemId={'c'+component.id}/>)
     }
 
     if(error){

@@ -5,6 +5,7 @@ import Modal from "../../../layout/Modal/Modal"
 import useHttpRequest from "../../../hooks/useHttpRequest/useHttpRequest"
 import { useContext } from "react"
 import { authContext } from "../../../store/auth-context"
+import { BACKEND_URL } from "../../../util/globalConstants"
 
 const RegistrationModal:React.FC<{onContextSwitch:()=>void, onClose:()=>void}> = (props) => {
 
@@ -16,7 +17,7 @@ const RegistrationModal:React.FC<{onContextSwitch:()=>void, onClose:()=>void}> =
 
     const onResponse = (response:any) => {
         if(response?.token && response.token.length>0){
-            authCtx.login({userName:response.user_name,token:response.token});
+            authCtx.login({userName:response.userName,exp:response.exp});
             props.onClose();
         }
     }
@@ -69,14 +70,14 @@ const RegistrationModal:React.FC<{onContextSwitch:()=>void, onClose:()=>void}> =
 
         if(formIsValid){
             console.log("Form is valid!")
-            sendRegistrationRequest("https://6qsv0v.deta.dev/users/register",onResponse,
+            sendRegistrationRequest(`${BACKEND_URL}/register`,onResponse,
             {
                 method: "POST",
                 headers: {"content-type":"application/json"},
                 payload: {
-                    first_name:firstNameValue,
-                    last_name:lastNameValue,
-                    user_name:userNameValue,
+                    firstName:firstNameValue,
+                    lastName:lastNameValue,
+                    userName:userNameValue,
                     email:emailValue,
                     password:passwordValue
                 }

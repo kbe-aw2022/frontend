@@ -4,10 +4,15 @@ import useHttpRequest from "../../../hooks/useHttpRequest/useHttpRequest";
 import Form from "../../../layout/form/Form"
 import ServerResponseFeedbackMessage from "../../serverResponseFeedbackMessage/ServerResponseFeedbackMessage";
 import styles from "./ChangePasswordForm.module.css"
+import { BACKEND_URL } from "../../../util/globalConstants";
 
 const ChangePasswordForm:React.FC<{}> = (props) => {
     
     const PASSWORD_REGEX = /^(?=.*[A-z])(?=.*[0-9]).{8,24}$/;
+
+    const validateOldPasswordNotEmpty =(input:string) =>{
+        return input.length>0
+    }
 
     const validatePassword =(input:string) =>{
         return PASSWORD_REGEX.test(input);
@@ -17,16 +22,14 @@ const ChangePasswordForm:React.FC<{}> = (props) => {
         return input === newPasswordValue;
     }
 
-    const {inputField:oldPasswordInput, inputValue:oldPasswordValue, inputIsTouched:oldPasswordInputIsTouched, setIsTouched:setOldPasswordInputIsTouched, setInputValue:setOldPasswordInputValue} = useCreateInput( (input:string)=>true,"password","Old password:","Field must not be empty!",false,24)
+    const {inputField:oldPasswordInput, inputValue:oldPasswordValue, inputIsTouched:oldPasswordInputIsTouched, setIsTouched:setOldPasswordInputIsTouched, setInputValue:setOldPasswordInputValue} = useCreateInput( validateOldPasswordNotEmpty,"password","Old password:","Field must not be empty!",false,24)
     const {inputField:newPasswordInput, inputValue:newPasswordValue, isValid:newPasswordInputIsValid, inputIsTouched:newPasswordInputIsTouched, setIsTouched:setNewPasswordInputIsTouched,  setInputValue:setNewPasswordInputValue} = useCreateInput( validatePassword,"password","New password:","Password must not be between 8 and 24 characters long and contain at least one number!",false,24)
     const {inputField:repeatNewPasswordInput,isValid:repeatNewPasswordInputIsValid, inputIsTouched:repeatNewPasswordInputIsTouched, setIsTouched:setRepeatNewPasswordInputIsTouched,  setInputValue:setRepeatPasswordInputValue} = useCreateInput( validateRepeatNewPassword,"password","Repeat password:","The passwords do not match!", !newPasswordInputIsValid ,24)
     
-    const {sendRequest:sendChangePasswordRequest} = useHttpRequest();
+    const {sendRequest:sendChangePasswordRequest, resetError:resetChangePasswordRequestError, error:changePasswordRequestError} = useHttpRequest();
 
     const [isSuccessful,setIsSuccessful] = useState(false);
     const [feedbackMessage, setFeedbackMessage] = useState<string|null>(null);
-
-
 
     const resetResponseFeedback = () => {
         setIsSuccessful(false);
@@ -37,17 +40,24 @@ const ChangePasswordForm:React.FC<{}> = (props) => {
 
     useEffect(resetResponseFeedback,[oldPasswordInputIsTouched,newPasswordInputIsTouched,repeatNewPasswordInputIsTouched])
 
+    useEffect(()=>{
+        if(changePasswordRequestError!==null){
+            setIsSuccessful(false);
+            if(changePasswordRequestError === "Forbidden"){
+                setFeedbackMessage("Unauthorized (wrong password)!");
+            }else{
+                setFeedbackMessage("Something went wrong, please try again!");
+            }
+            setTimeout(()=>{
+                resetChangePasswordRequestError();
+            },5000);
+        }
+    },[changePasswordRequestError, resetChangePasswordRequestError])
 
     const onResponse = (response:any) => {
-        if(response.code===200){
+        if(response.status===204){
             setIsSuccessful(true);
             setFeedbackMessage("Password successfully changed!");
-        }else{
-            setIsSuccessful(false);
-            setFeedbackMessage("Something went wrong, please try again!");
-            setOldPasswordInputIsTouched(false);
-            setNewPasswordInputIsTouched(false);
-            setRepeatNewPasswordInputIsTouched(false);
         }
     }
 
@@ -61,13 +71,13 @@ const ChangePasswordForm:React.FC<{}> = (props) => {
 
         if(formIsValid){
             console.log("Form is valid!")
-            sendChangePasswordRequest("http://localhost:8080/users/pwd",onResponse,
+            sendChangePasswordRequest(`${BACKEND_URL}/password`,onResponse,
             {
-                method: "POST",
+                method: "PATCH",
                 headers: {"content-type":"application/json"},
                 payload: {
-                    old_password:oldPasswordValue,
-                    new_password:newPasswordValue
+                    password:oldPasswordValue,
+                    newPassword:newPasswordValue
                 }
             })
         }else{

@@ -1,0 +1,1 @@
+export const BACKEND_URL = "https://cs-api-gateway.deta.dev";

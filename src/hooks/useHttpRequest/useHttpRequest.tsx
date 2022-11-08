@@ -23,16 +23,21 @@ const useHttpRequest = () => {
                 const response = await fetch(url,{
                     method:config.method,
                     body:JSON.stringify(config.payload),
-                    headers:config.headers
+                    headers:config.headers,
+                    credentials:"include"
                 })
                 if(!response.ok){
+                    console.log("not ok")
                     throw new Error(response.statusText);
                 }
-                const data= await response.json();
-                onResponseCallback && onResponseCallback(data);
-            } catch (error:any) {
-                console.log("error:"+error);
-                setError(error.message)
+                if(response.status !== 204){
+                    const data= await response.json();
+                    onResponseCallback && onResponseCallback(data);
+                }else{
+                    onResponseCallback && onResponseCallback(response);
+                }
+            } catch (e:any) {
+                setError(e.message)
             }
             config.method === "GET" && setLoading(false);
     },[]);

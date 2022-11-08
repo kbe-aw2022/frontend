@@ -12,13 +12,13 @@ export type product = {
     name:string
     price:string
     description:string
-    components:number[]
+    componentIds:string[]
 }
 
 export const productsContext = React.createContext<productsContextObj>({products:[], setProducts:(products:product[])=>{}, updateProductPricesByCurrency:()=>{}});
 
 
-var dummyProducts:product[] = [{id:"0",components:[1,3], name:"product1", price:'20', description:"" },{id:"1",components:[2,4,6,1,3,5,7,8], name:"product2", price:'40', description:"" }]
+var dummyProducts:product[] = [{id:"0",componentIds:["1","3"], name:"product1", price:'20', description:"" },{id:"1",componentIds:["2","4","6","1","3","5","7","8"], name:"product2", price:'40', description:"" }]
 
 const ProductsContextProvider:React.FC<{children?: React.ReactNode}> = (props) => {
   const [products,setProducts] = useState<product[]>(dummyProducts);

@@ -31,6 +31,7 @@ const ShoppingCartPopUp:React.FC<{closePopUpHandler:()=>void}> = (props) => {
         return priceSum;
     }
 
+
     let content = shoppingCartCtx.shoppingCart.length===0 ? <p className={styles["no-items-warning"]}> NO ITEMS IN SHOPPING CART </p> :
         <ul className={styles["shopping-cart-items-list"]}>
             {shoppingCartCtx.shoppingCart.map((cartItem)=>{

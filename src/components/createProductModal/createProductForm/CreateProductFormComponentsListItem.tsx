@@ -35,7 +35,7 @@ const CreateProductFormComponentsListItem:React.FC<{component:component, currenc
 
   return (
     <li key={props.component.id} className={styles[props.isSelected ? "component-list-item-selected" : "component-list-item"]} style={cursor} onClick={onListItemClickHandler}>
-        <p className={styles["component-list-item-type"]}>{props.component.product_group}</p>
+        <p className={styles["component-list-item-type"]}>{props.component.productGroup}</p>
         { isOverflow ? <p className={styles["component-list-item-name"]} ref={itemNameRef}  title={props.component.name} >{props.component.name}</p> : <p className={styles["component-list-item-name"]} ref={itemNameRef}>{props.component.name}</p>}
         <span className={styles["currency-close-button-wrapper"]}>
             <p>{props.component.price} {props.currencySymbol}</p>

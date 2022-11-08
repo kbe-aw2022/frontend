@@ -21,6 +21,7 @@ import { favoritesContext } from "../../store/favorites-context";
 import { componentsContext } from "../../store/components-context";
 import { searchFilterContext } from "../../store/search-filter-context";
 import { currencyContext } from "../../store/currency-context";
+import { BACKEND_URL } from "../../util/globalConstants";
 
 
 
@@ -53,7 +54,7 @@ const FavoritesGrid:React.FC<{}> = (props) =>{
     const fetchComponents = async () => {
         setLoading(true);
         try {
-            const response = await fetch("https://0lzfoo.deta.dev/components");
+            const response = await fetch(`${BACKEND_URL}/components`);
             if(!response.ok){
                 throw new Error(response.statusText);
             }
@@ -70,7 +71,7 @@ const FavoritesGrid:React.FC<{}> = (props) =>{
     const fetchProducts = async () => {
         setLoading(true);
         try {
-            const response = await fetch("https://0lzfoo.deta.dev/products");
+            const response = await fetch(`${BACKEND_URL}/products`);
             if(!response.ok){
                 throw new Error(response.statusText);
             }
@@ -87,7 +88,7 @@ const FavoritesGrid:React.FC<{}> = (props) =>{
 
     const fetchCurrencyExchangeRate = async (oldCurrencyCode:string, targetCurrencyCode:string) => {     
         try {
-            const response:any = await fetch("https://0lzfoo.deta.dev/currencies/"+oldCurrencyCode+"/"+targetCurrencyCode);
+            const response:any = await fetch(`${BACKEND_URL}/currencies/${oldCurrencyCode}/${targetCurrencyCode}`);
             if(!response.ok){
                 throw new Error(response.statusText);
             }
@@ -121,12 +122,12 @@ const FavoritesGrid:React.FC<{}> = (props) =>{
                     (searchCtx.typeFilters.length===0 && searchCtx.vendorFilters.length===0) && searchCtx.filterByName(productsCtx.products).filter((product)=>
                         {return favoritesCtx.favorites.includes('p'+product.id)}).map((product:any) => 
                         <GridItem isDetailedView={false} onClose={()=>{}} isProduct={true} fetchProducts={fetchProducts} 
-                        midArea={<ProductsGridItemMidArea productId={product.id} components={product.components.map((p:string)=>parseInt(p))}/>} 
+                        midArea={<ProductsGridItemMidArea productId={product.id} components={product.componentIds.map((p:string)=>parseInt(p))}/>} 
                         key={product.id} imgLink={computerStockImage} itemProps={product} itemId={'p'+product.id}/>)
                 }
 
 
-                {searchCtx.applyTypeFilters(searchCtx.applyVendorFilters(searchCtx.filterByNameAndKeyWords(componentsCtx.components))).filter((component)=>{return favoritesCtx.favorites.includes('c'+component.id)}).map((component) => <GridItem isDetailedView={false} onClose={()=>{}} isProduct={false} fetchProducts={()=>{}} midArea={<ComponentsGridItemMidArea componentProps={component} isDetailedView={false}/>} key={component.id} imgLink={productTypeImages[component.product_group]} itemProps={component} itemId={'c'+component.id} />)}
+                {searchCtx.applyTypeFilters(searchCtx.applyVendorFilters(searchCtx.filterByNameAndKeyWords(componentsCtx.components))).filter((component)=>{return favoritesCtx.favorites.includes('c'+component.id)}).map((component) => <GridItem isDetailedView={false} onClose={()=>{}} isProduct={false} fetchProducts={()=>{}} midArea={<ComponentsGridItemMidArea componentProps={component} isDetailedView={false}/>} key={component.id} imgLink={productTypeImages[component.productGroup]} itemProps={component} itemId={'c'+component.id} />)}
             </Fragment> 
         }
     }

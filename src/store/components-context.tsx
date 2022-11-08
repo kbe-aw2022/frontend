@@ -19,7 +19,7 @@ type componentsContextObj ={
 };
 
 export type component = {
-  id:number, 
+  id:string, 
   img:string, 
   name:string, 
   vendor:string, 
@@ -27,10 +27,10 @@ export type component = {
   description:string, 
   location:string, 
   manufacturer:string, 
-  product_group:string, 
+  productGroup:string, 
   weight:string,
   status:string,
-  ean_number:string
+  eanNumber:string
 }
 
 export const componentTypeImages :any = {

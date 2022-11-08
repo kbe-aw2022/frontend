@@ -4,6 +4,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { componentsContext } from "../../../store/components-context";
 import bitcoinIcon from "../../../resources/icons/bitcoin-color-icon.svg";
 import { productsContext } from "../../../store/products-context";
+import { BACKEND_URL } from "../../../util/globalConstants";
 
 const CurrencySelectorListItem:React.FC<{ currency:currency }> = (props) => {
 
@@ -43,7 +44,7 @@ const CurrencySelectorListItem:React.FC<{ currency:currency }> = (props) => {
     const fetchCurrencyExchangeRate = async (oldCurrencyCode:string, targetCurrencyCode:string) => {
         
         try {
-            const response:any = await fetch("https://0lzfoo.deta.dev/currencies/"+oldCurrencyCode+"/"+targetCurrencyCode);
+            const response:any = await fetch(`${BACKEND_URL}/currencies/${oldCurrencyCode}/${targetCurrencyCode}`);
             if(!response.ok){
                 throw new Error(response.statusText);
             }

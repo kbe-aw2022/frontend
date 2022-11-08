@@ -79,6 +79,7 @@ const ShoppingCartPopUpListItem:React.FC<{itemId:string, itemName:string, itemAm
   }
   
   return (
+    
     <li className={styles["shopping-cart-list-item"]} onMouseEnter={mouseEnterHandler} onMouseLeave={mouseLeaveHandler}>
       { isOverflow? <p className={styles["shopping-cart-list-item-name"]} ref={itemNameRef} title={props.itemName}>{props.itemName}</p> : <p className={styles["shopping-cart-list-item-name"]} ref={itemNameRef} >{props.itemName}</p> }
       <div className={styles["shopping-cart-list-item-price-amount-detail-bar"]}>
