@@ -4,7 +4,7 @@ Frontend deploy: https://kbe-aw2022-frontend.netlify.app/
 
 A fullstack application project with microservice architecture backend. (Work in progress)
 
-Techstack: React, FastApi, Deta (noSQL DB)
+Tech Stack: React, FastApi, Deta (noSQL DB)
 
 Microservices:
 
