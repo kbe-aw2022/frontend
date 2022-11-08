@@ -7,8 +7,13 @@ A fullstack application project with microservice architecture backend.
 Microservices:
 
 Api gateway: https://github.com/wklein1/cs-api-gateway
+
 Identity provider: https://github.com/wklein1/cs-identity-provider
+
 Components service: https://github.com/wklein1/cs-components-service
+
 Product service: https://github.com/wklein1/cs-product-service
+
 Favorites service: https://github.com/wklein1/cs-favorites-service
+
 Currency service: https://github.com/wklein1/cs-currency-service/settings
