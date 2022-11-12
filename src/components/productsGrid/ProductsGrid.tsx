@@ -1,20 +1,5 @@
 
-// import GridItem from "../gridItem/GridItem";
-// import "./ProductsGrid.css";
-// import { useState, useEffect } from "react";
-// import ramStockImage from "../../resources/images/ram.jpg"
-// import mainboardStockImage from "../../resources/images/mainboard.jpg"
-// import cpuStockImage from "../../resources/images/cpu.jpg"
-// import gpuStockImage from "../../resources/images/gpu.jpg"
-// import coolerStockImage from "../../resources/images/kuehler.jpg"
-// import hddStockImage from "../../resources/images/hdd.jpg"
-// import driveStockImage from "../../resources/images/drive.jpg"
-// import caseStockImage from "../../resources/images/case.jpg"
-// import psuStockImage from "../../resources/images/psu.jpg"
-// import mouseStockImage from "../../resources/images/mouse.jpg"
-// import keyboardStockImage from "../../resources/images/keyboard.jpg"
 import computerStockImage from "../../resources/images/computer.png"
-
 import { Fragment, useContext, useEffect } from "react";
 import { productsContext } from "../../store/products-context";
 import AddNewProductCard from "../addNewProductCard/AddNewProductCard";
@@ -27,17 +12,20 @@ import { componentsContext } from "../../store/components-context";
 import useHttpRequest from "../../hooks/useHttpRequest/useHttpRequest";
 import { currencyContext } from "../../store/currency-context";
 import { BACKEND_URL } from "../../util/globalConstants";
+import { favoritesContext } from "../../store/favorites-context";
 
 
 const ProductsGrid:React.FC<{}> = (props) =>{
 
     const productsCtx = useContext(productsContext);
     const componentsCtx = useContext(componentsContext);
+    const favoritesCtx = useContext(favoritesContext);
     const searchCtx = useContext(searchFilterContext);
     const currencyCtx = useContext(currencyContext);
     
     const navigate = useNavigate();
     const {sendRequest:fetchComponents} = useHttpRequest();
+    const {sendRequest:fetchFavorites} = useHttpRequest();
     const {sendRequest:fetchCurrencyExchangeRate} = useHttpRequest();
     const {sendRequest:fetchProducts,error,loading} = useHttpRequest();
 
@@ -63,6 +51,9 @@ const ProductsGrid:React.FC<{}> = (props) =>{
 
         if( componentsCtx.components.length===0 ){
             fetchComponents(`${BACKEND_URL}/components`,processComponents);
+        }
+        if(favoritesCtx.favorites.length===0){
+            fetchFavorites(`${BACKEND_URL}/favorites`,favoritesCtx.processFavorites)
         }
         fetchProducts(`${BACKEND_URL}/products`,processProducts);
     // eslint-disable-next-line react-hooks/exhaustive-deps
