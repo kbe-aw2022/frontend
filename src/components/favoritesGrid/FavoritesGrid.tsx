@@ -1,7 +1,7 @@
 
 import GridItem from "../gridItem/GridItem";
 import "./FavoritesGrid.css";
-import { useState, useEffect, Fragment, useContext } from "react";
+import { useEffect, useContext } from "react";
 import computerStockImage from "../../resources/images/computer.png"
 import ramStockImage from "../../resources/images/ram.jpg"
 import mainboardStockImage from "../../resources/images/mainboard.jpg"
@@ -15,13 +15,14 @@ import psuStockImage from "../../resources/images/psu.jpg"
 import mouseStockImage from "../../resources/images/mouse.jpg"
 import keyboardStockImage from "../../resources/images/keyboard.jpg"
 import ComponentsGridItemMidArea from "../componentsGridItemMidArea/ComponentsGridItemMidArea";
-import { product, productsContext } from "../../store/products-context";
+import { productsContext } from "../../store/products-context";
 import ProductsGridItemMidArea from "../productsGridItemMidArea/ProductsGridItemMidArea";
 import { favoritesContext } from "../../store/favorites-context";
 import { componentsContext } from "../../store/components-context";
 import { searchFilterContext } from "../../store/search-filter-context";
 import { currencyContext } from "../../store/currency-context";
 import { BACKEND_URL } from "../../util/globalConstants";
+import useHttpRequest from "../../hooks/useHttpRequest/useHttpRequest";
 
 
 
@@ -41,8 +42,7 @@ const FavoritesGrid:React.FC<{}> = (props) =>{
         "PC Case" : caseStockImage
     }
     
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(false);
+
 
     const componentsCtx = useContext(componentsContext);
     const productsCtx = useContext(productsContext);
@@ -50,64 +50,46 @@ const FavoritesGrid:React.FC<{}> = (props) =>{
     const currencyCtx = useContext(currencyContext);
     const searchCtx = useContext(searchFilterContext);
 
+    const {sendRequest:fetchComponents} = useHttpRequest();
+    const {sendRequest:fetchCurrencyExchangeRate} = useHttpRequest();
+    const {sendRequest:fetchProducts} = useHttpRequest();
+    const {sendRequest:fetchFavorites,error,loading} = useHttpRequest();
 
-    const fetchComponents = async () => {
-        setLoading(true);
-        try {
-            const response = await fetch(`${BACKEND_URL}/components`);
-            if(!response.ok){
-                throw new Error(response.statusText);
-            }
-            const data = await response.json();
-            componentsCtx.setComponents(data);
-            console.log(data);
-            // return data;
-        } catch (error:any) {
-            setError(error.message);
-        }
-        setLoading(false)
-    }
-
-    const fetchProducts = async () => {
-        setLoading(true);
-        try {
-            const response = await fetch(`${BACKEND_URL}/products`);
-            if(!response.ok){
-                throw new Error(response.statusText);
-            }
-            const data:product[] = await response.json();
-            productsCtx.setProducts(data);
-            // fetchCurrencyExchangeRate("EUR", currencyCtx.currency.code);
-            console.log(data);
-            // return data;
-        } catch (error:any) {
-            setError(error.message);
-        }
-        setLoading(false)
-    }
-
-    const fetchCurrencyExchangeRate = async (oldCurrencyCode:string, targetCurrencyCode:string) => {     
-        try {
-            const response:any = await fetch(`${BACKEND_URL}/currencies/${oldCurrencyCode}/${targetCurrencyCode}`);
-            if(!response.ok){
-                throw new Error(response.statusText);
-            }
-            const data = await response.json();
-            const exchangeRateObj = data;
-            if(exchangeRateObj!==undefined && exchangeRateObj.rate!==undefined){
-                componentsCtx.updateComponentPricesByCurrency(exchangeRateObj.rate,targetCurrencyCode);
-            }
-            return exchangeRateObj;
-        } catch (error:any) {
-            console.log(error);
-        }
-    }
 
     useEffect(()=>{
-        fetchComponents();
-        fetchCurrencyExchangeRate("EUR", currencyCtx.currency.code);
+
+        const targetCurrencyCode   = currencyCtx.currency.code;
+
+        const updateCurrencyExchangeRate = (exchangeRate:any) => {
+            if(exchangeRate!==undefined && exchangeRate.rate!==undefined){
+                componentsCtx.updateComponentPricesByCurrency(exchangeRate.rate,targetCurrencyCode);
+            }
+        }
+
+
+        const processComponents = (components:any) => {
+            console.log("callback components:"+components);
+            componentsCtx.setComponents(components);
+            fetchCurrencyExchangeRate(`${BACKEND_URL}/currencies/EUR/${targetCurrencyCode}`,updateCurrencyExchangeRate);
+        }        
+
+        
+        if( componentsCtx.components.length===0 ){
+            fetchComponents(`${BACKEND_URL}/components`,processComponents);
+        }
+        fetchProducts(`${BACKEND_URL}/products`,processProducts);
+        fetchFavorites(`${BACKEND_URL}/favorites`, favoritesCtx.processFavorites);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[]);
+    },[])
+
+    const processProducts = (products:any) =>{
+        productsCtx.setProducts(products);
+    }
+
+    const onFetchProductsHandler = () =>{
+        fetchProducts(`${BACKEND_URL}/products`,processProducts);
+    }
+
 
     let content = null;
     // productTypeImages[component.product_type]
@@ -117,18 +99,22 @@ const FavoritesGrid:React.FC<{}> = (props) =>{
             content = <p>NO FAVORITES</p>
         }else{
 
-            content = <Fragment>
+            content = <>
                 {   
                     (searchCtx.typeFilters.length===0 && searchCtx.vendorFilters.length===0) && searchCtx.filterByName(productsCtx.products).filter((product)=>
                         {return favoritesCtx.favorites.includes('p'+product.id)}).map((product:any) => 
-                        <GridItem isDetailedView={false} onClose={()=>{}} isProduct={true} fetchProducts={fetchProducts} 
-                        midArea={<ProductsGridItemMidArea productId={product.id} components={product.componentIds.map((p:string)=>parseInt(p))}/>} 
+                        <GridItem isDetailedView={false} onClose={()=>{}} isProduct={true} fetchProducts={onFetchProductsHandler} 
+                        midArea={<ProductsGridItemMidArea productId={product.id} components={product.componentIds}/>} 
                         key={product.id} imgLink={computerStockImage} itemProps={product} itemId={'p'+product.id}/>)
                 }
 
 
-                {searchCtx.applyTypeFilters(searchCtx.applyVendorFilters(searchCtx.filterByNameAndKeyWords(componentsCtx.components))).filter((component)=>{return favoritesCtx.favorites.includes('c'+component.id)}).map((component) => <GridItem isDetailedView={false} onClose={()=>{}} isProduct={false} fetchProducts={()=>{}} midArea={<ComponentsGridItemMidArea componentProps={component} isDetailedView={false}/>} key={component.id} imgLink={productTypeImages[component.productGroup]} itemProps={component} itemId={'c'+component.id} />)}
-            </Fragment> 
+                {searchCtx.applyTypeFilters(searchCtx.applyVendorFilters(searchCtx.filterByNameAndKeyWords(componentsCtx.components))).filter((component)=>
+                {return favoritesCtx.favorites.includes('c'+component.id)}).map((component) => 
+                <GridItem isDetailedView={false} onClose={()=>{}} isProduct={false} fetchProducts={()=>{}} 
+                midArea={<ComponentsGridItemMidArea componentProps={component} isDetailedView={false}/>} key={component.id} 
+                imgLink={productTypeImages[component.productGroup]} itemProps={component} itemId={'c'+component.id} />)}
+            </> 
         }
     }
 

@@ -14,6 +14,8 @@ const ProductsGridItemMidArea:React.FC<{productId:string, components:number[]}> 
         return props.components.includes(component.id)
     })
 
+
+
     const closeModal = () =>{
         if(location.pathname.includes("/products")){
             navigate("/products");
@@ -31,9 +33,10 @@ const ProductsGridItemMidArea:React.FC<{productId:string, components:number[]}> 
             )}
         </Routes>
         
+
         <div className="productsGridItemMidArea">
             <ul className="productComponentsList">
-                {includedComponents.map((component:component)=><li key={component.id} onClick={()=>{navigate(`/products/grid/${props.productId}/c${component.id}`);}} className="list-item">{component.name}</li>)}
+                {includedComponents.map((component:component)=><li key={component.id} onClick={()=>{navigate(`${location.pathname}/grid/${props.productId}/c${component.id}`);}} className="list-item">{component.name}</li>)}
             </ul>
         </div>
         </>

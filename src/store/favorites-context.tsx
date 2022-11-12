@@ -1,38 +1,35 @@
 import React, { useState } from "react";
 
+
 type favoritesContextObj ={
     favorites:string[],
-    setFavorites:(favorites:string[])=>void,
-    toggleFavorite:(id:string)=>void
+    // setFavorites:(favorites:string[])=>void,
+    processFavorites:(favoritesObj:{componentIds:string[],productIds:string[]}) => void
 
 };
 
 
 
-export const favoritesContext = React.createContext<favoritesContextObj>({favorites:[], setFavorites:()=>{}, toggleFavorite:()=>{}});
+export const favoritesContext = React.createContext<favoritesContextObj>({favorites:[], processFavorites:()=>{}});
 
 
 
 
 const FavoritesContextProvider:React.FC<{children?: React.ReactNode}> = (props) => {
     const [favorites, setFavorites] = useState<string[]>([]);
+    
+    const processFavorites = (favoritesObj:{componentIds:string[], productIds:string[]}) => {
+        const newComponentIds = favoritesObj.componentIds.map((id)=>{return 'c'+id});
+        const newProductIds = favoritesObj.productIds.map((id)=>{return 'p'+id});
+        const newFavorites = newProductIds.concat(newComponentIds);
+        setFavorites(newFavorites);
+      }
 
-    const toggleFavorite = (id:string) => {
-        if(favorites.includes(id)){
-            console.log("includes!");
-            setFavorites(favorites=>{return favorites.filter(item => item !== id)}) ;
-        }else{
-            // favorites.push(id);
-            console.log("not includes!");
-            setFavorites((favorites: string[]) => [...favorites,id]);
-            console.log(favorites);
-        }
-    }
+    
     
     const favoritesContextValue:favoritesContextObj ={
         favorites:favorites,
-        setFavorites: setFavorites,
-        toggleFavorite:toggleFavorite
+        processFavorites: processFavorites
     }
 
 

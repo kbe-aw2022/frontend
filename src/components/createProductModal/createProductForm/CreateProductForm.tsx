@@ -44,8 +44,7 @@ const CreateProductForm:React.FC<{product:product|null, onAddProduct:()=>void, o
         
         useEffect(()=>{
             if(props.product!=null){
-                // debugger;
-                console.log(props.product.componentIds)
+                // console.log(props.product.componentIds)
                 setProductNameInputValue(props.product.name);
                 setProductDescription(props.product.description);
                 setProductComponents(componentsCtx.components.filter(component=> {

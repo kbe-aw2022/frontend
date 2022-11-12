@@ -7,11 +7,13 @@ import { searchFilterContext } from "../../store/search-filter-context";
 import { currencyContext } from "../../store/currency-context";
 import useHttpRequest from "../../hooks/useHttpRequest/useHttpRequest";
 import { BACKEND_URL } from "../../util/globalConstants";
+import { favoritesContext } from "../../store/favorites-context";
 
 
 const ComponentsGrid:React.FC<{}> = (props) =>{
 
     const componentsCtx = useContext(componentsContext);
+    const favoritesCtx = useContext(favoritesContext);
     const searchCtx = useContext(searchFilterContext);
     const currencyCtx = useContext(currencyContext);
    
@@ -19,6 +21,8 @@ const ComponentsGrid:React.FC<{}> = (props) =>{
 
     const {sendRequest:fetchComponents, error,loading} = useHttpRequest();
     const {sendRequest:fetchCurrencyExchangeRate} = useHttpRequest();
+    const {sendRequest:fetchFavorites} = useHttpRequest();
+
     
     useEffect(()=>{
         const targetCurrencyCode   = currencyCtx.currency.code;
@@ -30,12 +34,14 @@ const ComponentsGrid:React.FC<{}> = (props) =>{
         }
 
         const processComponents = (components:any) => {
-            console.log("callback components:"+components);
             componentsCtx.setComponents(components);
             fetchCurrencyExchangeRate(`${BACKEND_URL}/currencies/EUR/${targetCurrencyCode}`,updateCurrencyExchangeRate);
         }
-
         fetchComponents(`${BACKEND_URL}/components`,processComponents);
+        if(favoritesCtx.favorites.length===0){
+            fetchFavorites(`${BACKEND_URL}/favorites`,favoritesCtx.processFavorites)
+        }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 
