@@ -8,15 +8,16 @@ import { currencyContext } from "../../store/currency-context";
 import useHttpRequest from "../../hooks/useHttpRequest/useHttpRequest";
 import { BACKEND_URL } from "../../util/globalConstants";
 import { favoritesContext } from "../../store/favorites-context";
+import { authContext } from "../../store/auth-context";
 
 
-const ComponentsGrid:React.FC<{}> = (props) =>{
+const ComponentsGrid:React.FC<{}> = () =>{
 
     const componentsCtx = useContext(componentsContext);
     const favoritesCtx = useContext(favoritesContext);
     const searchCtx = useContext(searchFilterContext);
     const currencyCtx = useContext(currencyContext);
-   
+    const authCtx = useContext(authContext); 
    
 
     const {sendRequest:fetchComponents, error,loading} = useHttpRequest();
@@ -44,6 +45,13 @@ const ComponentsGrid:React.FC<{}> = (props) =>{
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
+
+    useEffect(()=>{
+        if(authCtx.isLoggedIn && favoritesCtx.favorites.length===0){
+            fetchFavorites(`${BACKEND_URL}/favorites`,favoritesCtx.processFavorites)
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[authCtx.isLoggedIn])
 
     let content = null;
 
