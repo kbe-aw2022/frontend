@@ -54,13 +54,13 @@ const GridView:React.FC = () =>{
                 <div className="grid-view"> 
                     <Routes>
                         <Route path="*" element={<NotFoundPage/>}/>
-                        <Route path="login/" element={
+                        <Route path="login/*" element={
                             <>
                                 <ComponentsGrid/>
                                 <LoginModal onContextSwitch={authFormContextSwitch} onClose={closeLoginModal} />
                             </>
                         }/>
-                        <Route path="register/" element={
+                        <Route path="register/*" element={
                             <>
                                 <ComponentsGrid/>
                                 <RegistrationModal onContextSwitch={authFormContextSwitch} onClose={closeRegistrationForm} />

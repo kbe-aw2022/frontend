@@ -34,7 +34,7 @@ const AuthContextProvider:React.FC<{children?: React.ReactNode}> = (props) => {
             if(toBeLoggedInDuration > 0){
                 setCurrentUser(user);
                 localStorage.setItem("user",JSON.stringify(user));
-                console.log(toBeLoggedInDuration/1000);
+                // console.log(toBeLoggedInDuration/1000);
                 setTimeout(logout,toBeLoggedInDuration);
             }
         }

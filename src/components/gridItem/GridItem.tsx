@@ -76,7 +76,7 @@ const GridItem:React.FC<{isDetailedView:boolean, onClose:()=>void, imgLink:strin
 
     <Fragment>
     <Routes>
-      <Route path={`${props.itemId}`} element={
+      <Route path={`${props.itemId}/*`} element={
         ('eanNumber' in props.itemProps) ? componentDetailViewModal: 
         ('componentIds' in props.itemProps) && productDetailViewModal
       }/>
