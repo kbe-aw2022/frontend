@@ -96,7 +96,7 @@ const ProductsGrid:React.FC<{}> = (props) =>{
     return(
         <>
             <Routes>
-                <Route path="/create" element={<CreateProductForm product={null} onAddProduct={onAddProductHandler} onClose={onCloseCreateProductFormHandler}/>}/>
+                <Route path="/create/*" element={<CreateProductForm product={null} onAddProduct={onAddProductHandler} onClose={onCloseCreateProductFormHandler}/>}/>
             </Routes>
             <div className="grid">
             {content}
