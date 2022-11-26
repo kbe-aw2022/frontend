@@ -1,4 +1,4 @@
-import CloseButton from "../../ui/CloseButton"
+import CloseButton from "../../ui/closeButton/CloseButton"
 import styles from "./PopUp.module.css"
 
 const PopUp:React.FC<{children?: React.ReactNode, popUpTitle:string, size:{width:number, height:number}, onClose:()=>void}> = (props) => {

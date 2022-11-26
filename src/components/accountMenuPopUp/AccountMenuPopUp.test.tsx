@@ -4,6 +4,7 @@ import AccountMenuPopUp from "./AccountMenuPopUp";
 
 describe("AccountMenuPopUp", () => {
   test("renders correctly", () => {
+    //ARRANGE
     const onCloseHandler = jest.fn();
     render(
       <MemoryRouter initialEntries={["/components"]}>
@@ -12,6 +13,7 @@ describe("AccountMenuPopUp", () => {
     );
     const settingsButton = screen.getByRole("button", {name: "Account settings"});
     const logoutButton = screen.getByRole("button", {name: "Logout"});
+    //ASSERT
     expect(settingsButton).toBeInTheDocument();
     expect(logoutButton).toBeInTheDocument();
   });

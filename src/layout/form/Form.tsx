@@ -1,4 +1,4 @@
-import CloseButton from "../../ui/CloseButton"
+import CloseButton from "../../ui/closeButton/CloseButton"
 import styles from  "./Form.module.css"
 
 const Form:React.FC<{children?: React.ReactNode, formTitle:string, submitButtonName:string, cancelButtonName:string, size:{width:number,height:number}, onSubmit:(event:React.FormEvent)=>void, onClose:()=>void}> = (props) => {

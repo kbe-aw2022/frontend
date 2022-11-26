@@ -4,15 +4,16 @@ import SideBar from "./SideBar";
 
 describe("SideBar", () => {
     test("renders correctly",()=>{
+        //ARRANGE
         render(
             <MemoryRouter initialEntries={["/components"]}>
               <SideBar />
             </MemoryRouter>
           );
-          const navElement = screen.getByRole("navigation");
-          const sideBarItems = screen.getAllByRole("button");
-
-          expect(navElement).toBeInTheDocument();
-          expect(sideBarItems).toHaveLength(3);
+        const navElement = screen.getByRole("navigation");
+        const sideBarItems = screen.getAllByRole("button");
+        //ASSERT
+        expect(navElement).toBeInTheDocument();
+        expect(sideBarItems).toHaveLength(3);
     })
 });
