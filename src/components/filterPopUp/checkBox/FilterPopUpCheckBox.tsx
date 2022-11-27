@@ -1,11 +1,11 @@
-import { filter } from "../../store/search-filter-context";
+import { filter } from "../../../store/search-filter-context";
 import styles from "./FilterPopUpCheckBox.module.css";
 
 const FilterPopUpCheckBox:React.FC<{checkBoxName:{name:string, label:string}, isChecked:boolean, onCheck:(filter:filter)=>void, onUncheck:(filter:filter)=>void}> = (props) => {
 
     const checkBoxName = `${props.checkBoxName.name}-checkBox`;
 
-    console.log(props.checkBoxName.name + " is " + props.isChecked);
+    // console.log(props.checkBoxName.name + " is " + props.isChecked);
 
     const onChangeHandler = (event:React.ChangeEvent<HTMLInputElement>) => {
         if(event.target.checked){
