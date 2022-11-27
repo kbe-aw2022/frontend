@@ -3,8 +3,8 @@ import { useContext } from "react";
 import PopUp from "../../layout/popUp/PopUp";
 import { componentsContext } from "../../store/components-context";
 import { searchFilterContext } from "../../store/search-filter-context";
-import FilterPopUpCheckBox from "./FilterPopUpCheckBox";
-import FilterPopUpTitleBar from "./FilterPopUpTitleBar";
+import FilterPopUpCheckBox from "./checkBox/FilterPopUpCheckBox";
+import FilterPopUpTitleBar from "./titleBar/FilterPopUpTitleBar";
 
 const FilterPopUp:React.FC<{closePopUpHandler:()=>void}> = (props) => {
 
