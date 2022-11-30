@@ -43,8 +43,8 @@ const ChangePasswordForm:React.FC<{}> = (props) => {
     useEffect(()=>{
         if(changePasswordRequestError!==null){
             setIsSuccessful(false);
-            if(changePasswordRequestError === "Forbidden"){
-                setFeedbackMessage("Unauthorized (wrong password)!");
+            if(changePasswordRequestError === "Invalid password" || changePasswordRequestError === "User is protected from change"){
+                setFeedbackMessage(changePasswordRequestError+"!");
             }else{
                 setFeedbackMessage("Something went wrong, please try again!");
             }

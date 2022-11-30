@@ -85,8 +85,8 @@ const UserDataForm = () => {
     useEffect(()=>{
         if(changeUserDataRequestError!==null){
             setIsSuccessful(false);
-            if(changeUserDataRequestError === "Forbidden"){
-                setFeedbackMessage("Invalid password!");
+            if(changeUserDataRequestError === "Invalid password" || changeUserDataRequestError === "User is protected from change"){
+                setFeedbackMessage(changeUserDataRequestError+"!");
             }else{
                 setFeedbackMessage("Something went wrong, please try again!");
             }
@@ -100,6 +100,7 @@ const UserDataForm = () => {
         if(response.status===204){
             setIsSuccessful(true);
             setFeedbackMessage("User data successfully updated!");}
+            
     }
 
     const onSubmitHandler = (event:React.FormEvent) => {
