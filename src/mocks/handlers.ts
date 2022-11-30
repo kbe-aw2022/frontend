@@ -1,6 +1,6 @@
 import { rest } from 'msw';
 import { BACKEND_URL } from '../util/globalConstants';
-import { dummyComponents, dummyFavorites } from './mockData';
+import { dummyComponents, dummyCurrencies, dummyFavorites } from './mockData';
 
 export const handlers = [
 
@@ -24,6 +24,14 @@ export const handlers = [
         
     return res(
         ctx.status(200), ctx.json(dummyFavorites)
+    )
+
+  }),
+  
+  rest.get(`${BACKEND_URL}/currencies`, (req, res, ctx) => {
+        
+    return res(
+        ctx.status(200), ctx.json(dummyCurrencies)
     )
 
   })
