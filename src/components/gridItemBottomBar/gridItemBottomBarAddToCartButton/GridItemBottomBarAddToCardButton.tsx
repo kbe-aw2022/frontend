@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { shoppingCartContext } from "../../../store/shoppingCard-context";
+import { shoppingCartContext } from "../../../store/shoppingCart-context";
 import addToCartIcon from "../../../resources/icons/add-to-cart.svg";
 import addToCartSuccessIcon from "../../../resources/icons/cart-green.svg";
 import "./GridItemBottomBarAddToCardButton.css"

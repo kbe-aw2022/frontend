@@ -3,7 +3,7 @@ import PopUp from "../../../layout/popUp/PopUp";
 import { componentsContext } from "../../../store/components-context";
 import { currencyContext } from "../../../store/currency-context";
 import { productsContext } from "../../../store/products-context";
-import { shoppingCartContext } from "../../../store/shoppingCard-context";
+import { shoppingCartContext } from "../../../store/shoppingCart-context";
 import ShoppingCartPopUpListItem from "../shoppingCartPopUpListItem/ShoppingCartPopUpListItem";
 import styles from "./ShoppingCartPopUp.module.css";
 

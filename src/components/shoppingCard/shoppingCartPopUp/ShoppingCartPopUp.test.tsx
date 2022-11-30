@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { componentsContext } from '../../../store/components-context';
 import { productsContext } from '../../../store/products-context';
-import { shoppingCartContext } from '../../../store/shoppingCard-context';
+import { shoppingCartContext } from '../../../store/shoppingCart-context';
 import ShoppingCartPopUp from './ShoppingCartPopUp';
 
 
