@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
-import { shoppingCartContext } from "../../store/shoppingCard-context";
-import addToCartIcon from "../../resources/icons/add-to-cart.svg";
-import addToCartSuccessIcon from "../../resources/icons/cart-green.svg";
+import { shoppingCartContext } from "../../../store/shoppingCard-context";
+import addToCartIcon from "../../../resources/icons/add-to-cart.svg";
+import addToCartSuccessIcon from "../../../resources/icons/cart-green.svg";
 import "./GridItemBottomBarAddToCardButton.css"
 
 const GridItemBottomBarAddToCardButton:React.FC<{itemId:string}> = (props) => {
@@ -22,7 +22,7 @@ const GridItemBottomBarAddToCardButton:React.FC<{itemId:string}> = (props) => {
   return (
     <div>
       <button className="add-to-cart-button" onClick={onClickHandler}>
-        <img className="add-to-cart-button-icon" src={cartButtonIcon} alt="img not loaded" ></img>
+        <img className="add-to-cart-button-icon" src={cartButtonIcon} alt="add to card button" ></img>
       </button>
     </div>
   )

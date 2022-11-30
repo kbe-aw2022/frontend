@@ -1,12 +1,12 @@
 import "./GridItemBottomBarFavoriteButton.css";
-import isNotAFavoriteIcon from "../../resources/icons/heart-thin.svg"
-import isAFavoriteIcon from "../../resources/icons/heart-black.svg"
-import addToFavoritesIcon from "../../resources/icons/heart-plus.svg"
-import removeFromFavoritesIcon from "../../resources/icons/heart-minus.svg"
+import isNotAFavoriteIcon from "../../../resources/icons/heart-thin.svg"
+import isAFavoriteIcon from "../../../resources/icons/heart-black.svg"
+import addToFavoritesIcon from "../../../resources/icons/heart-plus.svg"
+import removeFromFavoritesIcon from "../../../resources/icons/heart-minus.svg"
 import { useContext, useEffect, useState } from "react";
-import { favoritesContext } from "../../store/favorites-context";
-import useHttpRequest from "../../hooks/useHttpRequest/useHttpRequest";
-import { BACKEND_URL } from "../../util/globalConstants";
+import { favoritesContext } from "../../../store/favorites-context";
+import useHttpRequest from "../../../hooks/useHttpRequest/useHttpRequest";
+import { BACKEND_URL } from "../../../util/globalConstants";
 
 
 const GridItemBottomBarFavoriteButton:React.FC<{itemId:string}> = (props) => {
@@ -78,7 +78,7 @@ useEffect(()=>{
     <div>
 
     <button className="toggle-favorites-button" onClick={onClickHandler}>
-      <img className="toggle-favorites-button-icon" src={favoriteButtonIcon} alt="img not loaded" onMouseOver={mouseOverHandler} onMouseLeave={mouseOutHandler}></img>
+      <img className="toggle-favorites-button-icon" src={favoriteButtonIcon} alt="toggle favorite button" onMouseOver={mouseOverHandler} onMouseLeave={mouseOutHandler}></img>
       </button>
 
     </div>
