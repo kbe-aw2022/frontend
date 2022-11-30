@@ -26,17 +26,25 @@ const useHttpRequest = () => {
                     headers:config.headers,
                     credentials:"include"
                 })
+                let data = null;
+                if(response.status !== 204){
+                    data = await response.json();
+                }
                 if(!response.ok){
                     console.log("not ok")
-                    throw new Error(response.statusText);
+                    if(data){
+                        throw new Error(data.detail);
+                    }else{
+                        throw new Error(response.statusText);
+                    }
                 }
-                if(response.status !== 204){
-                    const data= await response.json();
+                if(data){
                     onResponseCallback && onResponseCallback(data);
                 }else{
                     onResponseCallback && onResponseCallback(response);
                 }
             } catch (e:any) {
+                
                 setError(e.message)
             }
             config.method === "GET" && setLoading(false);
