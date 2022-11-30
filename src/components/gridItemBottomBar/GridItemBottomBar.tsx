@@ -1,5 +1,5 @@
-import GridItemBottomBarAddToCardButton from "../gridItemBottomBarAddToCartButton/GridItemBottomBarAddToCardButton"
-import GridItemBottomBarFavoriteButton from "../gridItemBottomBarFavoriteButton/GridItemBottomBarFavoriteButton"
+import GridItemBottomBarAddToCardButton from "./gridItemBottomBarAddToCartButton/GridItemBottomBarAddToCardButton"
+import GridItemBottomBarFavoriteButton from "./gridItemBottomBarFavoriteButton/GridItemBottomBarFavoriteButton"
 import styles from "./GridItemBottomBar.module.css"
 import infoButtonIcon from "../../resources/icons/information-icon.svg"
 import removeButtonIcon from "../../resources/icons/remove-icon-circle.svg"

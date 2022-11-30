@@ -31,7 +31,7 @@ const Header:React.FC = () =>{
                     <SearchBar onSetSearchFilter={searchCtx.setSearchFilter} inputValue={searchCtx.searchFilter}></SearchBar>
                 </span>
                 <button className={styles["filter-button"]} onClick={onClickHandler} disabled={location.pathname.startsWith("/products")}>
-                    <img className={styles["filter-icon"]} src={filterIcon} alt={styles["not loaded"]}></img>
+                    <img className={styles["filter-icon"]} src={filterIcon} alt={"filter button"}></img>
                 </button>
                 <span className={styles["filter-popup-position"]}>
                     {filterPopUpIsShown? <FilterPopUp closePopUpHandler={onClickHandler}/>:null}

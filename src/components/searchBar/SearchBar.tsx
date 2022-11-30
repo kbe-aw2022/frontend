@@ -20,7 +20,7 @@ const SearchBar:React.FC<{onSetSearchFilter:(filter:string)=>void, inputValue:st
     <div className={styles["search-bar"]}>
       <input className={styles["search-input"]} ref={inputRef} type="text" placeholder="Search...  (by name/type ex: gpu)" value={props.inputValue} onChange={onChangeHandler}></input>
       <button className={styles["search-button"]} onClick={onClickHandler}>
-        <img src={searchIcon} alt="not loaded"></img>
+        <img src={searchIcon} alt="search button"></img>
       </button>
     </div>
   )

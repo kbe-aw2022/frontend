@@ -60,7 +60,7 @@
 }
 
 
-.currency-selector-button,.log-in-button,.shopping-cart-selector{
+.currency-selector-button,.account-control-button,.shopping-cart-selector{
     flex: 1;
     display: flex;
     align-items: center;
@@ -68,7 +68,7 @@
 
 }
 
-.currency-selector-button,.account-selector{
+.currency-selector-button,.account-control{
     /* background-color: rgb(224, 222, 222); */
     border-radius: 2px;
 }
@@ -97,7 +97,7 @@
     font-size: 20px;
 }
 
-.currency-selector-button, .log-in-button{
+.currency-selector-button, .account-control-button{
  
     /* padding-right: 20px;
     border-left: 3px solid black;
@@ -120,7 +120,7 @@
     align-items: center;
 }
 
-.account-selector{
+.account-control{
     flex: 1;
     position: relative;
     

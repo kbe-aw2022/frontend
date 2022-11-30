@@ -5,7 +5,7 @@ import GridView from "../../components/gridView/GridView";
 import ComponentsContextProvider from "../../store/components-context";
 import ProductsContextProvider from "../../store/products-context";
 
-import ShoppingCartContextProvider from "../../store/shoppingCard-context";
+import ShoppingCartContextProvider from "../../store/shoppingCart-context";
 import FavoritesContextProvider from "../../store/favorites-context";
 import SearchFilterContextProvider from "../../store/search-filter-context";
 import CurrencyContextProvider from "../../store/currency-context";
