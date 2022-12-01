@@ -15,7 +15,7 @@ const DeleteAccountForm = () => {
         return input.length>0
     }
 
-    const {inputField:passwordInput, inputValue:passwordValue, inputIsTouched:passwordInputIsTouched, isValid:passwordIsValid, setIsTouched:setPasswordInputIsTouched, setInputValue:setPasswordInputValue} = useCreateInput( validatepasswordNotEmpty,"password","Confirm with password:","Field must not be empty!",false,24)
+    const {inputField:passwordInput, inputValue:passwordValue, isValid:passwordIsValid, setIsTouched:setPasswordInputIsTouched, setInputValue:setPasswordInputValue} = useCreateInput( validatepasswordNotEmpty,"password","Confirm with password:","Field must not be empty!",false,24)
     const {sendRequest:sendDeleteAccountRequest, resetError:resetDeleteAccountRequestError, error:deleteAccountRequestError} = useHttpRequest();
     const authCtx = useContext(authContext);
     const [isSuccessful,setIsSuccessful] = useState(false);

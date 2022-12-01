@@ -1,6 +1,5 @@
-import { render, screen, waitFor } from "@testing-library/react"
+import { render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event";
-import { wait } from "@testing-library/user-event/dist/utils";
 import { rest } from "msw";
 import { dummyInvalidPasswordErrorMessage, dummyUserIsProtectedFromDeletionErrorMessage } from "../../../mocks/mockData";
 import { server } from "../../../mocks/server";
