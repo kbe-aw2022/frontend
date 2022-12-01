@@ -25,7 +25,7 @@ const FilterPopUp:React.FC<{closePopUpHandler:()=>void}> = (props) => {
 
   return (
 
-    <PopUp popUpTitle="Filter" size={{width: 300,height: 360}} onClose={props.closePopUpHandler}>
+    <PopUp popUpTitle="Filter" size={{width: 300,height: 364}} onClose={props.closePopUpHandler}>
         <div className={styles["component-types-filter-panel"]}>
             <FilterPopUpTitleBar title="Component types" onReset={searchCtx.resetTypeFilters}/>
             <div className={styles["component-types-check-boxes"]}>
