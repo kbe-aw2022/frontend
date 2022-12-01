@@ -25,8 +25,9 @@
 .vendors-list{
     display: flex;
     flex-direction: column;
-    justify-content:center;
-    align-items: center;
+    /* justify-content:center; */
+    width: 100%;
+    /* align-items:center; */
     overflow: scroll;
-    max-height: 60p;
+    max-height: 72px;
 }
