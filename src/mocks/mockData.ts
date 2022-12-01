@@ -19,3 +19,7 @@ export const dummyCurrencies = [
       "country": "Colombia"
     }
 ]
+
+export const dummyInvalidPasswordErrorMessage = {detail:"Invalid password"}
+export const dummyUserIsProtectedFromDeletionErrorMessage = {detail:"User is protected from deletion"}
+export const dummyUserIsProtectedFromChangeErrorMessage = {detail:"User is protected from change"}

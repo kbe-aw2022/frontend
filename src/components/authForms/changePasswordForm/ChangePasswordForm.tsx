@@ -22,9 +22,9 @@ const ChangePasswordForm:React.FC<{}> = (props) => {
         return input === newPasswordValue;
     }
 
-    const {inputField:oldPasswordInput, inputValue:oldPasswordValue, inputIsTouched:oldPasswordInputIsTouched, setIsTouched:setOldPasswordInputIsTouched, setInputValue:setOldPasswordInputValue} = useCreateInput( validateOldPasswordNotEmpty,"password","Old password:","Field must not be empty!",false,24)
-    const {inputField:newPasswordInput, inputValue:newPasswordValue, isValid:newPasswordInputIsValid, inputIsTouched:newPasswordInputIsTouched, setIsTouched:setNewPasswordInputIsTouched,  setInputValue:setNewPasswordInputValue} = useCreateInput( validatePassword,"password","New password:","Password must not be between 8 and 24 characters long and contain at least one number!",false,24)
-    const {inputField:repeatNewPasswordInput,isValid:repeatNewPasswordInputIsValid, inputIsTouched:repeatNewPasswordInputIsTouched, setIsTouched:setRepeatNewPasswordInputIsTouched,  setInputValue:setRepeatPasswordInputValue} = useCreateInput( validateRepeatNewPassword,"password","Repeat password:","The passwords do not match!", !newPasswordInputIsValid ,24)
+    const {inputField:oldPasswordInput, inputValue:oldPasswordValue, setIsTouched:setOldPasswordInputIsTouched, setInputValue:setOldPasswordInputValue} = useCreateInput( validateOldPasswordNotEmpty,"password","Old password:","Field must not be empty!",false,24)
+    const {inputField:newPasswordInput, inputValue:newPasswordValue, isValid:newPasswordInputIsValid, setIsTouched:setNewPasswordInputIsTouched,  setInputValue:setNewPasswordInputValue} = useCreateInput( validatePassword,"password","New password:","Password must not be between 8 and 24 characters long and contain at least one number!",false,24)
+    const {inputField:repeatNewPasswordInput,isValid:repeatNewPasswordInputIsValid, setIsTouched:setRepeatNewPasswordInputIsTouched,  setInputValue:setRepeatPasswordInputValue} = useCreateInput( validateRepeatNewPassword,"password","Repeat password:","The passwords do not match!", !newPasswordInputIsValid ,24)
     
     const {sendRequest:sendChangePasswordRequest, resetError:resetChangePasswordRequestError, error:changePasswordRequestError} = useHttpRequest();
 
@@ -37,8 +37,6 @@ const ChangePasswordForm:React.FC<{}> = (props) => {
     }
 
     feedbackMessage && setTimeout(resetResponseFeedback,5000);
-
-    useEffect(resetResponseFeedback,[oldPasswordInputIsTouched,newPasswordInputIsTouched,repeatNewPasswordInputIsTouched])
 
     useEffect(()=>{
         if(changePasswordRequestError!==null){
