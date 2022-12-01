@@ -38,8 +38,6 @@ const ChangePasswordForm:React.FC<{}> = (props) => {
 
     feedbackMessage && setTimeout(resetResponseFeedback,5000);
 
-    useEffect(resetResponseFeedback,[oldPasswordInputIsTouched,newPasswordInputIsTouched,repeatNewPasswordInputIsTouched])
-
     useEffect(()=>{
         if(changePasswordRequestError!==null){
             setIsSuccessful(false);

@@ -34,5 +34,13 @@ export const handlers = [
         ctx.status(200), ctx.json(dummyCurrencies)
     )
 
+  }),
+
+  rest.delete(`${BACKEND_URL}/users`, (req, res, ctx) => {
+        
+    return res(
+        ctx.status(204)
+    )
+
   })
 ]

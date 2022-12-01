@@ -15,7 +15,7 @@ const DeleteAccountForm = () => {
         return input.length>0
     }
 
-    const {inputField:passwordInput, inputValue:passwordValue, inputIsTouched:passwordInputIsTouched, isValid:passwordIsValid, setIsTouched:setPasswordInputIsTouched, setInputValue:setPasswordInputValue} = useCreateInput( validatepasswordNotEmpty,"password","Confirm password:","Field must not be empty!",false,24)
+    const {inputField:passwordInput, inputValue:passwordValue, inputIsTouched:passwordInputIsTouched, isValid:passwordIsValid, setIsTouched:setPasswordInputIsTouched, setInputValue:setPasswordInputValue} = useCreateInput( validatepasswordNotEmpty,"password","Confirm with password:","Field must not be empty!",false,24)
     const {sendRequest:sendDeleteAccountRequest, resetError:resetDeleteAccountRequestError, error:deleteAccountRequestError} = useHttpRequest();
     const authCtx = useContext(authContext);
     const [isSuccessful,setIsSuccessful] = useState(false);
@@ -27,8 +27,6 @@ const DeleteAccountForm = () => {
     }
 
     feedbackMessage && setTimeout(resetResponseFeedback,5000);
-
-    useEffect(resetResponseFeedback,[passwordInputIsTouched]);
 
     useEffect(()=>{
         if(deleteAccountRequestError!==null){
@@ -44,23 +42,23 @@ const DeleteAccountForm = () => {
         }
     },[deleteAccountRequestError, resetDeleteAccountRequestError]);
 
+    const onResponse = (response:any) => {
+        if(response.status===204){
+            setIsSuccessful(true);
+            setFeedbackMessage("Account successfully deleted, logout in 5 seconds!");
+            setTimeout(authCtx.logout, 5000);
+        }
+    }
+
+    const formIsValid = passwordIsValid;
+
 
     const onSubmitHandler = (event:React.FormEvent) => {
         event.preventDefault();
         setPasswordInputIsTouched(true);
 
-        const formIsValid = passwordIsValid;
-
-        const onResponse = (response:any) => {
-            if(response.status===204){
-                setIsSuccessful(true);
-                setFeedbackMessage("Account successfully deleted, logout in 5 seconds!");
-                setTimeout(authCtx.logout, 5000);
-            }
-        }
-
         if(formIsValid){
-            console.log("Form is valid!")
+            // console.log("Form is valid!")
             sendDeleteAccountRequest(`${BACKEND_URL}/users`,onResponse,
             {
                 method: "DELETE",

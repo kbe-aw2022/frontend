@@ -60,8 +60,6 @@ const UserDataForm = () => {
 
     console.log("rerender!");
 
-    useEffect(resetResponseFeedback, [userNameInputIsTouched, emailInputIsTouched,firstNameInputIsTouched,lastNameInputIsTouched, passwordInputIsTouched]);
-
     useEffect(()=>{
         sendGetUserDataRequest(`${BACKEND_URL}/users`, setUserDataInputValues);
         
