@@ -30,11 +30,11 @@ const UserDataForm = () => {
         return input.length>0
     }
 
-    const {inputField:userNameInput, inputValue:userNameValue, isValid:userNameInputIsValid, inputIsTouched:userNameInputIsTouched, setIsTouched:setUserNameInputIsTouched, setInputValue:setUserNameInputValue} = useCreateInput( validateUserName ,"text","Username:","Username must begin with a letter, be alphanumeric and between 3 and 24 characters long!",false,24)
-    const {inputField:emailInput, inputValue:emailValue, isValid:emailInputIsValid, inputIsTouched:emailInputIsTouched, setIsTouched:setEmailInputIsTouched, setInputValue:setEmailInputValue} = useCreateInput( validateEmail,"email","E-mail:","Please provide a valid E-mail!",false,50)
-    const {inputField:firstNameInput, inputValue:firstNameValue, isValid:firstNameInputIsValid, inputIsTouched:firstNameInputIsTouched, setIsTouched:setFirstNameInputIsTouched, setInputValue:setFirstNameInputValue} = useCreateInput( validateName,"text","First name:","First name must not be empty!",false,50)
-    const {inputField:lastNameInput, inputValue:lastNameValue, isValid:lastNameInputIsValid, inputIsTouched:lastNameInputIsTouched, setIsTouched:setLastNameInputIsTouched, setInputValue:setLastNameInputValue} = useCreateInput( validateName,"text","Last name:","Last name must not be empty!",false,50)
-    const {inputField:passwordInput, inputValue:passwordValue, isValid:passwordInputIsValid, inputIsTouched:passwordInputIsTouched, setIsTouched:setPasswordInputIsTouched} = useCreateInput( validatePasswordNotEmpty,"password","Confirm with password:","Field must not be empty!",false,24)
+    const {inputField:userNameInput, inputValue:userNameValue, isValid:userNameInputIsValid, setIsTouched:setUserNameInputIsTouched, setInputValue:setUserNameInputValue} = useCreateInput( validateUserName ,"text","Username:","Username must begin with a letter, be alphanumeric and between 3 and 24 characters long!",false,24)
+    const {inputField:emailInput, inputValue:emailValue, isValid:emailInputIsValid, setIsTouched:setEmailInputIsTouched, setInputValue:setEmailInputValue} = useCreateInput( validateEmail,"email","E-mail:","Please provide a valid E-mail!",false,50)
+    const {inputField:firstNameInput, inputValue:firstNameValue, isValid:firstNameInputIsValid, setIsTouched:setFirstNameInputIsTouched, setInputValue:setFirstNameInputValue} = useCreateInput( validateName,"text","First name:","First name must not be empty!",false,50)
+    const {inputField:lastNameInput, inputValue:lastNameValue, isValid:lastNameInputIsValid, setIsTouched:setLastNameInputIsTouched, setInputValue:setLastNameInputValue} = useCreateInput( validateName,"text","Last name:","Last name must not be empty!",false,50)
+    const {inputField:passwordInput, inputValue:passwordValue, isValid:passwordInputIsValid, setIsTouched:setPasswordInputIsTouched} = useCreateInput( validatePasswordNotEmpty,"password","Confirm with password:","Field must not be empty!",false,24)
     
 
     const {sendRequest:sendChangeUserDataRequest, resetError:resetChangeUserDataRequestError, error:changeUserDataRequestError} = useHttpRequest();
@@ -60,8 +60,6 @@ const UserDataForm = () => {
 
     console.log("rerender!");
 
-    useEffect(resetResponseFeedback, [userNameInputIsTouched, emailInputIsTouched,firstNameInputIsTouched,lastNameInputIsTouched, passwordInputIsTouched]);
-
     useEffect(()=>{
         sendGetUserDataRequest(`${BACKEND_URL}/users`, setUserDataInputValues);
         
@@ -85,8 +83,8 @@ const UserDataForm = () => {
     useEffect(()=>{
         if(changeUserDataRequestError!==null){
             setIsSuccessful(false);
-            if(changeUserDataRequestError === "Forbidden"){
-                setFeedbackMessage("Invalid password!");
+            if(changeUserDataRequestError === "Invalid password" || changeUserDataRequestError === "User is protected from change"){
+                setFeedbackMessage(changeUserDataRequestError+"!");
             }else{
                 setFeedbackMessage("Something went wrong, please try again!");
             }
@@ -100,6 +98,7 @@ const UserDataForm = () => {
         if(response.status===204){
             setIsSuccessful(true);
             setFeedbackMessage("User data successfully updated!");}
+            
     }
 
     const onSubmitHandler = (event:React.FormEvent) => {
