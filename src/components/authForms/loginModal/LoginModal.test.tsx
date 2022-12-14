@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { INPUT_FIELD_ERROR_MESSAGES } from "../inputFieldErrorMessages";
 import LoginModal from "./LoginModal";
 
 describe("LoginModal", () => {
@@ -111,7 +112,7 @@ describe("LoginModal", () => {
     //ACT
     userEvent.click(usernameInput);
     userEvent.click(passwordInput);
-    const errorMessage = screen.getByText("Username field must not be empty!");
+    const errorMessage = screen.getByText(INPUT_FIELD_ERROR_MESSAGES.inputEmpty("Username field"));
 
     //ASSERT
     expect(errorMessage).toBeInTheDocument();
@@ -127,7 +128,7 @@ describe("LoginModal", () => {
     //ACT
     userEvent.click(passwordInput);
     userEvent.click(usernameInput);
-    const errorMessage = screen.getByText("Password field must not be empty!");
+    const errorMessage = screen.getByText(INPUT_FIELD_ERROR_MESSAGES.inputEmpty("Password field"));
 
     //ASSERT
     expect(errorMessage).toBeInTheDocument();
@@ -140,8 +141,8 @@ describe("LoginModal", () => {
     const submitButton = screen.getByRole("button", { name: "Login" });
     //ACT
     userEvent.click(submitButton);
-    const usernameInputErrorMessage = screen.getByText("Username field must not be empty!");
-    const passwordInputErrorMessage = screen.getByText("Password field must not be empty!");
+    const usernameInputErrorMessage = screen.getByText(INPUT_FIELD_ERROR_MESSAGES.inputEmpty("Username field"));
+    const passwordInputErrorMessage = screen.getByText(INPUT_FIELD_ERROR_MESSAGES.inputEmpty("Password field"));
     //ASSERT
     expect(usernameInputErrorMessage).toBeInTheDocument();
     expect(passwordInputErrorMessage).toBeInTheDocument();
@@ -156,7 +157,7 @@ describe("LoginModal", () => {
     //ACT
     userEvent.type(passwordInput,"test");
     userEvent.click(submitButton);
-    const errorMessage = screen.getByText("Username field must not be empty!");
+    const errorMessage = screen.getByText(INPUT_FIELD_ERROR_MESSAGES.inputEmpty("Username field"));
     //ASSERT
     expect(errorMessage).toBeInTheDocument();
   })
@@ -170,7 +171,7 @@ describe("LoginModal", () => {
     //ACT
     userEvent.type(usernameInput,"test");
     userEvent.click(submitButton);
-    const errorMessage = screen.getByText("Password field must not be empty!");
+    const errorMessage = screen.getByText(INPUT_FIELD_ERROR_MESSAGES.inputEmpty("Password field"));
     //ASSERT
     expect(errorMessage).toBeInTheDocument();
   })
