@@ -22,7 +22,6 @@ const RegistrationModal:React.FC<{onContextSwitch:()=>void, onClose:()=>void}> =
         }
     }
 
-    // ofigxi
 
     const validateUserName =(input:string) =>{
         return USERNAME_REGEX.test(input);

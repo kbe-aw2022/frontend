@@ -44,7 +44,6 @@ const LoginModal:React.FC<{onContextSwitch:()=>void, onClose:()=>void}> = (props
         let formIsValid = userNameInputIsValid && passwordInputIsValid;
 
         if(formIsValid){
-            console.log("Form is valid!")
             sendLoginRequest(`${BACKEND_URL}/login`,onResponse,
             {
                 method: "POST",
@@ -55,7 +54,7 @@ const LoginModal:React.FC<{onContextSwitch:()=>void, onClose:()=>void}> = (props
                 }
             })
         }else{
-            console.log("Form is invalid!")
+            // console.log("Form is invalid!")
         }
     }
 
